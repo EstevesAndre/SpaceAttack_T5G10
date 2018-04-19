@@ -135,6 +135,7 @@ public class logicTest {
         Ship s = new Ship(0, 1, 2, 3, 4, 5, 6);
         g.addEnemyShip(s);
         assertEquals(g.getEnemyShips().size(), 1);
+        g.removeEnemyShip(s);
     }
 
     @Test
@@ -144,6 +145,8 @@ public class logicTest {
         g.addEnemyShip(s);
         g.addBullet(s.fire());
         assertEquals(g.getBullets().size(), 1);
+        g.removeEnemyShip(s);
+        g.removeBullet(g.getBullets().get(0));
     }
 
     @Test
