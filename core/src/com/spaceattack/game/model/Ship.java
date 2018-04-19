@@ -163,7 +163,7 @@ public class Ship extends GameObject{
      */
     public Bullet fire() {
 
-       Bullet bullet = new Bullet(0,0,0,0);
+       Bullet bullet = new Bullet(getX(),getY(),getRotation(),bulletSpeed);
 
        return bullet;
     }

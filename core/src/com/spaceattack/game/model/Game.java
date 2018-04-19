@@ -76,4 +76,22 @@ public class Game {
     public List<Bullet> getBullets() {
         return bullets;
     }
+
+    /**
+     * Adds a new enemy Ship on this instance.
+     *
+     * @param enemyShip The new enemy Ship.
+     */
+    public void addEnemyShip(Ship enemyShip) {
+        enemyShips.add(enemyShip);
+    }
+
+    /**
+     * Adds a new Bullet fired by any Ship on this instance.
+     *
+     * @param bullet The new bullet fired.
+     */
+    public void addBullet(Bullet bullet){
+        bullets.add(bullet);
+    }
 }
