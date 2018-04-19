@@ -94,4 +94,24 @@ public class Game {
     public void addBullet(Bullet bullet){
         bullets.add(bullet);
     }
+
+    /**
+     * Removes the given ship of this instance.
+     *
+     * @param enemyShip The Ship to be removed.
+     */
+    public void removeEnemyShip(Ship enemyShip) {
+        if(enemyShips.size() != 0)
+            enemyShips.remove(enemyShip);
+    }
+
+    /**
+     * Removes the given bullet of this instance.
+     *
+     * @param bullet The Bullet to be removed.
+     */
+    public void removeBullet(Bullet bullet){
+        if(bullets.size() != 0)
+            bullets.remove(bullet);
+    }
 }
