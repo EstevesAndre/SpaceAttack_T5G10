@@ -28,6 +28,7 @@ public class logicTest {
         assertTrue(s.getSpeed() == 4);
         assertTrue(s.getFireRate() == 5);
         assertTrue(s.getBulletSpeed() == 6);
+        assertTrue(s.getFireCooldown() == 0);
         assertTrue(!s.isFlying());
     }
 
@@ -127,6 +128,17 @@ public class logicTest {
         assertTrue(b.getY() == s.getY());
         assertTrue(b.getRotation() == s.getRotation());
         assertTrue(b.getSpeed() == s.getBulletSpeed());
+    }
+
+    @Test
+    public void testShipCooldown() {
+        Ship s = new Ship(0, 1, 2, 3, 4, 50, 6);
+        Bullet b = s.fire();
+        assertTrue(s.getFireCooldown() == s.getFireRate());
+        s.decreaseCooldown(10);
+        assertTrue(s.getFireCooldown() == 40);
+        s.decreaseCooldown(50);
+        assertTrue(s.getFireCooldown() == 0);
     }
 
     @Test

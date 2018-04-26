@@ -27,7 +27,7 @@ public abstract class GameObject {
      * @param y The y coordinate of this certain game object.
      * @param rotation The rotation of this certain game object.
      */
-    GameObject(float x, float y, float rotation){
+    public GameObject(float x, float y, float rotation){
         this.x = x;
         this.y = y;
         this.rotation = rotation;

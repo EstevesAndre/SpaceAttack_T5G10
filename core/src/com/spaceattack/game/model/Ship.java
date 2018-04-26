@@ -27,6 +27,11 @@ public class Ship extends GameObject{
     private int fireRate;
 
     /**
+     * Current fire cooldown of this object.
+     */
+    private int fireCooldown;
+
+    /**
      * Current bullet speed of this object.
      */
     private float bulletSpeed;
@@ -48,7 +53,9 @@ public class Ship extends GameObject{
         this.health = health;
         this.speed = speed;
         this.fireRate = fireRate;
+        fireCooldown = 0;
         this.bulletSpeed = bulletSpeed;
+
     }
 
     /**
@@ -78,6 +85,15 @@ public class Ship extends GameObject{
      */
     public float getSpeed() {
         return speed;
+    }
+
+    /**
+     * Gets the fire cooldown of this ship.
+     *
+     * @return the fireCooldown variable.
+     */
+    public int getFireCooldown() {
+        return fireCooldown;
     }
 
     /**
@@ -114,6 +130,16 @@ public class Ship extends GameObject{
      */
     public void decreaseHealth() {
         health--;
+    }
+
+    /**
+     * Decreases the fire cooldown of this ship.
+     * Occurs periodically
+     */
+    public void decreaseCooldown(float delta) {
+        fireCooldown -= delta;
+        if(fireCooldown < 0)
+            fireCooldown = 0;
     }
 
     /**
@@ -164,6 +190,8 @@ public class Ship extends GameObject{
     public Bullet fire() {
 
        Bullet bullet = new Bullet(getX(),getY(),getRotation(),bulletSpeed);
+
+       fireCooldown = fireRate;
 
        return bullet;
     }
