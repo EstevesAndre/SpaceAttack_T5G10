@@ -29,6 +29,11 @@ public class Game {
     private List<Bullet> bullets;
 
     /**
+     * The current score of the game.
+     */
+    private double score;
+
+    /**
      * Returns a singleton instance of game model.
      *
      * @return the singleton instance.
@@ -48,6 +53,7 @@ public class Game {
         userShip = new Ship(0, 0, 0, 5, 10, 5, 15);
         enemyShips = new ArrayList<Ship>();
         bullets = new ArrayList<Bullet>();
+        score = 0;
     }
 
     /**
@@ -75,6 +81,15 @@ public class Game {
      */
     public List<Bullet> getBullets() {
         return bullets;
+    }
+
+    /**
+     * Gets the score achieved by the user so fara
+     *
+     * @return the current score.
+     */
+    public double getScore() {
+        return score;
     }
 
     /**
@@ -113,5 +128,21 @@ public class Game {
     public void removeBullet(Bullet bullet){
         if(bullets.size() != 0)
             bullets.remove(bullet);
+    }
+
+    /**
+     * Increases user score
+     *
+     * @param sc The increase amount
+     */
+    public void addScore(double sc){
+        score += sc;
+    }
+
+    /**
+     * Resets user score to starting value
+     */
+    public void resetScore(){
+        score = 0;
     }
 }

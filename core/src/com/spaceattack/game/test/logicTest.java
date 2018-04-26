@@ -160,4 +160,14 @@ public class logicTest {
         g.removeBullet(g.getBullets().get(0));
         assertEquals(g.getBullets().size(), 0);
     }
+
+    @Test
+    public void testScore() {
+        Game g = Game.getInstance();
+        assertTrue(g.getScore() == 0);
+        g.addScore(1000);
+        assertTrue(g.getScore() == 1000);
+        g.resetScore();
+        assertTrue(g.getScore() == 0);
+    }
 }
