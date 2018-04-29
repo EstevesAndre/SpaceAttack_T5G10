@@ -13,8 +13,8 @@
 ![alt text](https://github.com/EstevesAndre/SpaceAttack_T5G10/blob/master/States.png)
 
 #### Expected (if any) Design Patterns to use on your application
-(mudar isto)
  * Uso de Singleton na classe Game e GameController.
+ 	Apenas faz sentido a utilização de uma instância da classe Game, pois apenas existe um jogo a decorrer de cada vez. Como tal, de 	 igual forma, também apenas faz sentido uma instância do respetivo GameController, o controlador desse jogo.
 
 #### Identification/Listing of the main functionalities
 
@@ -53,4 +53,6 @@
 ![alt text](https://github.com/EstevesAndre/SpaceAttack_T5G10/blob/master/MockUP_GameView.png)
 
 #### Listing of the expected final test cases
+* Testes relativos ao package Model, testando diversos métodos, tais como sets e gets, assim como outras funções que afetam os atributos relativos aos elementos básicos do jogo
+* Testes relativos ao package Controller, simulando o imput do utilizador e testando a resposta do controlador sobre a instância de Game
 
