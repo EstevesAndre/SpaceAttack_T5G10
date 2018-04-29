@@ -34,7 +34,7 @@
 		-> Clicando do lado esquerdo sem ser no joystick, a nave movimenta-se também mas sem rodar.
 
 * Desktop 
-
+		
 		-> 1º opção: 
              
 	    	Uso do rato, o posição do rato é para onde a nave está a apontar.		           
