@@ -25,17 +25,35 @@
 
 * Em Game Screen, onde a aplicação vai decorrer:
 
-* Android -> O user ao clicar do lado direito do ecrã atira uma bala a partir da direcão e rotação atuais.
-	        -> Do lado direito existe um "joystick" onde se vai poder movimentar a nave pelo mapa (este sendo infinito).
-	        -> Clicando do lado esquerdo sem ser no joystick, a nave movimenta-se também mas sem rodar.
+* Android 
+
+-> O user ao clicar do lado direito do ecrã atira uma bala a partir da direcão e rotação atuais.
+
+
+-> Do lado direito existe um "joystick" onde se vai poder movimentar a nave pelo mapa (este sendo infinito).
+
+
+-> Clicando do lado esquerdo sem ser no joystick, a nave movimenta-se também mas sem rodar.
 
 * Desktop -> 1º opção: 
-              Uso do rato, o posição do rato é para onde a nave está a apontar.
-		          Lado direito do rato movimenta a nave.
-		          Lado esquerdo do rato atira uma bala.
-	        -> 2º opção: 
-              Uso das setas do teclado, bem como das teclas "W", "A" e "D" para se movimentar.
-		          E o espaço para atirar a bala.
+             
+	     
+	     Uso do rato, o posição do rato é para onde a nave está a apontar.
+		          
+			  
+			  Lado direito do rato movimenta a nave.
+		          
+			  
+			  Lado esquerdo do rato atira uma bala.
+	       
+	       
+	       -> 2º opção: 
+              
+	      
+	      Uso das setas do teclado, bem como das teclas "W", "A" e "D" para se movimentar.
+		          
+			  
+			  E o espaço para atirar a bala.
 		   
 #### GUI Mock-up
 ![alt text](https://github.com/EstevesAndre/SpaceAttack_T5G10/blob/master/MockUP_GameView.png)
