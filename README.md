@@ -37,7 +37,7 @@
 
 		-> 1º opção: 
              
-	    		Uso do rato, o posição do rato é para onde a nave está a apontar.		           
+	    	Uso do rato, o posição do rato é para onde a nave está a apontar.		           
 			
 			Lado direito do rato movimenta a nave.		          
 			  
@@ -45,7 +45,7 @@
 	       
 	       -> 2º opção: 
               	      
-	      		Uso das setas do teclado, bem como das teclas "W", "A" e "D" para se movimentar.
+	      	Uso das setas do teclado, bem como das teclas "W", "A" e "D" para se movimentar.
 		        	  
 			E o espaço para atirar a bala.
 		   
