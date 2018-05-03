@@ -17,12 +17,12 @@ public class GameController implements ContactListener {
     /**
      * The arena width in meters.
      */
-    public static final int ARENA_WIDTH = 1000;
+    public static final int ARENA_WIDTH = 10000;
 
     /**
      * The arena height in meters.
      */
-    public static final int ARENA_HEIGHT = 500;
+    public static final int ARENA_HEIGHT = 5000;
 
     /**
      * The singleton instance
