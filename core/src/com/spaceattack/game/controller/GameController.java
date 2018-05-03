@@ -10,6 +10,10 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.spaceattack.game.model.Game;
 import com.spaceattack.game.model.GameObject;
+import com.spaceattack.game.model.Ship;
+
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 
 public class GameController implements ContactListener {
@@ -23,6 +27,11 @@ public class GameController implements ContactListener {
      * The arena height in meters.
      */
     public static final int ARENA_HEIGHT = 5000;
+
+    /**
+     * The rotation speed in radians per second.
+     */
+    private static final float ROTATION_SPEED = 5f;
 
     /**
      * The singleton instance
@@ -115,4 +124,37 @@ public class GameController implements ContactListener {
 
 
     }
+
+    /**
+     * Rotates the spaceship left. The rotation takes into consideration the
+     * constant rotation speed and the delta for this simulation step.
+     *
+     * @param delta Duration of the rotation in seconds.
+     */
+    public void rotateLeft(float delta) {
+        shipBody.getBody().setTransform(shipBody.getBody().getPosition().x, shipBody.getBody().getPosition().y, shipBody.getBody().getAngle() + ROTATION_SPEED * delta);
+        shipBody.getBody().setAngularVelocity(0);
+    }
+
+    /**
+     * Rotates the spaceship right. The rotation takes into consideration the
+     * constant rotation speed and the delta for this simulation step.
+     *
+     * @param delta Duration of the rotation in seconds.
+     */
+    public void rotateRight(float delta) {
+        shipBody.getBody().setTransform(shipBody.getBody().getPosition().x, shipBody.getBody().getPosition().y, shipBody.getBody().getAngle() - ROTATION_SPEED * delta);
+        shipBody.getBody().setAngularVelocity(0);
+    }
+
+    /**
+     * Acceleratesins the spaceship. The acceleration takes into consideration the
+     * constant acceleration force and the delta for this simulation step.
+     *
+     * @param delta Duration of the rotation in seconds.
+     */
+    public void accelerate(float delta) {
+        shipBody.getBody().applyForceToCenter(-(float) sin(shipBody.getBody().getAngle()) * ((Ship) (shipBody.getBody().getUserData())).getSpeed() * delta, (float) cos(shipBody.getBody().getAngle()) * ((Ship) (shipBody.getBody().getUserData())).getSpeed() * delta, true);
+    }
+
 }
