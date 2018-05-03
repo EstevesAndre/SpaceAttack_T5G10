@@ -13,6 +13,17 @@ import com.spaceattack.game.model.GameObject;
 
 
 public class GameController implements ContactListener {
+
+    /**
+     * The arena width in meters.
+     */
+    public static final int ARENA_WIDTH = 1000;
+
+    /**
+     * The arena height in meters.
+     */
+    public static final int ARENA_HEIGHT = 500;
+
     /**
      * The singleton instance
      */

@@ -3,6 +3,9 @@ package com.spaceattack.game.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.spaceattack.game.controller.GameController.ARENA_HEIGHT;
+import static com.spaceattack.game.controller.GameController.ARENA_WIDTH;
+
 /**
  * Game model representing the game.
  */
@@ -50,7 +53,7 @@ public class Game {
      */
     private Game()
     {
-        userShip = new Ship(0, 0, 0, 5, 10, 5, 15);
+        userShip = new Ship(ARENA_WIDTH / 2f, ARENA_HEIGHT / 2f, 0, 5, 10, 5, 15);
         enemyShips = new ArrayList<Ship>();
         bullets = new ArrayList<Bullet>();
         score = 0;

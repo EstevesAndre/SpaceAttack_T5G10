@@ -16,7 +16,7 @@ public class UserShipBody extends ObjectBody{
         float density = 0.5f, friction = 0.4f, restitution = 0.5f;
         int width = 201, height = 157;
 
-        // Body
+        /*// Body
         createFixture(body, new float[]{
                 97,1, 88,20, 81,52, 83,140, 88,157, 105,1, 114,20, 120,52, 119,140, 113,157
         }, width, height, density, friction, restitution, USER_SHIP_BODY, (short) (ENEMY_SHIP_BODY| ENEMY_BULLET_BODY));
@@ -44,6 +44,6 @@ public class UserShipBody extends ObjectBody{
         // Back Wing
         createFixture(body, new float[]{
                 83,119, 73,119, 52,133, 52,140, 82,140, 88,157, 114,157, 120,141, 150,140, 150,132, 128,119, 121,119
-        }, width, height, density, friction, restitution, USER_SHIP_BODY, (short) (ENEMY_SHIP_BODY| ENEMY_BULLET_BODY));
+        }, width, height, density, friction, restitution, USER_SHIP_BODY, (short) (ENEMY_SHIP_BODY| ENEMY_BULLET_BODY));*/
     }
 }
