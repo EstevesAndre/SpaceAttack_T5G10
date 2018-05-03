@@ -16,34 +16,44 @@ public class UserShipBody extends ObjectBody{
         float density = 0.1f, friction = 0.4f, restitution = 0.5f;
         int width = 201, height = 157;
 
-        /*// Body
+        // Body
         createFixture(body, new float[]{
-                97,1, 88,20, 81,52, 83,140, 88,157, 105,1, 114,20, 120,52, 119,140, 113,157
+                102,0, 88,24, 82,143, 88,161, 114,160, 120,143, 117,25 //7
         }, width, height, density, friction, restitution, USER_SHIP_BODY, (short) (ENEMY_SHIP_BODY| ENEMY_BULLET_BODY));
 
         // Left Winglet
         createFixture(body, new float[]{
-               88,20, 56,42, 56,66, 86,48
+                88,24, 57,45, 57,70, 82,55 //4
         }, width, height, density, friction, restitution, USER_SHIP_BODY, (short) (ENEMY_SHIP_BODY| ENEMY_BULLET_BODY));
 
         // Right Winglet
         createFixture(body, new float[]{
-                114,20, 146,42, 146,66, 116,48
+                117,25, 147,46, 146,70, 121,55 //4
+        }, width, height, density, friction, restitution, USER_SHIP_BODY, (short) (ENEMY_SHIP_BODY| ENEMY_BULLET_BODY));
+
+        // Left Wingend
+        createFixture(body, new float[]{
+                15,85, 6,92, 7,137, 16,131, 15,122, 30,121, 30,91, 15,101 //8
+        }, width, height, density, friction, restitution, USER_SHIP_BODY, (short) (ENEMY_SHIP_BODY| ENEMY_BULLET_BODY));
+
+        // Right Wingend
+        createFixture(body, new float[]{
+                188,85, 197,92, 195,136, 189,130, 187,122, 172,122, 172,92, 187,101 //8
         }, width, height, density, friction, restitution, USER_SHIP_BODY, (short) (ENEMY_SHIP_BODY| ENEMY_BULLET_BODY));
 
         // Left Wing
         createFixture(body, new float[]{
-                82,53, 15,98, 15,82, 6,90, 6,133, 15,127, 13,119, 82,119
+                170,78, 171,127, 154,128, 150,122, 122,121, 121,57, 149,76, 151,68 //8
         }, width, height, density, friction, restitution, USER_SHIP_BODY, (short) (ENEMY_SHIP_BODY| ENEMY_BULLET_BODY));
 
         // Right Wing
         createFixture(body, new float[]{
-                120,53, 187,98, 187,82, 196,90, 196,133, 187,127, 187,119, 120,119
+                52,68, 53,76, 82,56, 80,121, 53,122, 47,127, 30,127, 32,79 //8
         }, width, height, density, friction, restitution, USER_SHIP_BODY, (short) (ENEMY_SHIP_BODY| ENEMY_BULLET_BODY));
 
         // Back Wing
         createFixture(body, new float[]{
-                83,119, 73,119, 52,133, 52,140, 82,140, 88,157, 114,157, 120,141, 150,140, 150,132, 128,119, 121,119
-        }, width, height, density, friction, restitution, USER_SHIP_BODY, (short) (ENEMY_SHIP_BODY| ENEMY_BULLET_BODY));*/
+                51,143, 151,143, 151,135, 129,122, 74,122, 52,136 //6
+        }, width, height, density, friction, restitution, USER_SHIP_BODY, (short) (ENEMY_SHIP_BODY| ENEMY_BULLET_BODY));
     }
 }
