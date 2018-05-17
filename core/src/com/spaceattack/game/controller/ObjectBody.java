@@ -7,6 +7,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.spaceattack.game.model.GameObject;
 
+import static com.spaceattack.game.view.GameView.PIXEL_TO_METER;
+
 public class ObjectBody {
     final static short USER_SHIP_BODY = 0x0001;
     final static short ENEMY_SHIP_BODY = 0x0002;
@@ -47,7 +49,7 @@ public class ObjectBody {
      * @param mask Filter for collision purposes
      */
     final void createFixture(Body body, float[] vertexes, int width, int height, float density, float friction, float restitution, short category, short mask) {
-        /*
+
         // Transform pixels into meters, center and invert the y-coordinate
         for (int i = 0; i < vertexes.length; i++) {
             if (i % 2 == 0) vertexes[i] -= width / 2;   // center the vertex x-coordinate
@@ -56,7 +58,7 @@ public class ObjectBody {
             if (i % 2 != 0) vertexes[i] *= -1;          // invert the y-coordinate
 
             vertexes[i] *= PIXEL_TO_METER;              // scale from pixel to meter
-        }*/
+        }
 
         PolygonShape polygon = new PolygonShape();
         polygon.set(vertexes);
@@ -83,5 +85,14 @@ public class ObjectBody {
     Body getBody()
     {
         return body;
+    }
+
+    /**
+     * Sets the angular velocity of this object in the direction it is rotated.
+     *
+     * @param velocity the new linear velocity angle for this body
+     */
+    public void setLinearVelocity(float velocity) {
+        body.setLinearVelocity((float)(velocity * -Math.sin(body.getAngle())), (float) (velocity * Math.cos(body.getAngle())));
     }
 }

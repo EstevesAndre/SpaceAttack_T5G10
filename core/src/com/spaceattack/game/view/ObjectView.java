@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.spaceattack.game.SpaceAttackGame;
 import com.spaceattack.game.model.GameObject;
 
+import static com.spaceattack.game.view.GameView.PIXEL_TO_METER;
+
 public abstract class ObjectView {
 
     /**
@@ -49,7 +51,7 @@ public abstract class ObjectView {
      * @param model the model used to update this view
      */
     public void update(GameObject model) {
-        sprite.setCenter(model.getX(), model.getY());
+        sprite.setCenter(model.getX() / PIXEL_TO_METER, model.getY() / PIXEL_TO_METER);
         sprite.setRotation((float) Math.toDegrees(model.getRotation()));
     }
 }

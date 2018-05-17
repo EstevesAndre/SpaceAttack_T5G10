@@ -53,7 +53,7 @@ public class Game {
      */
     private Game()
     {
-        userShip = new Ship(ARENA_WIDTH / 2f, ARENA_HEIGHT / 2f, 0, 5, 10000f, 5, 15);
+        userShip = new Ship(ARENA_WIDTH / 2f, ARENA_HEIGHT / 2f, 0, 5, 3000f, 0.5f, 5000);
         enemyShips = new ArrayList<Ship>();
         bullets = new ArrayList<Bullet>();
         score = 0;

@@ -24,12 +24,12 @@ public class Ship extends GameObject{
     /**
      * Current fire rate of this object.
      */
-    private int fireRate;
+    private float fireRate;
 
     /**
      * Current fire cooldown of this object.
      */
-    private int fireCooldown;
+    private float fireCooldown;
 
     /**
      * Current bullet speed of this object.
@@ -47,7 +47,7 @@ public class Ship extends GameObject{
      * @param fireRate Fire rate of this Ship.
      * @param bulletSpeed The bullet speed of this Ship in meters per second.
      */
-    public Ship(float x, float y, float rotation, int health, float speed, int fireRate, float bulletSpeed) {
+    public Ship(float x, float y, float rotation, int health, float speed, float fireRate, float bulletSpeed) {
         super(x, y, rotation);
         flying = false;
         this.health = health;
@@ -92,7 +92,7 @@ public class Ship extends GameObject{
      *
      * @return the fireCooldown variable.
      */
-    public int getFireCooldown() {
+    public float getFireCooldown() {
         return fireCooldown;
     }
 
@@ -101,7 +101,7 @@ public class Ship extends GameObject{
      *
      * @return the fireRate variable.
      */
-    public int getFireRate() {
+    public float getFireRate() {
         return fireRate;
     }
 

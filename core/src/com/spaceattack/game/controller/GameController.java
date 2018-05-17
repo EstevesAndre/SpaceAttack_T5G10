@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.spaceattack.game.model.Bullet;
 import com.spaceattack.game.model.Game;
 import com.spaceattack.game.model.GameObject;
 import com.spaceattack.game.model.Ship;
@@ -21,12 +22,12 @@ public class GameController implements ContactListener {
     /**
      * The arena width in meters.
      */
-    public static final int ARENA_WIDTH = 10000;
+    public static final int ARENA_WIDTH = 1000;
 
     /**
      * The arena height in meters.
      */
-    public static final int ARENA_HEIGHT = 5000;
+    public static final int ARENA_HEIGHT = 500;
 
     /**
      * The rotation speed in radians per second.
@@ -89,6 +90,8 @@ public class GameController implements ContactListener {
             world.step(1/60f, 6, 2);
             accumulator -= 1/60f;
         }
+
+        ((Ship) (shipBody.getBody().getUserData())).decreaseCooldown(delta);
 
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
@@ -155,6 +158,23 @@ public class GameController implements ContactListener {
      */
     public void accelerate(float delta) {
         shipBody.getBody().applyForceToCenter(-(float) sin(shipBody.getBody().getAngle()) * ((Ship) (shipBody.getBody().getUserData())).getSpeed() * delta, (float) cos(shipBody.getBody().getAngle()) * ((Ship) (shipBody.getBody().getUserData())).getSpeed() * delta, true);
+    }
+
+    /**
+     * Fires a bullet from user spaceship if fire rate has passed
+     *
+     */
+    public void fire() {
+
+        if(((Ship) (shipBody.getBody().getUserData())).getFireCooldown() <= 0) {
+            Bullet b = (((Ship) (shipBody.getBody().getUserData())).fire());
+            Game.getInstance().addBullet(b);
+            if (b.getSpeed() >= 5000) {
+                UserBulletBody bBody = new UserBulletBody(world, b);
+                bBody.setLinearVelocity(b.getSpeed());
+
+            }
+        }
     }
 
 }

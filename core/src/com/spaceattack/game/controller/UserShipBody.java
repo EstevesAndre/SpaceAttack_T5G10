@@ -13,7 +13,7 @@ public class UserShipBody extends ObjectBody{
     public UserShipBody(World world, Ship obj) {
         super(world, obj);
 
-        float density = 0.1f, friction = 0.4f, restitution = 0.5f;
+        float density = 0.1f, friction = 0.2f, restitution = 0.5f;
         int width = 201, height = 157;
 
         // Body

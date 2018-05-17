@@ -3,11 +3,11 @@ package com.spaceattack.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.spaceattack.game.SpaceAttackGame;
 import com.spaceattack.game.controller.GameController;
+import com.spaceattack.game.model.Bullet;
 import com.spaceattack.game.model.Game;
 import com.spaceattack.game.model.Ship;
 
@@ -19,7 +19,12 @@ public class GameView extends ScreenAdapter{
      * The width of the viewport in meters. The height is
      * automatically calculated using the screen ratio.
      */
-    private static final float VIEWPORT_WIDTH = 3000;
+    private static final float VIEWPORT_WIDTH = 100;
+
+    /**
+     * How much meters does a pixel represent.
+     */
+    public final static float PIXEL_TO_METER = 0.04f;
 
     /**
      * The game this screen belongs to.
@@ -50,7 +55,7 @@ public class GameView extends ScreenAdapter{
      * @return the camera
      */
     private OrthographicCamera createCamera() {
-        OrthographicCamera camera = new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_WIDTH  * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()));
+        OrthographicCamera camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_WIDTH / PIXEL_TO_METER  * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()));
 
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
@@ -64,6 +69,8 @@ public class GameView extends ScreenAdapter{
     private void loadAssets() {
         this.game.getAssetManager().load( "background.png" , Texture.class);
         this.game.getAssetManager().load( "user_ship.png" , Texture.class);
+        this.game.getAssetManager().load( "bullet_User_Ship.png" , Texture.class);
+        this.game.getAssetManager().load( "bullet_Enemy_Ship.png" , Texture.class);
 
         this.game.getAssetManager().finishLoading();
     }
@@ -79,7 +86,7 @@ public class GameView extends ScreenAdapter{
 
         GameController.getInstance().update(delta);
 
-        camera.position.set(Game.getInstance().getUserShip().getX(), Game.getInstance().getUserShip().getY(), 0);
+        camera.position.set(Game.getInstance().getUserShip().getX() / PIXEL_TO_METER, Game.getInstance().getUserShip().getY() / PIXEL_TO_METER, 0);
         camera.update();
         game.getBatch().setProjectionMatrix(camera.combined);
 
@@ -106,7 +113,14 @@ public class GameView extends ScreenAdapter{
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             GameController.getInstance().accelerate(delta);
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            GameController.getInstance().accelerate(-delta);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            GameController.getInstance().fire();
+        }
     }
+
 
     /**
      * Draws the entities to the screen.
@@ -116,6 +130,17 @@ public class GameView extends ScreenAdapter{
         UserShipView view = new UserShipView(game);
         view.update(ship);
         view.draw(game.getBatch());
+
+        for(int i = 0; i < Game.getInstance().getBullets().size(); i++)
+        {
+            Bullet b = Game.getInstance().getBullets().get(i);
+
+            if(b.getSpeed() >= 5000) {
+                UserBulletView bView = new UserBulletView(game);
+                bView.update(b);
+                bView.draw(game.getBatch());
+            }
+        }
     }
 
     /**
@@ -124,6 +149,6 @@ public class GameView extends ScreenAdapter{
     private void drawBackground() {
         Texture background = game.getAssetManager().get("background.png", Texture.class);
         background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        game.getBatch().draw(background, 0, 0, 0, 0, (int)(ARENA_WIDTH), (int) (ARENA_HEIGHT));
+        game.getBatch().draw(background, 0, 0, 0, 0, (int)(ARENA_WIDTH / PIXEL_TO_METER), (int) (ARENA_HEIGHT / PIXEL_TO_METER));
     }
 }
