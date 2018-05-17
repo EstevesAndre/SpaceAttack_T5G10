@@ -14,11 +14,11 @@ public class UserBulletBody extends ObjectBody{
         super(world, obj);
 
         float density = 0.1f, friction = 0.2f, restitution = 0.5f;
-        int width = 10, height = 35;
+        int width = 20, height = 73;
 
         // Body
         createFixture(body, new float[]{
-                3,0, 6,0, 9,3, 9,9, 0,9, 0,3
+                0,0, 19,0, 19,72, 0,72
         }, width, height, density, friction, restitution, USER_BULLET_BODY, ENEMY_SHIP_BODY);
 
     }
