@@ -84,6 +84,7 @@ public class GameView extends ScreenAdapter{
     @Override
     public void render(float delta) {
         handleInputs(delta);
+        GameController.getInstance().removeBullets();
 
         GameController.getInstance().update(delta);
 

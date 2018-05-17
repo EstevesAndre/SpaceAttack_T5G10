@@ -14,6 +14,7 @@ import com.spaceattack.game.model.GameObject;
 import com.spaceattack.game.model.Ship;
 import com.spaceattack.game.view.GameView;
 
+import static com.spaceattack.game.view.GameView.PIXEL_TO_METER;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
@@ -99,6 +100,10 @@ public class GameController implements ContactListener {
 
         for (Body body : bodies) {
             ((GameObject) body.getUserData()).setPosition(body.getPosition().x, body.getPosition().y);
+            if (body.getUserData() instanceof Ship)
+            {
+                checkOutOfBounds(body);
+            }
             ((GameObject) body.getUserData()).setRotation(body.getAngle());
         }
     }
@@ -188,6 +193,45 @@ public class GameController implements ContactListener {
                 Game.getInstance().remove((GameObject) body.getUserData());
                 world.destroyBody(body);
             }
+        }
+    }
+
+    /**
+     * Checks if body is out of arena and stops further movement
+     *
+     * @param body body to be checked
+     */
+    private void checkOutOfBounds(Body body)
+    {
+        boolean oob = false;
+        if(((GameObject)body.getUserData()).getX() > ARENA_WIDTH)
+        {
+            oob = true;
+            ((GameObject)body.getUserData()).setPosition(ARENA_WIDTH, ((GameObject)body.getUserData()).getY());
+        }
+
+        if(((GameObject)body.getUserData()).getX() < 0)
+        {
+            oob = true;
+            ((GameObject)body.getUserData()).setPosition(0, ((GameObject)body.getUserData()).getY());
+        }
+
+        if(((GameObject)body.getUserData()).getY() > ARENA_HEIGHT)
+        {
+            oob = true;
+            ((GameObject)body.getUserData()).setPosition(((GameObject)body.getUserData()).getX(), ARENA_HEIGHT);
+        }
+
+        if(((GameObject)body.getUserData()).getY() < 0)
+        {
+            oob = true;
+            ((GameObject)body.getUserData()).setPosition(((GameObject)body.getUserData()).getX(), 0);
+        }
+
+        if(oob)
+        {
+            body.setLinearVelocity(0f, 0f);
+            body.setAngularVelocity(0f);
         }
     }
 
