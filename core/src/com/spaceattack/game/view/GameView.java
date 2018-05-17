@@ -87,7 +87,30 @@ public class GameView extends ScreenAdapter{
 
         GameController.getInstance().update(delta);
 
-        camera.position.set(Game.getInstance().getUserShip().getX() / PIXEL_TO_METER, Game.getInstance().getUserShip().getY() / PIXEL_TO_METER, 0);
+        float shipX = Game.getInstance().getUserShip().getX() / PIXEL_TO_METER;
+        float shipY = Game.getInstance().getUserShip().getY() / PIXEL_TO_METER;
+
+        if(shipX > (ARENA_WIDTH / PIXEL_TO_METER - (VIEWPORT_WIDTH / PIXEL_TO_METER)/2))
+        {
+            shipX = (ARENA_WIDTH / PIXEL_TO_METER - (VIEWPORT_WIDTH / PIXEL_TO_METER)/2);
+        }
+
+        if(shipX < (VIEWPORT_WIDTH / PIXEL_TO_METER)/2)
+        {
+            shipX = (VIEWPORT_WIDTH / PIXEL_TO_METER)/2;
+        }
+
+        if(shipY > (ARENA_HEIGHT / PIXEL_TO_METER - (VIEWPORT_WIDTH / PIXEL_TO_METER * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()))/2))
+        {
+            shipY = (ARENA_HEIGHT / PIXEL_TO_METER - (VIEWPORT_WIDTH / PIXEL_TO_METER * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()))/2);
+        }
+
+        if(shipY < (VIEWPORT_WIDTH / PIXEL_TO_METER * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()))/2)
+        {
+            shipY = (VIEWPORT_WIDTH / PIXEL_TO_METER * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()))/2;
+        }
+
+        camera.position.set(shipX, shipY, 0);
         camera.update();
         game.getBatch().setProjectionMatrix(camera.combined);
 
