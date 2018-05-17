@@ -9,6 +9,7 @@ import com.spaceattack.game.SpaceAttackGame;
 import com.spaceattack.game.controller.GameController;
 import com.spaceattack.game.model.Bullet;
 import com.spaceattack.game.model.Game;
+import com.spaceattack.game.model.GameObject;
 import com.spaceattack.game.model.Ship;
 
 import static com.spaceattack.game.controller.GameController.ARENA_HEIGHT;
@@ -150,5 +151,29 @@ public class GameView extends ScreenAdapter{
         Texture background = game.getAssetManager().get("background.png", Texture.class);
         background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         game.getBatch().draw(background, 0, 0, 0, 0, (int)(ARENA_WIDTH / PIXEL_TO_METER), (int) (ARENA_HEIGHT / PIXEL_TO_METER));
+    }
+
+    /**
+     * Checks if object is out of viewport
+     *
+     * @param obj the object to be tested
+     *
+     * @return true if object is out of viewport, false otherwise
+     */
+    public static boolean isOutOfViewport(GameObject obj)
+    {
+        if(obj.getX() > Game.getInstance().getUserShip().getX() + VIEWPORT_WIDTH / PIXEL_TO_METER)
+            return true;
+
+        if(obj.getX() < Game.getInstance().getUserShip().getX() - VIEWPORT_WIDTH / PIXEL_TO_METER)
+            return true;
+
+        if(obj.getY() > Game.getInstance().getUserShip().getY() + VIEWPORT_WIDTH / PIXEL_TO_METER  * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()))
+            return true;
+
+        if(obj.getY() < Game.getInstance().getUserShip().getY() - VIEWPORT_WIDTH / PIXEL_TO_METER  * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()))
+            return true;
+
+        return false;
     }
 }

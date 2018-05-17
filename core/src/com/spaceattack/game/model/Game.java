@@ -53,7 +53,7 @@ public class Game {
      */
     private Game()
     {
-        userShip = new Ship(ARENA_WIDTH / 2f, ARENA_HEIGHT / 2f, 0, 5, 3000f, 0.5f, 5000);
+        userShip = new Ship(ARENA_WIDTH / 2f, ARENA_HEIGHT / 2f, 0, 5, 3000f, 0.3f, 5000);
         enemyShips = new ArrayList<Ship>();
         bullets = new ArrayList<Bullet>();
         score = 0;
@@ -147,5 +147,16 @@ public class Game {
      */
     public void resetScore(){
         score = 0;
+    }
+
+    /**
+     * Removes a model from this game.
+     *
+     * @param model the model to be removed
+     */
+    public void remove(GameObject model) {
+        if (model instanceof Bullet) {
+            bullets.remove(model);
+        }
     }
 }

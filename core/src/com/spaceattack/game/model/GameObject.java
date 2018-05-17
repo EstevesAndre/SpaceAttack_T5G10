@@ -77,4 +77,6 @@ public abstract class GameObject {
      * @param rotation The rotation of this model in radians.
      */
     public void setRotation(float rotation) { this.rotation = rotation; }
+
 }
+

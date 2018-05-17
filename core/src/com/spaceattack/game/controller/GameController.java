@@ -12,6 +12,7 @@ import com.spaceattack.game.model.Bullet;
 import com.spaceattack.game.model.Game;
 import com.spaceattack.game.model.GameObject;
 import com.spaceattack.game.model.Ship;
+import com.spaceattack.game.view.GameView;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -162,7 +163,6 @@ public class GameController implements ContactListener {
 
     /**
      * Fires a bullet from user spaceship if fire rate has passed
-     *
      */
     public void fire() {
 
@@ -173,6 +173,20 @@ public class GameController implements ContactListener {
                 UserBulletBody bBody = new UserBulletBody(world, b);
                 bBody.setLinearVelocity(b.getSpeed());
 
+            }
+        }
+    }
+
+    /**
+     * Removes bullets out of the viewport
+     */
+    public void removeBullets() {
+        Array<Body> bodies = new Array<Body>();
+        world.getBodies(bodies);
+        for (Body body : bodies) {
+            if (body.getUserData() instanceof Bullet && (GameView.isOutOfViewport((GameObject) body.getUserData()))) {
+                Game.getInstance().remove((GameObject) body.getUserData());
+                world.destroyBody(body);
             }
         }
     }
