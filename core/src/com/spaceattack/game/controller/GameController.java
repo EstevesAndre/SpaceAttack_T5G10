@@ -17,6 +17,7 @@ import com.spaceattack.game.view.GameView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.atan;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
@@ -74,7 +75,7 @@ public class GameController implements ContactListener {
 
         shipBody = new UserShipBody(world, Game.getInstance().getUserShip());
 
-        Ship s = new Ship(520, 270, 0, 2, 1500f, 0.3f, 1000);
+        Ship s = new Ship(520, 270, 0, 2, 1500f, 0.8f, 20);
 
         Game.getInstance().addEnemyShip(s);
 
@@ -108,7 +109,7 @@ public class GameController implements ContactListener {
             accumulator -= 1/60f;
         }
 
-        ((Ship) (shipBody.getBody().getUserData())).decreaseCooldown(delta);
+        decreaseCooldown(delta);
 
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
@@ -118,6 +119,10 @@ public class GameController implements ContactListener {
             if (body.getUserData() instanceof Ship)
             {
                 checkOutOfBounds(body);
+                if(((Ship) body.getUserData()).getBulletSpeed() < 5000)
+                {
+                    attack(body);
+                }
             }
             ((GameObject) body.getUserData()).setRotation(body.getAngle());
         }
@@ -138,6 +143,22 @@ public class GameController implements ContactListener {
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
+    }
+
+    /**
+     * Decreases the fire cooldown of all ships.
+     * Occurs periodically
+     *
+     * @param delta time elapsed
+     */
+    private void decreaseCooldown(float delta)
+    {
+        ((Ship) (shipBody.getBody().getUserData())).decreaseCooldown(delta);
+
+        for(Ship s : Game.getInstance().getEnemyShips())
+        {
+            s.decreaseCooldown(delta);
+        }
     }
 
     /**
@@ -236,6 +257,25 @@ public class GameController implements ContactListener {
 
             }
         }
+    }
+
+    /**
+     * Rotates enemy ship body to point to user ship, fires and moves
+     */
+    private void attack(Body body)
+    {
+        float angle = new Vector2(Game.getInstance().getUserShip().getX(), Game.getInstance().getUserShip().getY()).sub(body.getPosition()).angleRad() - (float)Math.PI/2 ;
+        ((Ship) body.getUserData()).setRotation(angle);
+        body.setTransform(body.getPosition(), angle);
+
+        if(((Ship) (body.getUserData())).getFireCooldown() <= 0) {
+            Bullet b = (((Ship) (body.getUserData())).fire());
+            Game.getInstance().addBullet(b);
+            EnemyBulletBody bBody = new EnemyBulletBody(world, b);
+            bBody.setLinearVelocity(b.getSpeed());
+        }
+
+
     }
 
     /**

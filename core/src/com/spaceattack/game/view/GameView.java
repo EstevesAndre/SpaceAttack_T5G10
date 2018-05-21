@@ -71,6 +71,7 @@ public class GameView extends ScreenAdapter{
         this.game.getAssetManager().load( "background.png" , Texture.class);
         this.game.getAssetManager().load( "user_ship.png" , Texture.class);
         this.game.getAssetManager().load( "laserRed.png" , Texture.class);
+        this.game.getAssetManager().load( "laserGreen.png" , Texture.class);
         this.game.getAssetManager().load( "enemyShipRed.png" , Texture.class);
 
         this.game.getAssetManager().finishLoading();
@@ -162,6 +163,12 @@ public class GameView extends ScreenAdapter{
 
             if(b.getSpeed() >= 5000) {
                 UserBulletView bView = new UserBulletView(game);
+                bView.update(b);
+                bView.draw(game.getBatch());
+            }
+            else
+            {
+                EnemyBulletView bView = new EnemyBulletView(game);
                 bView.update(b);
                 bView.draw(game.getBatch());
             }

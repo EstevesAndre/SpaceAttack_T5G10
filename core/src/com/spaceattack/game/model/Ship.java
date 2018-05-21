@@ -135,6 +135,8 @@ public class Ship extends GameObject{
     /**
      * Decreases the fire cooldown of this ship.
      * Occurs periodically
+     *
+     * @param delta time elapsed
      */
     public void decreaseCooldown(float delta) {
         fireCooldown -= delta;
