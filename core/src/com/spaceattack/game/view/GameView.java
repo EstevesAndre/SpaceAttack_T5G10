@@ -84,7 +84,7 @@ public class GameView extends ScreenAdapter{
     @Override
     public void render(float delta) {
         handleInputs(delta);
-        GameController.getInstance().removeBullets();
+        GameController.getInstance().markBullets();
 
         GameController.getInstance().update(delta);
 
@@ -165,6 +165,15 @@ public class GameView extends ScreenAdapter{
                 bView.update(b);
                 bView.draw(game.getBatch());
             }
+        }
+
+        for(int i = 0; i < Game.getInstance().getEnemyShips().size(); i++)
+        {
+            Ship s = Game.getInstance().getEnemyShips().get(i);
+
+            EnemyShipView sView = new EnemyShipView(game);
+            sView.update(s);
+            sView.draw(game.getBatch());
         }
     }
 

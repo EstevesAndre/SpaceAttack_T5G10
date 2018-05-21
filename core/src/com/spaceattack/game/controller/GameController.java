@@ -14,7 +14,9 @@ import com.spaceattack.game.model.GameObject;
 import com.spaceattack.game.model.Ship;
 import com.spaceattack.game.view.GameView;
 
-import static com.spaceattack.game.view.GameView.PIXEL_TO_METER;
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
@@ -52,6 +54,11 @@ public class GameController implements ContactListener {
     private float accumulator;
 
     /**
+     * A list of bodies to be removed
+     */
+    private List<Body> toRemove;
+
+    /**
      * The user spaceship body
      */
     private final UserShipBody shipBody;
@@ -63,7 +70,15 @@ public class GameController implements ContactListener {
     private GameController() {
         world = new World(new Vector2(0, 0), true);
 
+        toRemove = new ArrayList<Body>();
+
         shipBody = new UserShipBody(world, Game.getInstance().getUserShip());
+
+        Ship s = new Ship(520, 270, 0, 2, 1500f, 0.3f, 1000);
+
+        Game.getInstance().addEnemyShip(s);
+
+        new EnemyShipBody(world, s);
 
         world.setContactListener(this);
     }
@@ -106,6 +121,8 @@ public class GameController implements ContactListener {
             }
             ((GameObject) body.getUserData()).setRotation(body.getAngle());
         }
+
+        removeMarkedObjects();
     }
 
     @Override
@@ -130,8 +147,47 @@ public class GameController implements ContactListener {
      */
     @Override
     public void beginContact(Contact contact) {
+        Body bodyA = contact.getFixtureA().getBody();
+        Body bodyB = contact.getFixtureB().getBody();
 
+        if (bodyA.getUserData() instanceof Bullet)
+            bulletCollision(bodyA);
+        if (bodyB.getUserData() instanceof Bullet)
+            bulletCollision(bodyB);
 
+        if (bodyA.getUserData() instanceof Bullet && bodyB.getUserData() instanceof Ship)
+            bulletShipCollision(bodyA, bodyB);
+        if (bodyA.getUserData() instanceof Ship && bodyB.getUserData() instanceof Bullet)
+              bulletShipCollision(bodyB, bodyA);
+
+    }
+
+    /**
+     * A bullet colided with something. Lets remove it.
+     *
+     * @param bulletBody the bullet that colided
+     */
+    private void bulletCollision(Body bulletBody) {
+        Game.getInstance().remove((Bullet)bulletBody.getUserData());
+        toRemove.add(bulletBody);
+    }
+
+    /**
+     * A bullet collided with an ship. Reduce its health
+     * @param bulletBody the bullet that collided
+     * @param shipBody the ship that collided
+     */
+    private void bulletShipCollision(Body bulletBody, Body shipBody) {
+        shipBody.setLinearVelocity(0, 0);
+        shipBody.setAngularVelocity(0);
+
+        ((Ship) shipBody.getUserData()).decreaseHealth();
+
+        if( ((Ship) shipBody.getUserData()).getHealth() == 0)
+        {
+            Game.getInstance().remove((GameObject) shipBody.getUserData());
+            toRemove.add(shipBody);
+        }
     }
 
     /**
@@ -183,17 +239,29 @@ public class GameController implements ContactListener {
     }
 
     /**
-     * Removes bullets out of the viewport
+     * Marks bullets out of the viewport
      */
-    public void removeBullets() {
+    public void markBullets() {
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
         for (Body body : bodies) {
             if (body.getUserData() instanceof Bullet && (GameView.isOutOfViewport((GameObject) body.getUserData()))) {
                 Game.getInstance().remove((GameObject) body.getUserData());
-                world.destroyBody(body);
+                toRemove.add(body);
             }
         }
+    }
+
+    /**
+     * Removes marked objects
+     */
+    private void removeMarkedObjects()
+    {
+        for (Body body : toRemove) {
+            world.destroyBody(body);
+        }
+
+        toRemove.clear();
     }
 
     /**

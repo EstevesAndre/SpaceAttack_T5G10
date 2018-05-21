@@ -158,5 +158,8 @@ public class Game {
         if (model instanceof Bullet) {
             bullets.remove(model);
         }
+        else if (model instanceof  Ship) {
+            enemyShips.remove(model);
+        }
     }
 }
