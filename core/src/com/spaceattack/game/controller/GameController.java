@@ -74,11 +74,11 @@ public class GameController implements ContactListener {
 
         userShip = new UserShipBody(world, Game.getInstance().getUserShip());
 
-        Ship s = new Ship(520, 270, 0, 2, 1500f, 0.8f, 40);
+        /*Ship s = new Ship(520, 270, 0, 2, 1500f, 0.8f, 30);
 
         Game.getInstance().addEnemyShip(s);
 
-        new EnemyShipBody(world, s);
+        new EnemyShipBody(world, s);*/
 
         world.setContactListener(this);
     }
@@ -125,6 +125,10 @@ public class GameController implements ContactListener {
 
                 if(((Ship) body.getUserData()).getHealth() == 0)
                 {
+                    if(((Ship) body.getUserData()).getBulletSpeed() < 5000)
+                    {
+                        Game.getInstance().addScore(((Ship) body.getUserData()).getSpeed() - 1000);
+                    }
                     Game.getInstance().remove((GameObject) body.getUserData());
                     toRemove.add(body);
                 }

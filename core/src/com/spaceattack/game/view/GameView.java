@@ -3,13 +3,16 @@ package com.spaceattack.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.spaceattack.game.SpaceAttackGame;
 import com.spaceattack.game.controller.GameController;
 import com.spaceattack.game.model.Bullet;
 import com.spaceattack.game.model.Game;
 import com.spaceattack.game.model.GameObject;
+import com.spaceattack.game.model.Portal;
 import com.spaceattack.game.model.Ship;
 
 import static com.spaceattack.game.controller.GameController.ARENA_HEIGHT;
@@ -38,12 +41,20 @@ public class GameView extends ScreenAdapter{
     private final OrthographicCamera camera;
 
     /**
+     * The font to be used to print score
+     */
+    private final BitmapFont font;
+
+    /**
      * Creates this screen.
      *
      * @param game The game this screen belongs to
      */
     public GameView(SpaceAttackGame game) {
         this.game = game;
+
+        font = new BitmapFont();
+        font.setColor(Color.WHITE);
 
         loadAssets();
 
@@ -122,6 +133,7 @@ public class GameView extends ScreenAdapter{
         game.getBatch().begin();
         drawBackground();
         drawEntities();
+        font.draw(game.getBatch(), Integer.toString((int)Game.getInstance().getScore()), Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         game.getBatch().end();
     }
 
@@ -153,6 +165,15 @@ public class GameView extends ScreenAdapter{
      * Draws the entities to the screen.
      */
     private void drawEntities() {
+        for(int i = 0; i < Game.getInstance().getPortals().size(); i++)
+        {
+            Portal p = Game.getInstance().getPortals().get(i);
+
+            PortalView pView = new PortalView(game);
+            pView.update(p);
+            pView.draw(game.getBatch());
+        }
+
         Ship ship = Game.getInstance().getUserShip();
         UserShipView view = new UserShipView(game);
         view.update(ship);
