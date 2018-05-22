@@ -3,6 +3,8 @@ package com.spaceattack.game.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.sampled.Port;
+
 import static com.spaceattack.game.controller.GameController.ARENA_HEIGHT;
 import static com.spaceattack.game.controller.GameController.ARENA_WIDTH;
 
@@ -32,6 +34,11 @@ public class Game {
     private List<Bullet> bullets;
 
     /**
+     * The portals present on the game
+     */
+    private List<Portal> portals;
+
+    /**
      * The current score of the game.
      */
     private double score;
@@ -56,7 +63,21 @@ public class Game {
         userShip = new Ship(ARENA_WIDTH / 2f, ARENA_HEIGHT / 2f, 0, 5, 3000f, 0.3f, 5000);
         enemyShips = new ArrayList<Ship>();
         bullets = new ArrayList<Bullet>();
+        portals = new ArrayList<Portal>();
+        createPortals();
         score = 0;
+    }
+
+    /**
+     * Creates the portals for the game
+     */
+    private void createPortals() {
+        portals.add(new Portal(250, 150, 0));
+        portals.add(new Portal(500, 150, 0));
+        portals.add(new Portal(750, 150, 0));
+        portals.add(new Portal(250, 350, 0));
+        portals.add(new Portal(500, 350, 0));
+        portals.add(new Portal(750, 350, 0));
     }
 
     /**
@@ -75,6 +96,15 @@ public class Game {
      */
     public List<Ship> getEnemyShips() {
         return enemyShips;
+    }
+
+    /**
+     * Gets the portals
+     *
+     * @return the portals list.
+     */
+    public List<Portal> getPortals() {
+        return portals;
     }
 
     /**
