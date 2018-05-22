@@ -73,6 +73,7 @@ public class GameView extends ScreenAdapter{
         this.game.getAssetManager().load( "laserRed.png" , Texture.class);
         this.game.getAssetManager().load( "laserGreen.png" , Texture.class);
         this.game.getAssetManager().load( "enemyShipRed.png" , Texture.class);
+        this.game.getAssetManager().load( "portal.png" , Texture.class);
 
         this.game.getAssetManager().finishLoading();
     }
