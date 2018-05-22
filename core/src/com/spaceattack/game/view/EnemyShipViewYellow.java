@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.spaceattack.game.SpaceAttackGame;
 
-public class EnemyShipView extends ObjectView{
+public class EnemyShipViewYellow extends ObjectView{
 
     /**
      * Constructs a space ship model.
@@ -13,7 +13,7 @@ public class EnemyShipView extends ObjectView{
      * @param game the game this view belongs to. Needed to access the
      *             asset manager to get textures.
      */
-    public EnemyShipView(SpaceAttackGame game) {
+    public EnemyShipViewYellow(SpaceAttackGame game) {
         super(game);
     }
 
@@ -38,7 +38,7 @@ public class EnemyShipView extends ObjectView{
      * @return the texture used when the ship is not accelerating
      */
     private TextureRegion createUserShipRegion(SpaceAttackGame game) {
-        Texture UserShipTexture = game.getAssetManager().get("enemyShipRed.png");
+        Texture UserShipTexture = game.getAssetManager().get("enemyShipYellow.png");
 
         return new TextureRegion(UserShipTexture, UserShipTexture.getWidth(), UserShipTexture.getHeight());
     }

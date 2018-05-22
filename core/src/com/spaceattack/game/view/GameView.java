@@ -84,6 +84,10 @@ public class GameView extends ScreenAdapter{
         this.game.getAssetManager().load( "laserRed.png" , Texture.class);
         this.game.getAssetManager().load( "laserGreen.png" , Texture.class);
         this.game.getAssetManager().load( "enemyShipRed.png" , Texture.class);
+        this.game.getAssetManager().load( "enemyShipGreen.png" , Texture.class);
+        this.game.getAssetManager().load( "enemyShipYellow.png" , Texture.class);
+        this.game.getAssetManager().load( "enemyShipBlue.png" , Texture.class);
+        this.game.getAssetManager().load( "enemyShipPurple.png" , Texture.class);
         this.game.getAssetManager().load( "portal.png" , Texture.class);
 
         this.game.getAssetManager().finishLoading();
@@ -200,9 +204,37 @@ public class GameView extends ScreenAdapter{
         {
             Ship s = Game.getInstance().getEnemyShips().get(i);
 
-            EnemyShipView sView = new EnemyShipView(game);
-            sView.update(s);
-            sView.draw(game.getBatch());
+            if(s.getSpeed() == 1500)
+            {
+                EnemyShipView sView = new EnemyShipView(game);
+                sView.update(s);
+                sView.draw(game.getBatch());
+            }
+            else if(s.getSpeed() == 2000)
+            {
+                EnemyShipViewBlue sView = new EnemyShipViewBlue(game);
+                sView.update(s);
+                sView.draw(game.getBatch());
+            }
+            else if(s.getSpeed() == 2500)
+            {
+                EnemyShipViewGreen sView = new EnemyShipViewGreen(game);
+                sView.update(s);
+                sView.draw(game.getBatch());
+            }
+            else if(s.getSpeed() == 3000)
+            {
+                EnemyShipViewYellow sView = new EnemyShipViewYellow(game);
+                sView.update(s);
+                sView.draw(game.getBatch());
+            }
+            else
+            {
+                EnemyShipViewPurple sView = new EnemyShipViewPurple( game);
+                sView.update(s);
+                sView.draw(game.getBatch());
+            }
+
         }
     }
 

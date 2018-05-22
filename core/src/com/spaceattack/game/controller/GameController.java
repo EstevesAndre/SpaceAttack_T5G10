@@ -11,10 +11,12 @@ import com.badlogic.gdx.utils.Array;
 import com.spaceattack.game.model.Bullet;
 import com.spaceattack.game.model.Game;
 import com.spaceattack.game.model.GameObject;
+import com.spaceattack.game.model.Portal;
 import com.spaceattack.game.model.Ship;
 import com.spaceattack.game.view.GameView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Math.cos;
@@ -52,6 +54,11 @@ public class GameController implements ContactListener {
      * Accumulator used to calculate the simulation step.
      */
     private float accumulator;
+
+    /**
+     * Total time elapsed
+     */
+    private float timeElapsed = 0;
 
     /**
      * A list of bodies to be removed
@@ -143,8 +150,71 @@ public class GameController implements ContactListener {
             }
             ((GameObject) body.getUserData()).setRotation(body.getAngle());
         }
-
         removeMarkedObjects();
+        spawnShips(delta);
+    }
+
+    /**
+     * Spawns up to a enemy ship in each portal
+     *
+     */
+    private void spawnShips(float delta) {
+        timeElapsed += delta;
+        Collections.shuffle(Game.getInstance().getPortals());
+        for(Portal p : Game.getInstance().getPortals())
+        {
+            if(Game.getInstance().getEnemyShips().size() < 3)
+            {
+                spawnShipAtPortal(p);
+            }
+            else if(timeElapsed >= 4 && Game.getInstance().getEnemyShips().size() < 10)
+            {
+                    spawnShipAtPortal(p);
+                    timeElapsed = 0;
+            }
+        }
+    }
+
+    /**
+     * Spawns a enemy ship in a specific portal
+     *
+     * @param p the chosen portal
+     *
+     */
+    private void spawnShipAtPortal(Portal p) {
+        Ship s;
+        if (Game.getInstance().getScore() == 0)
+        {
+            s = new Ship(p.getX(), p.getY(), 0, 2, 1500f, 0.8f, 20);
+        }
+        else
+        {
+            double prob = Math.random() * 100 / Game.getInstance().getScore();
+
+            if (prob > 0.1)
+            {
+                s = new Ship(p.getX(), p.getY(), 0, 2, 1500f, 0.8f, 20);
+            }
+            else if (prob > 0.075)
+            {
+                s = new Ship(p.getX(), p.getY(), 0, 3, 2000f, 0.7f, 25);
+            }
+            else if (prob > 0.05)
+            {
+                s = new Ship(p.getX(), p.getY(), 0, 4, 2500f, 0.6f, 30);
+            }
+            else if (prob > 0.025)
+            {
+                s = new Ship(p.getX(), p.getY(), 0, 5, 3000f, 0.5f, 35);
+            }
+            else
+            {
+                s = new Ship(p.getX(), p.getY(), 0, 6, 3500f, 0.4f, 40);
+            }
+        }
+
+        Game.getInstance().addEnemyShip(s);
+        new EnemyShipBody(world, s);
     }
 
     @Override
