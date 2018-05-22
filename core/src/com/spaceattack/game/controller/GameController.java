@@ -17,7 +17,6 @@ import com.spaceattack.game.view.GameView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Math.atan;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
@@ -62,7 +61,7 @@ public class GameController implements ContactListener {
     /**
      * The user spaceship body
      */
-    private final UserShipBody shipBody;
+    private final UserShipBody userShip;
 
     /**
      * Creates a new GameController that controls the physics of a certain GameModel.
@@ -73,9 +72,9 @@ public class GameController implements ContactListener {
 
         toRemove = new ArrayList<Body>();
 
-        shipBody = new UserShipBody(world, Game.getInstance().getUserShip());
+        userShip = new UserShipBody(world, Game.getInstance().getUserShip());
 
-        Ship s = new Ship(520, 270, 0, 2, 1500f, 0.8f, 20);
+        Ship s = new Ship(520, 270, 0, 2, 1500f, 0.8f, 40);
 
         Game.getInstance().addEnemyShip(s);
 
@@ -118,10 +117,24 @@ public class GameController implements ContactListener {
             ((GameObject) body.getUserData()).setPosition(body.getPosition().x, body.getPosition().y);
             if (body.getUserData() instanceof Ship)
             {
-                checkOutOfBounds(body);
-                if(((Ship) body.getUserData()).getBulletSpeed() < 5000)
+                if(((Ship) body.getUserData()).isHit())
                 {
-                    attack(body);
+                    ((Ship) body.getUserData()).decreaseHealth();
+                    ((Ship) body.getUserData()).setHitStatus(false);
+                }
+
+                if(((Ship) body.getUserData()).getHealth() == 0)
+                {
+                    Game.getInstance().remove((GameObject) body.getUserData());
+                    toRemove.add(body);
+                }
+                else
+                {
+                    checkOutOfBounds(body);
+                    if(((Ship) body.getUserData()).getBulletSpeed() < 5000)
+                    {
+                        attack(body, delta);
+                    }
                 }
             }
             ((GameObject) body.getUserData()).setRotation(body.getAngle());
@@ -153,7 +166,7 @@ public class GameController implements ContactListener {
      */
     private void decreaseCooldown(float delta)
     {
-        ((Ship) (shipBody.getBody().getUserData())).decreaseCooldown(delta);
+        ((Ship) (userShip.getBody().getUserData())).decreaseCooldown(delta);
 
         for(Ship s : Game.getInstance().getEnemyShips())
         {
@@ -202,13 +215,7 @@ public class GameController implements ContactListener {
         shipBody.setLinearVelocity(0, 0);
         shipBody.setAngularVelocity(0);
 
-        ((Ship) shipBody.getUserData()).decreaseHealth();
-
-        if( ((Ship) shipBody.getUserData()).getHealth() == 0)
-        {
-            Game.getInstance().remove((GameObject) shipBody.getUserData());
-            toRemove.add(shipBody);
-        }
+        ((Ship) shipBody.getUserData()).setHitStatus(true);
     }
 
     /**
@@ -218,8 +225,8 @@ public class GameController implements ContactListener {
      * @param delta Duration of the rotation in seconds.
      */
     public void rotateLeft(float delta) {
-        shipBody.getBody().setTransform(shipBody.getBody().getPosition().x, shipBody.getBody().getPosition().y, shipBody.getBody().getAngle() + ROTATION_SPEED * delta);
-        shipBody.getBody().setAngularVelocity(0);
+        userShip.getBody().setTransform(userShip.getBody().getPosition().x, userShip.getBody().getPosition().y, userShip.getBody().getAngle() + ROTATION_SPEED * delta);
+        userShip.getBody().setAngularVelocity(0);
     }
 
     /**
@@ -229,8 +236,8 @@ public class GameController implements ContactListener {
      * @param delta Duration of the rotation in seconds.
      */
     public void rotateRight(float delta) {
-        shipBody.getBody().setTransform(shipBody.getBody().getPosition().x, shipBody.getBody().getPosition().y, shipBody.getBody().getAngle() - ROTATION_SPEED * delta);
-        shipBody.getBody().setAngularVelocity(0);
+        userShip.getBody().setTransform(userShip.getBody().getPosition().x, userShip.getBody().getPosition().y, userShip.getBody().getAngle() - ROTATION_SPEED * delta);
+        userShip.getBody().setAngularVelocity(0);
     }
 
     /**
@@ -240,7 +247,7 @@ public class GameController implements ContactListener {
      * @param delta Duration of the rotation in seconds.
      */
     public void accelerate(float delta) {
-        shipBody.getBody().applyForceToCenter(-(float) sin(shipBody.getBody().getAngle()) * ((Ship) (shipBody.getBody().getUserData())).getSpeed() * delta, (float) cos(shipBody.getBody().getAngle()) * ((Ship) (shipBody.getBody().getUserData())).getSpeed() * delta, true);
+        userShip.getBody().applyForceToCenter(-(float) sin(userShip.getBody().getAngle()) * ((Ship) (userShip.getBody().getUserData())).getSpeed() * delta, (float) cos(userShip.getBody().getAngle()) * ((Ship) (userShip.getBody().getUserData())).getSpeed() * delta, true);
     }
 
     /**
@@ -248,8 +255,8 @@ public class GameController implements ContactListener {
      */
     public void fire() {
 
-        if(((Ship) (shipBody.getBody().getUserData())).getFireCooldown() <= 0) {
-            Bullet b = (((Ship) (shipBody.getBody().getUserData())).fire());
+        if(((Ship) (userShip.getBody().getUserData())).getFireCooldown() <= 0) {
+            Bullet b = (((Ship) (userShip.getBody().getUserData())).fire());
             Game.getInstance().addBullet(b);
             if (b.getSpeed() >= 5000) {
                 UserBulletBody bBody = new UserBulletBody(world, b);
@@ -261,8 +268,11 @@ public class GameController implements ContactListener {
 
     /**
      * Rotates enemy ship body to point to user ship, fires and moves
+     *
+     * @param body the enemy ship body
+     * @param delta The size of this physics step in seconds.
      */
-    private void attack(Body body)
+    private void attack(Body body, float delta)
     {
         float angle = new Vector2(Game.getInstance().getUserShip().getX(), Game.getInstance().getUserShip().getY()).sub(body.getPosition()).angleRad() - (float)Math.PI/2 ;
         ((Ship) body.getUserData()).setRotation(angle);
@@ -275,6 +285,14 @@ public class GameController implements ContactListener {
             bBody.setLinearVelocity(b.getSpeed());
         }
 
+        if(new Vector2(((Ship) body.getUserData()).getX(), ((Ship) body.getUserData()).getY()).dst(Game.getInstance().getUserShip().getX(), Game.getInstance().getUserShip().getY()) > 30)
+        {
+            body.setLinearVelocity(-(float) sin(body.getAngle()) * ((Ship) (body.getUserData())).getSpeed() * delta, (float) cos(body.getAngle()) * ((Ship) (body.getUserData())).getSpeed() * delta);
+        }
+        else
+        {
+            body.setLinearVelocity(0, 0);
+        }
 
     }
 

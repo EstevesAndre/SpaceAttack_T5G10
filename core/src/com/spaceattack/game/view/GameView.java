@@ -202,16 +202,16 @@ public class GameView extends ScreenAdapter{
      */
     public static boolean isOutOfViewport(GameObject obj)
     {
-        if(obj.getX() > Game.getInstance().getUserShip().getX() + VIEWPORT_WIDTH / PIXEL_TO_METER)
+        if(obj.getX() > Game.getInstance().getUserShip().getX() + VIEWPORT_WIDTH / 2)
             return true;
 
-        if(obj.getX() < Game.getInstance().getUserShip().getX() - VIEWPORT_WIDTH / PIXEL_TO_METER)
+        if(obj.getX() < Game.getInstance().getUserShip().getX() - VIEWPORT_WIDTH / 2)
             return true;
 
-        if(obj.getY() > Game.getInstance().getUserShip().getY() + VIEWPORT_WIDTH / PIXEL_TO_METER  * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()))
+        if(obj.getY() > Game.getInstance().getUserShip().getY() + (VIEWPORT_WIDTH  * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()))/2)
             return true;
 
-        if(obj.getY() < Game.getInstance().getUserShip().getY() - VIEWPORT_WIDTH / PIXEL_TO_METER  * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()))
+        if(obj.getY() < Game.getInstance().getUserShip().getY() - (VIEWPORT_WIDTH  * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()))/2)
             return true;
 
         return false;

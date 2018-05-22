@@ -37,6 +37,11 @@ public class Ship extends GameObject{
     private float bulletSpeed;
 
     /**
+     * Auxiliary flag to mark ship to health reduction
+     */
+    private boolean isHit;
+
+    /**
      * Creates a new ship model with a given position, rotation, health, speed, fireRate and bulletSpeed.
      *
      * @param x The x coordinate of this Ship in meters.
@@ -55,6 +60,7 @@ public class Ship extends GameObject{
         this.fireRate = fireRate;
         fireCooldown = 0;
         this.bulletSpeed = bulletSpeed;
+        this.isHit = false;
 
     }
 
@@ -112,6 +118,15 @@ public class Ship extends GameObject{
      */
     public float getBulletSpeed() {
         return bulletSpeed;
+    }
+
+    /**
+     * Returns the hit status of the ship
+     *
+     * @return the isHit field
+     */
+    public boolean isHit() {
+        return isHit;
     }
 
     /**
@@ -182,6 +197,15 @@ public class Ship extends GameObject{
      */
     public void setBulletSpeed(float bulletSpeed) {
         this.bulletSpeed = bulletSpeed;
+    }
+
+    /**
+     * Sets the hit status of the ship
+     *
+     * @param status The new hit status
+     */
+    public void setHitStatus(boolean status) {
+        this.isHit = status;
     }
 
     /**
