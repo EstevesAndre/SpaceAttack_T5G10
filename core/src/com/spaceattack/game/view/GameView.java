@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Vector3;
 import com.spaceattack.game.SpaceAttackGame;
 import com.spaceattack.game.controller.GameController;
 import com.spaceattack.game.model.Bullet;
@@ -249,7 +250,21 @@ public class GameView extends ScreenAdapter {
         }
 
         if (Gdx.input.isTouched()) {
-            GameController.getInstance().accelerate(delta);
+            float xStartPos = (camera.position.x * PIXEL_TO_METER - (VIEWPORT_WIDTH / 2)) / PIXEL_TO_METER;
+            float xEndPos = (camera.position.x * PIXEL_TO_METER + (VIEWPORT_WIDTH / 2)) / PIXEL_TO_METER;
+            float yStartPos = ((camera.position.y * PIXEL_TO_METER - (VIEWPORT_WIDTH * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth())) / 2) / PIXEL_TO_METER);
+
+            Vector3 mousePos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(mousePos);
+
+            Texture t = game.getAssetManager().get("fireButton.png");
+
+            if(mousePos.y > yStartPos && mousePos.y < yStartPos + t.getHeight() * 2) {
+                if(mousePos.x > xStartPos && mousePos.x < xStartPos + t.getWidth() * 2)
+                    GameController.getInstance().fire();
+                if(mousePos.x < xEndPos && mousePos.x > xEndPos - t.getWidth() * 2)
+                    GameController.getInstance().accelerate(delta);
+            }
         }
     }
 
