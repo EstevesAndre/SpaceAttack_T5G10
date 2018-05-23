@@ -149,8 +149,10 @@ public class Game {
      * @param enemyShip The Ship to be removed.
      */
     public void removeEnemyShip(Ship enemyShip) {
+
         if(enemyShips.size() != 0)
             enemyShips.remove(enemyShip);
+
     }
 
     /**
@@ -184,7 +186,7 @@ public class Game {
      *
      * @param model the model to be removed
      */
-    public void remove(GameObject model) {
+    public void remove(Object model) {
         if (model instanceof Bullet) {
             bullets.remove(model);
         }

@@ -21,6 +21,11 @@ public abstract class GameObject {
     private float rotation;
 
     /**
+     * If the object is marked to be removed
+     */
+    private boolean marked;
+
+    /**
      * Constructor of a certain model with a given position and rotation.
      *
      * @param x The x coordinate of this certain game object.
@@ -31,6 +36,7 @@ public abstract class GameObject {
         this.x = x;
         this.y = y;
         this.rotation = rotation;
+        this.marked = false;
     }
 
     /**
@@ -61,6 +67,13 @@ public abstract class GameObject {
     }
 
     /**
+     * Checks if object is marked for removal
+     *
+     * @return The marked parameter
+     */
+    public boolean isMarked() {return marked;}
+
+    /**
      * Sets the position, x and y coordinates, of this object.
      *
      * @param x The x coordinate of this model in meters.
@@ -77,6 +90,11 @@ public abstract class GameObject {
      * @param rotation The rotation of this model in radians.
      */
     public void setRotation(float rotation) { this.rotation = rotation; }
+
+    /**
+     * Marks object for removal
+     */
+    public void destroy() {this.marked = true;}
 
 }
 
