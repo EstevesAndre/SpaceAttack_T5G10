@@ -95,6 +95,9 @@ public class GameView extends ScreenAdapter {
         this.game.getAssetManager().load("enemyShipPurple.png", Texture.class);
         this.game.getAssetManager().load("portal.png", Texture.class);
         this.game.getAssetManager().load("heart.png", Texture.class);
+        this.game.getAssetManager().load("fireButton.png", Texture.class);
+        this.game.getAssetManager().load("throttleButton.png", Texture.class);
+        this.game.getAssetManager().load("pauseButton.png", Texture.class);
 
         this.game.getAssetManager().finishLoading();
     }
@@ -140,8 +143,46 @@ public class GameView extends ScreenAdapter {
         drawEntities();
         drawHealth();
         drawScore();
-
+        drawButtons();
         game.getBatch().end();
+    }
+
+    /**
+     * Draws buttons on game screen
+     */
+    private void drawButtons() {
+
+        float xStartPos = (camera.position.x * PIXEL_TO_METER - (VIEWPORT_WIDTH / 2) + 9) / PIXEL_TO_METER;
+        float yStartPos = ((camera.position.y * PIXEL_TO_METER - (VIEWPORT_WIDTH * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth())) / 2 + 6) / PIXEL_TO_METER);
+
+        Sprite s;
+        Texture fireTexture = game.getAssetManager().get("fireButton.png");
+        TextureRegion t = new TextureRegion(fireTexture, fireTexture.getWidth(), fireTexture.getHeight());
+        s = new Sprite(t);
+        s.setScale(2f, 2f);
+
+        s.setCenter(xStartPos, yStartPos);
+        s.draw(game.getBatch());
+
+        xStartPos = (camera.position.x * PIXEL_TO_METER + (VIEWPORT_WIDTH / 2) - 9) / PIXEL_TO_METER;
+
+        Texture throttleTexture = game.getAssetManager().get("throttleButton.png");
+        t = new TextureRegion(throttleTexture, throttleTexture.getWidth(), throttleTexture.getHeight());
+        s = new Sprite(t);
+        s.setScale(2f, 2f);
+
+        s.setCenter(xStartPos, yStartPos);
+        s.draw(game.getBatch());
+
+        xStartPos = (camera.position.x);
+
+        Texture pauseTexture = game.getAssetManager().get("pauseButton.png");
+        t = new TextureRegion(pauseTexture, pauseTexture.getWidth(), pauseTexture.getHeight());
+        s = new Sprite(t);
+        s.setScale(2f, 2f);
+
+        s.setCenter(xStartPos, yStartPos);
+        s.draw(game.getBatch());
     }
 
     /**
@@ -153,7 +194,7 @@ public class GameView extends ScreenAdapter {
         float yStartPos = ((camera.position.y * PIXEL_TO_METER + (VIEWPORT_WIDTH * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth())) / 2 - 2) / PIXEL_TO_METER);
 
 
-        font.draw(game.getBatch(), "Score: " + (int)Game.getInstance().getScore(), xStartPos, yStartPos);
+        font.draw(game.getBatch(), "Score: " + (int) Game.getInstance().getScore(), xStartPos, yStartPos);
     }
 
     /**
@@ -200,17 +241,14 @@ public class GameView extends ScreenAdapter {
             GameController.getInstance().fire();
         }
 
-        if(Gdx.input.getAccelerometerY() > 1)
-        {
+        if (Gdx.input.getAccelerometerY() > 1) {
             GameController.getInstance().rotateRight(delta);
         }
-        if(Gdx.input.getAccelerometerY() < -1)
-        {
+        if (Gdx.input.getAccelerometerY() < -1) {
             GameController.getInstance().rotateLeft(delta);
         }
 
-        if(Gdx.input.isTouched())
-        {
+        if (Gdx.input.isTouched()) {
             GameController.getInstance().accelerate(delta);
         }
     }
