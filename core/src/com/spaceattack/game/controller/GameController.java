@@ -173,7 +173,7 @@ public class GameController implements ContactListener {
         Ship s;
         if (Game.getInstance().getScore() == 0)
         {
-            s = new Ship(p.getX(), p.getY(), 0, 2, 1500f, 0.8f, 30);
+            s = new Ship(p.getX(), p.getY(), 0, 2, 1500f, 1.6f, 30);
         }
         else
         {
@@ -181,23 +181,23 @@ public class GameController implements ContactListener {
 
             if (prob > 0.1)
             {
-                s = new Ship(p.getX(), p.getY(), 0, 2, 1500f, 0.8f, 30);
+                s = new Ship(p.getX(), p.getY(), 0, 2, 1500f, 1.6f, 30);
             }
             else if (prob > 0.075)
             {
-                s = new Ship(p.getX(), p.getY(), 0, 3, 2000f, 0.7f, 35);
+                s = new Ship(p.getX(), p.getY(), 0, 3, 2000f, 1.4f, 35);
             }
             else if (prob > 0.05)
             {
-                s = new Ship(p.getX(), p.getY(), 0, 4, 2500f, 0.6f, 35);
+                s = new Ship(p.getX(), p.getY(), 0, 4, 2500f, 1.2f, 35);
             }
             else if (prob > 0.025)
             {
-                s = new Ship(p.getX(), p.getY(), 0, 5, 3000f, 0.5f, 40);
+                s = new Ship(p.getX(), p.getY(), 0, 5, 3000f, 1f, 40);
             }
             else
             {
-                s = new Ship(p.getX(), p.getY(), 0, 6, 3500f, 0.4f, 40);
+                s = new Ship(p.getX(), p.getY(), 0, 6, 3500f, 0.8f, 40);
             }
         }
 
