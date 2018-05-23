@@ -40,7 +40,7 @@ public class GameController implements ContactListener {
     /**
      * The rotation speed in radians per second.
      */
-    private static final float ROTATION_SPEED = 5f;
+    private static final float ROTATION_SPEED = 2.5f;
 
     /**
      * The singleton instance

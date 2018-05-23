@@ -199,6 +199,20 @@ public class GameView extends ScreenAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             GameController.getInstance().fire();
         }
+
+        if(Gdx.input.getAccelerometerY() > 1)
+        {
+            GameController.getInstance().rotateRight(delta);
+        }
+        if(Gdx.input.getAccelerometerY() < -1)
+        {
+            GameController.getInstance().rotateLeft(delta);
+        }
+
+        if(Gdx.input.isTouched())
+        {
+            GameController.getInstance().accelerate(delta);
+        }
     }
 
 
