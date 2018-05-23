@@ -139,7 +139,7 @@ public class GameController implements ContactListener {
             ((GameObject) body.getUserData()).setRotation(body.getAngle());
         }
         removeMarkedObjects();
-        //spawnShips(delta);
+        spawnShips(delta);
     }
 
     /**
