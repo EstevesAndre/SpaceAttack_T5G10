@@ -6,7 +6,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.spaceattack.game.SpaceAttackGame;
 import com.spaceattack.game.controller.GameController;
 import com.spaceattack.game.model.Bullet;
@@ -41,20 +42,12 @@ public class GameView extends ScreenAdapter{
     private final OrthographicCamera camera;
 
     /**
-     * The font to be used to print score
-     */
-    private final BitmapFont font;
-
-    /**
      * Creates this screen.
      *
      * @param game The game this screen belongs to
      */
     public GameView(SpaceAttackGame game) {
         this.game = game;
-
-        font = new BitmapFont();
-        font.setColor(Color.WHITE);
 
         loadAssets();
 
@@ -89,6 +82,7 @@ public class GameView extends ScreenAdapter{
         this.game.getAssetManager().load( "enemyShipBlue.png" , Texture.class);
         this.game.getAssetManager().load( "enemyShipPurple.png" , Texture.class);
         this.game.getAssetManager().load( "portal.png" , Texture.class);
+        this.game.getAssetManager().load( "heart.png" , Texture.class);
 
         this.game.getAssetManager().finishLoading();
     }
@@ -137,8 +131,33 @@ public class GameView extends ScreenAdapter{
         game.getBatch().begin();
         drawBackground();
         drawEntities();
-        font.draw(game.getBatch(), Integer.toString((int)Game.getInstance().getScore()), Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        drawHealth();
+
+
         game.getBatch().end();
+    }
+
+    /**
+     * Draws user health on screen
+     */
+    private void drawHealth() {
+
+        float xStartPos = (Game.getInstance().getUserShip().getX() + (VIEWPORT_WIDTH/2) - 4)/PIXEL_TO_METER;
+        float yStartPos = ((Game.getInstance().getUserShip().getY() + (VIEWPORT_WIDTH  * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()))/2 - 4)/PIXEL_TO_METER);
+
+        Sprite s;
+        Texture HeartTexture = game.getAssetManager().get("heart.png");
+        TextureRegion t = new TextureRegion(HeartTexture, HeartTexture.getWidth(), HeartTexture.getHeight());
+        s = new Sprite(t);
+        s.setScale(0.2f, 0.2f);
+
+        for(int i = 0; i < Game.getInstance().getUserShip().getHealth(); i++)
+        {
+            s.setCenter(xStartPos - (i * HeartTexture.getWidth()*0.2f), yStartPos);
+            s.draw(game.getBatch());
+        }
+
+
     }
 
     /**
