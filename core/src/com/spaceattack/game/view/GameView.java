@@ -1,8 +1,11 @@
 package com.spaceattack.game.view;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -67,6 +70,10 @@ public class GameView extends ScreenAdapter {
         parameter.size = 70;
         font = generator.generateFont(parameter);
         generator.dispose();
+
+        Music m = Gdx.audio.newMusic(Gdx.files.internal("backgroundMusic.ogg"));
+        m.setLooping(true);
+        m.play();
 
         camera = createCamera();
     }
