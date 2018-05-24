@@ -171,8 +171,8 @@ public class GameView extends ScreenAdapter {
         float yStartPos = ((camera.position.y * PIXEL_TO_METER - (VIEWPORT_WIDTH * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth())) / 2 + 6) / PIXEL_TO_METER);
 
         Sprite s;
-        Texture fireTexture = game.getAssetManager().get("fireButton.png");
-        TextureRegion t = new TextureRegion(fireTexture, fireTexture.getWidth(), fireTexture.getHeight());
+        Texture throttleTexture = game.getAssetManager().get("throttleButton.png");
+        TextureRegion t = new TextureRegion(throttleTexture, throttleTexture.getWidth(), throttleTexture.getHeight());
         s = new Sprite(t);
         s.setScale(2f, 2f);
 
@@ -181,8 +181,8 @@ public class GameView extends ScreenAdapter {
 
         xStartPos = (camera.position.x * PIXEL_TO_METER + (VIEWPORT_WIDTH / 2) - 9) / PIXEL_TO_METER;
 
-        Texture throttleTexture = game.getAssetManager().get("throttleButton.png");
-        t = new TextureRegion(throttleTexture, throttleTexture.getWidth(), throttleTexture.getHeight());
+        Texture fireTexture = game.getAssetManager().get("fireButton.png");
+        t = new TextureRegion(fireTexture, fireTexture.getWidth(), fireTexture.getHeight());
         s = new Sprite(t);
         s.setScale(2f, 2f);
 
@@ -275,9 +275,10 @@ public class GameView extends ScreenAdapter {
 
             if(mousePos.y > yStartPos && mousePos.y < yStartPos + t.getHeight() * 2) {
                 if(mousePos.x > xStartPos && mousePos.x < xStartPos + t.getWidth() * 2)
-                    GameController.getInstance().fire();
-                if(mousePos.x < xEndPos && mousePos.x > xEndPos - t.getWidth() * 2)
                     GameController.getInstance().accelerate(delta);
+                if(mousePos.x < xEndPos && mousePos.x > xEndPos - t.getWidth() * 2)
+                    GameController.getInstance().fire();
+
             }
         }
     }
