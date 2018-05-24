@@ -175,7 +175,7 @@ public class GameView extends ScreenAdapter {
         s.setCenter(xStartPos, yStartPos);
         s.draw(game.getBatch());
 
-        xStartPos = (camera.position.x);
+        /*xStartPos = (camera.position.x);
 
         Texture pauseTexture = game.getAssetManager().get("pauseButton.png");
         t = new TextureRegion(pauseTexture, pauseTexture.getWidth(), pauseTexture.getHeight());
@@ -183,7 +183,7 @@ public class GameView extends ScreenAdapter {
         s.setScale(2f, 2f);
 
         s.setCenter(xStartPos, yStartPos);
-        s.draw(game.getBatch());
+        s.draw(game.getBatch());*/
     }
 
     /**

@@ -60,7 +60,7 @@ public class Game {
      */
     private Game()
     {
-        userShip = new Ship(ARENA_WIDTH / 2f, ARENA_HEIGHT / 2f, 0, 5, 3000f, 0.3f, 5000);
+        userShip = new Ship(ARENA_WIDTH / 2f, ARENA_HEIGHT / 2f, 0, 5, 3000f, 0.1f, 5000);
         enemyShips = new ArrayList<Ship>();
         bullets = new ArrayList<Bullet>();
         portals = new ArrayList<Portal>();
@@ -193,5 +193,12 @@ public class Game {
         else if (model instanceof  Ship) {
             enemyShips.remove(model);
         }
+    }
+
+    /**
+     * Starts a new game
+     */
+    public void restart() {
+        instance = new Game();
     }
 }

@@ -15,11 +15,8 @@ import com.spaceattack.game.model.Portal;
 import com.spaceattack.game.model.Ship;
 import com.spaceattack.game.view.GameView;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -58,9 +55,14 @@ public class GameController implements ContactListener {
     private float accumulator;
 
     /**
-     * Total time elapsed
+     * Periodic time counter for ship spawning
      */
-    private float timeElapsed = 0;
+    private float spawnTimer = 0;
+
+    /**
+     * Periodic time counter for score increase
+     */
+    private float scoreTimer = 0;
 
     /**
      * The user spaceship body
@@ -103,6 +105,8 @@ public class GameController implements ContactListener {
             accumulator -= 1/60f;
         }
 
+        increaseScore(delta);
+
         decreaseCooldown(delta);
 
         Array<Body> bodies = new Array<Body>();
@@ -123,9 +127,16 @@ public class GameController implements ContactListener {
                     if(((Ship) body.getUserData()).getBulletSpeed() < 5000)
                     {
                         Game.getInstance().addScore(((Ship) body.getUserData()).getSpeed() - 1000);
+                        ((Ship) body.getUserData()).destroy();
+                        Game.getInstance().removeEnemyShip((Ship) body.getUserData());
                     }
-                    ((Ship) body.getUserData()).destroy();
-                    Game.getInstance().removeEnemyShip((Ship) body.getUserData());
+                    else
+                    {
+                        Game.getInstance().restart();
+                        instance = new GameController();
+                        return;
+                    }
+
                 }
                 else
                 {
@@ -143,11 +154,26 @@ public class GameController implements ContactListener {
     }
 
     /**
+     * Increases score if one second passed since last increase
+     *
+     * @param delta time elapsed since last check
+     */
+    private void increaseScore(float delta) {
+        scoreTimer += delta;
+
+        if(scoreTimer >= 1)
+        {
+            Game.getInstance().addScore(10);
+            scoreTimer = 0;
+        }
+    }
+
+    /**
      * Spawns up to a enemy ship in each portal
      *
      */
     private void spawnShips(float delta) {
-        timeElapsed += delta;
+        spawnTimer += delta;
         Collections.shuffle(Game.getInstance().getPortals());
         for(Portal p : Game.getInstance().getPortals())
         {
@@ -155,10 +181,10 @@ public class GameController implements ContactListener {
             {
                 spawnShipAtPortal(p);
             }
-            else if(timeElapsed >= 4 && Game.getInstance().getEnemyShips().size() < 10)
+            else if(spawnTimer >= 4 && Game.getInstance().getEnemyShips().size() < 10)
             {
                     spawnShipAtPortal(p);
-                    timeElapsed = 0;
+                spawnTimer = 0;
             }
         }
     }
