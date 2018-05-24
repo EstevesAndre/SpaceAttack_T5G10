@@ -39,6 +39,11 @@ public class Game {
     private List<Portal> portals;
 
     /**
+     * The power ups present on the game
+     */
+    private List<PowerUp> powerUps;
+
+    /**
      * The current score of the game.
      */
     private double score;
@@ -64,6 +69,7 @@ public class Game {
         enemyShips = new ArrayList<Ship>();
         bullets = new ArrayList<Bullet>();
         portals = new ArrayList<Portal>();
+        powerUps = new ArrayList<PowerUp>();
         createPortals();
         score = 0;
     }
@@ -103,9 +109,14 @@ public class Game {
      *
      * @return the portals list.
      */
-    public List<Portal> getPortals() {
-        return portals;
-    }
+    public List<Portal> getPortals() {return portals;}
+
+    /**
+     * Gets the power ups
+     *
+     * @return the power ups list.
+     */
+    public List<PowerUp> getPowerUps() {return powerUps;}
 
     /**
      * Gets the bullets of either user's ship or enemy's ships.
@@ -123,6 +134,15 @@ public class Game {
      */
     public double getScore() {
         return score;
+    }
+
+    /**
+     * Adds a new power up on this instance.
+     *
+     * @param powerUp The new power up.
+     */
+    public void addPowerUp(PowerUp powerUp) {
+        powerUps.add(powerUp);
     }
 
     /**
@@ -163,6 +183,16 @@ public class Game {
     public void removeBullet(Bullet bullet){
         if(bullets.size() != 0)
             bullets.remove(bullet);
+    }
+
+    /**
+     * Removes the given power up of this instance.
+     *
+     * @param powerUp The power up to be removed.
+     */
+    public void removePowerUp(PowerUp powerUp) {
+        if(powerUps.size() != 0)
+            powerUps.remove(powerUp);
     }
 
     /**

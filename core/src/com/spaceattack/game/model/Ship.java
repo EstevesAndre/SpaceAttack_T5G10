@@ -42,6 +42,11 @@ public class Ship extends GameObject{
     private boolean isHit;
 
     /**
+     * Auxiliary flag to mark ship to health increase
+     */
+    private boolean isHealed;
+
+    /**
      * Creates a new ship model with a given position, rotation, health, speed, fireRate and bulletSpeed.
      *
      * @param x The x coordinate of this Ship in meters.
@@ -61,6 +66,7 @@ public class Ship extends GameObject{
         fireCooldown = 0;
         this.bulletSpeed = bulletSpeed;
         this.isHit = false;
+        this.isHealed = false;
 
     }
 
@@ -127,6 +133,15 @@ public class Ship extends GameObject{
      */
     public boolean isHit() {
         return isHit;
+    }
+
+    /**
+     * Returns the healed status of the ship
+     *
+     * @return the isHealed field
+     */
+    public boolean isHealed() {
+        return isHealed;
     }
 
     /**
@@ -206,6 +221,15 @@ public class Ship extends GameObject{
      */
     public void setHitStatus(boolean status) {
         this.isHit = status;
+    }
+
+    /**
+     * Sets the healed status of the ship
+     *
+     * @param status The new healed status
+     */
+    public void setHealedStatus(boolean status) {
+        this.isHealed = status;
     }
 
     /**

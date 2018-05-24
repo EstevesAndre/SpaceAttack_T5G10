@@ -12,12 +12,14 @@ import com.spaceattack.game.model.Bullet;
 import com.spaceattack.game.model.Game;
 import com.spaceattack.game.model.GameObject;
 import com.spaceattack.game.model.Portal;
+import com.spaceattack.game.model.PowerUp;
 import com.spaceattack.game.model.Ship;
 import com.spaceattack.game.view.GameView;
 
 import java.util.Collections;
 
 
+import static com.spaceattack.game.model.PowerUp.HEALTH_TYPE;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
@@ -122,6 +124,12 @@ public class GameController implements ContactListener {
                     ((Ship) body.getUserData()).setHitStatus(false);
                 }
 
+                if(((Ship) body.getUserData()).isHealed())
+                {
+                    ((Ship) body.getUserData()).increaseHealth();
+                    ((Ship) body.getUserData()).setHealedStatus(false);
+                }
+
                 if(((Ship) body.getUserData()).getHealth() == 0)
                 {
                     if(((Ship) body.getUserData()).getBulletSpeed() < 5000)
@@ -129,6 +137,8 @@ public class GameController implements ContactListener {
                         Game.getInstance().addScore(((Ship) body.getUserData()).getSpeed() - 1000);
                         ((Ship) body.getUserData()).destroy();
                         Game.getInstance().removeEnemyShip((Ship) body.getUserData());
+
+                        generatePowerUp(body);
                     }
                     else
                     {
@@ -151,6 +161,22 @@ public class GameController implements ContactListener {
         }
         removeMarkedObjects();
         spawnShips(delta);
+    }
+
+    /**
+     * Possibly spawns a power up in the position of a destroyed enemy ship
+     */
+    private void generatePowerUp(Body body) {
+        double prob = Math.random();
+
+        if (prob > 0.4)
+            return;
+
+        if (((Ship) body.getUserData()).getSpeed() > 3000) {
+            PowerUp p = new PowerUp(((Ship) body.getUserData()).getX(), ((Ship) body.getUserData()).getY(), 0, HEALTH_TYPE);
+            Game.getInstance().addPowerUp(p);
+            new PowerUpBody(world, p);
+        }
     }
 
     /**
@@ -282,6 +308,29 @@ public class GameController implements ContactListener {
         if (bodyA.getUserData() instanceof Ship && bodyB.getUserData() instanceof Bullet)
               bulletShipCollision(bodyB, bodyA);
 
+        if (bodyA.getUserData() instanceof PowerUp && bodyB.getUserData() instanceof Ship)
+            powerUpShipCollision(bodyA, bodyB);
+        if (bodyA.getUserData() instanceof Ship && bodyB.getUserData() instanceof PowerUp)
+            powerUpShipCollision(bodyB, bodyA);
+
+    }
+
+    /**
+     * A power up was collected by a ship.
+     * @param powerUpBody the power up that collided
+     * @param shipBody the ship that collided
+     */
+    private void powerUpShipCollision(Body powerUpBody, Body shipBody) {
+        switch(((PowerUp) powerUpBody.getUserData()).getType())
+        {
+            case HEALTH_TYPE:
+            {
+                ((Ship) shipBody.getUserData()).setHealedStatus(true);
+            }
+        }
+
+        ((PowerUp) powerUpBody.getUserData()).destroy();
+        Game.getInstance().removePowerUp((PowerUp) powerUpBody.getUserData());
     }
 
     /**

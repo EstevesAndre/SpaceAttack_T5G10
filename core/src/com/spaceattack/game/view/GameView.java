@@ -16,10 +16,12 @@ import com.spaceattack.game.model.Bullet;
 import com.spaceattack.game.model.Game;
 import com.spaceattack.game.model.GameObject;
 import com.spaceattack.game.model.Portal;
+import com.spaceattack.game.model.PowerUp;
 import com.spaceattack.game.model.Ship;
 
 import static com.spaceattack.game.controller.GameController.ARENA_HEIGHT;
 import static com.spaceattack.game.controller.GameController.ARENA_WIDTH;
+import static com.spaceattack.game.model.PowerUp.HEALTH_TYPE;
 
 public class GameView extends ScreenAdapter {
     /**
@@ -323,6 +325,21 @@ public class GameView extends ScreenAdapter {
                 EnemyShipViewPurple sView = new EnemyShipViewPurple(game);
                 sView.update(s);
                 sView.draw(game.getBatch());
+            }
+
+        }
+
+        for (int i = 0; i < Game.getInstance().getPowerUps().size(); i++) {
+            PowerUp p = Game.getInstance().getPowerUps().get(i);
+
+            switch (p.getType())
+            {
+                case HEALTH_TYPE:
+                {
+                    HealthPowerUpView pView = new HealthPowerUpView(game);
+                    pView.update(p);
+                    pView.draw(game.getBatch());
+                }
             }
 
         }
