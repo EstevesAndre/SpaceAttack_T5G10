@@ -98,7 +98,7 @@ public class GameView extends ScreenAdapter {
         this.game.getAssetManager().load("heart.png", Texture.class);
         this.game.getAssetManager().load("fireButton.png", Texture.class);
         this.game.getAssetManager().load("throttleButton.png", Texture.class);
-        this.game.getAssetManager().load("pauseButton.png", Texture.class);
+        this.game.getAssetManager().load("1UP.png", Texture.class);
 
         this.game.getAssetManager().finishLoading();
     }

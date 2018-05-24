@@ -14,6 +14,7 @@ public class ObjectBody {
     final static short ENEMY_SHIP_BODY = 0x0002;
     final static short USER_BULLET_BODY = 0x0003;
     final static short ENEMY_BULLET_BODY = 0x0004;
+    final static short POWER_UP_BODY = 0x0005;
 
     /**
      * The Box2D body
