@@ -224,15 +224,15 @@ public class GameController implements ContactListener {
         if (Game.getInstance().getScore() == 0) {
             s = new Ship(p.getX(), p.getY(), 0, 2, 1500f, 1.6f, 30);
         } else {
-            double prob = Math.random() * 300 / Game.getInstance().getScore();
+            double prob = Math.random();
 
-            if (prob > 0.1) {
+            if (prob < 0.50 - 3 * (int)Game.getInstance().getScore()/100000) {
                 s = new Ship(p.getX(), p.getY(), 0, 2, 1500f, 1.6f, 30);
-            } else if (prob > 0.075) {
+            } else if (prob < 0.70 - 5 * (int)Game.getInstance().getScore()/100000) {
                 s = new Ship(p.getX(), p.getY(), 0, 3, 2000f, 1.4f, 35);
-            } else if (prob > 0.05) {
+            } else if (prob < 0.85 - 3 * (int)Game.getInstance().getScore()/100000) {
                 s = new Ship(p.getX(), p.getY(), 0, 4, 2500f, 1.2f, 35);
-            } else if (prob > 0.025) {
+            } else if (prob < 0.95 - (int)Game.getInstance().getScore()/100000) {
                 s = new Ship(p.getX(), p.getY(), 0, 5, 3000f, 1f, 40);
             } else {
                 s = new Ship(p.getX(), p.getY(), 0, 6, 3500f, 0.8f, 40);
