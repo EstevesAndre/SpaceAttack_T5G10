@@ -37,6 +37,11 @@ public class Ship extends GameObject{
     private float shield;
 
     /**
+     * Status of triple fire powerup
+     */
+    private boolean tripleFire;
+
+    /**
      * Current bullet speed of this object.
      */
     private float bulletSpeed;
@@ -70,6 +75,7 @@ public class Ship extends GameObject{
         this.fireRate = fireRate;
         fireCooldown = 0;
         shield = 0;
+        tripleFire = false;
         this.bulletSpeed = bulletSpeed;
         this.isHit = false;
         this.isHealed = false;
@@ -103,6 +109,15 @@ public class Ship extends GameObject{
      */
     public float getSpeed() {
         return speed;
+    }
+
+    /**
+     * Gets the triple fire status of this ship.
+     *
+     * @return the tripleFire variable.
+     */
+    public boolean getTripleFire() {
+        return tripleFire;
     }
 
     /**
@@ -218,6 +233,15 @@ public class Ship extends GameObject{
      */
     public void setBulletSpeed(float bulletSpeed) {
         this.bulletSpeed = bulletSpeed;
+    }
+
+    /**
+     * Sets the triple fire status of the ship
+     *
+     * @param status The new triple fire status
+     */
+    public void setTripleFire(boolean status) {
+        this.tripleFire = status;
     }
 
     /**

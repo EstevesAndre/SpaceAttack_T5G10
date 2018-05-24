@@ -23,6 +23,7 @@ import static com.spaceattack.game.controller.GameController.ARENA_HEIGHT;
 import static com.spaceattack.game.controller.GameController.ARENA_WIDTH;
 import static com.spaceattack.game.model.PowerUp.HEALTH_TYPE;
 import static com.spaceattack.game.model.PowerUp.SHIELD_TYPE;
+import static com.spaceattack.game.model.PowerUp.TRIPLE_SHOT_TYPE;
 
 public class GameView extends ScreenAdapter {
     /**
@@ -104,6 +105,7 @@ public class GameView extends ScreenAdapter {
         this.game.getAssetManager().load("throttleButton.png", Texture.class);
         this.game.getAssetManager().load("1UP.png", Texture.class);
         this.game.getAssetManager().load("shieldPower.png", Texture.class);
+        this.game.getAssetManager().load("bulletPower.png", Texture.class);
 
         this.game.getAssetManager().finishLoading();
     }
@@ -357,6 +359,13 @@ public class GameView extends ScreenAdapter {
                 case SHIELD_TYPE:
                 {
                     ShieldPowerUpView pView = new ShieldPowerUpView(game);
+                    pView.update(p);
+                    pView.draw(game.getBatch());
+                    break;
+                }
+                case TRIPLE_SHOT_TYPE:
+                {
+                    TripleFirePowerUpView pView = new TripleFirePowerUpView(game);
                     pView.update(p);
                     pView.draw(game.getBatch());
                     break;

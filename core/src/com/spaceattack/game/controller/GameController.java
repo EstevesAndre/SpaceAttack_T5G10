@@ -21,6 +21,7 @@ import java.util.Collections;
 
 import static com.spaceattack.game.model.PowerUp.HEALTH_TYPE;
 import static com.spaceattack.game.model.PowerUp.SHIELD_TYPE;
+import static com.spaceattack.game.model.PowerUp.TRIPLE_SHOT_TYPE;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
@@ -74,7 +75,6 @@ public class GameController implements ContactListener {
 
     /**
      * Creates a new GameController that controls the physics of a certain GameModel.
-     *
      */
     private GameController() {
         world = new World(new Vector2(0, 0), true);
@@ -103,9 +103,9 @@ public class GameController implements ContactListener {
     public void update(float delta) {
         float frameTime = Math.min(delta, 0.25f);
         accumulator += frameTime;
-        while (accumulator >= 1/60f) {
-            world.step(1/60f, 6, 2);
-            accumulator -= 1/60f;
+        while (accumulator >= 1 / 60f) {
+            world.step(1 / 60f, 6, 2);
+            accumulator -= 1 / 60f;
         }
 
         increaseScore(delta);
@@ -118,43 +118,33 @@ public class GameController implements ContactListener {
 
         for (Body body : bodies) {
             ((GameObject) body.getUserData()).setPosition(body.getPosition().x, body.getPosition().y);
-            if (body.getUserData() instanceof Ship)
-            {
-                if(((Ship) body.getUserData()).isHit())
-                {
+            if (body.getUserData() instanceof Ship) {
+                if (((Ship) body.getUserData()).isHit()) {
                     ((Ship) body.getUserData()).decreaseHealth();
                     ((Ship) body.getUserData()).setHitStatus(false);
                 }
 
-                if(((Ship) body.getUserData()).isHealed())
-                {
+                if (((Ship) body.getUserData()).isHealed()) {
                     ((Ship) body.getUserData()).increaseHealth();
                     ((Ship) body.getUserData()).setHealedStatus(false);
                 }
 
-                if(((Ship) body.getUserData()).getHealth() == 0)
-                {
-                    if(((Ship) body.getUserData()).getBulletSpeed() < 5000)
-                    {
+                if (((Ship) body.getUserData()).getHealth() == 0) {
+                    if (((Ship) body.getUserData()).getBulletSpeed() < 5000) {
                         Game.getInstance().addScore(((Ship) body.getUserData()).getSpeed() - 1000);
                         ((Ship) body.getUserData()).destroy();
                         Game.getInstance().removeEnemyShip((Ship) body.getUserData());
 
                         generatePowerUp(body);
-                    }
-                    else
-                    {
+                    } else {
                         Game.getInstance().restart();
                         instance = new GameController();
                         return;
                     }
 
-                }
-                else
-                {
+                } else {
                     checkOutOfBounds(body);
-                    if(((Ship) body.getUserData()).getBulletSpeed() < 5000)
-                    {
+                    if (((Ship) body.getUserData()).getBulletSpeed() < 5000) {
                         attack(body, delta);
                     }
                 }
@@ -178,13 +168,12 @@ public class GameController implements ContactListener {
             PowerUp p = new PowerUp(((Ship) body.getUserData()).getX(), ((Ship) body.getUserData()).getY(), 0, HEALTH_TYPE);
             Game.getInstance().addPowerUp(p);
             new PowerUpBody(world, p);
-        }
-        else if (((Ship) body.getUserData()).getSpeed() == 3000)
-        {
+        } else if (((Ship) body.getUserData()).getSpeed() == 3000) {
+            PowerUp p = new PowerUp(((Ship) body.getUserData()).getX(), ((Ship) body.getUserData()).getY(), 0, TRIPLE_SHOT_TYPE);
+            Game.getInstance().addPowerUp(p);
+            new PowerUpBody(world, p);
 
-        }
-        else if (((Ship) body.getUserData()).getSpeed() == 2500)
-        {
+        } else if (((Ship) body.getUserData()).getSpeed() == 2500) {
             PowerUp p = new PowerUp(((Ship) body.getUserData()).getX(), ((Ship) body.getUserData()).getY(), 0, SHIELD_TYPE);
             Game.getInstance().addPowerUp(p);
             new PowerUpBody(world, p);
@@ -199,8 +188,7 @@ public class GameController implements ContactListener {
     private void increaseScore(float delta) {
         scoreTimer += delta;
 
-        if(scoreTimer >= 1)
-        {
+        if (scoreTimer >= 1) {
             Game.getInstance().addScore(10);
             scoreTimer = 0;
         }
@@ -208,20 +196,15 @@ public class GameController implements ContactListener {
 
     /**
      * Spawns up to a enemy ship in each portal
-     *
      */
     private void spawnShips(float delta) {
         spawnTimer += delta;
         Collections.shuffle(Game.getInstance().getPortals());
-        for(Portal p : Game.getInstance().getPortals())
-        {
-            if(Game.getInstance().getEnemyShips().size() < 3)
-            {
+        for (Portal p : Game.getInstance().getPortals()) {
+            if (Game.getInstance().getEnemyShips().size() < 3) {
                 spawnShipAtPortal(p);
-            }
-            else if(spawnTimer >= 4 && Game.getInstance().getEnemyShips().size() < 10)
-            {
-                    spawnShipAtPortal(p);
+            } else if (spawnTimer >= 4 && Game.getInstance().getEnemyShips().size() < 10) {
+                spawnShipAtPortal(p);
                 spawnTimer = 0;
             }
         }
@@ -231,36 +214,23 @@ public class GameController implements ContactListener {
      * Spawns a enemy ship in a specific portal
      *
      * @param p the chosen portal
-     *
      */
     private void spawnShipAtPortal(Portal p) {
         Ship s;
-        if (Game.getInstance().getScore() == 0)
-        {
+        if (Game.getInstance().getScore() == 0) {
             s = new Ship(p.getX(), p.getY(), 0, 2, 1500f, 1.6f, 30);
-        }
-        else
-        {
+        } else {
             double prob = Math.random() * 300 / Game.getInstance().getScore();
 
-            if (prob > 0.1)
-            {
+            if (prob > 0.1) {
                 s = new Ship(p.getX(), p.getY(), 0, 2, 1500f, 1.6f, 30);
-            }
-            else if (prob > 0.075)
-            {
+            } else if (prob > 0.075) {
                 s = new Ship(p.getX(), p.getY(), 0, 3, 2000f, 1.4f, 35);
-            }
-            else if (prob > 0.05)
-            {
+            } else if (prob > 0.05) {
                 s = new Ship(p.getX(), p.getY(), 0, 4, 2500f, 1.2f, 35);
-            }
-            else if (prob > 0.025)
-            {
+            } else if (prob > 0.025) {
                 s = new Ship(p.getX(), p.getY(), 0, 5, 3000f, 1f, 40);
-            }
-            else
-            {
+            } else {
                 s = new Ship(p.getX(), p.getY(), 0, 6, 3500f, 0.8f, 40);
             }
         }
@@ -290,12 +260,10 @@ public class GameController implements ContactListener {
      *
      * @param delta time elapsed
      */
-    private void decreaseCooldown(float delta)
-    {
+    private void decreaseCooldown(float delta) {
         ((Ship) (userShip.getBody().getUserData())).decreaseCooldown(delta);
 
-        for(Ship s : Game.getInstance().getEnemyShips())
-        {
+        for (Ship s : Game.getInstance().getEnemyShips()) {
             s.decreaseCooldown(delta);
         }
     }
@@ -310,15 +278,10 @@ public class GameController implements ContactListener {
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
 
-        if (bodyA.getUserData() instanceof Bullet)
-            bulletCollision(bodyA);
-        if (bodyB.getUserData() instanceof Bullet)
-            bulletCollision(bodyB);
-
         if (bodyA.getUserData() instanceof Bullet && bodyB.getUserData() instanceof Ship)
             bulletShipCollision(bodyA, bodyB);
         if (bodyA.getUserData() instanceof Ship && bodyB.getUserData() instanceof Bullet)
-              bulletShipCollision(bodyB, bodyA);
+            bulletShipCollision(bodyB, bodyA);
 
         if (bodyA.getUserData() instanceof PowerUp && bodyB.getUserData() instanceof Ship)
             powerUpShipCollision(bodyA, bodyB);
@@ -329,20 +292,22 @@ public class GameController implements ContactListener {
 
     /**
      * A power up was collected by a ship.
+     *
      * @param powerUpBody the power up that collided
-     * @param shipBody the ship that collided
+     * @param shipBody    the ship that collided
      */
     private void powerUpShipCollision(Body powerUpBody, Body shipBody) {
-        switch(((PowerUp) powerUpBody.getUserData()).getType())
-        {
-            case HEALTH_TYPE:
-            {
+        switch (((PowerUp) powerUpBody.getUserData()).getType()) {
+            case HEALTH_TYPE: {
                 ((Ship) shipBody.getUserData()).setHealedStatus(true);
                 break;
             }
-            case SHIELD_TYPE:
-            {
+            case SHIELD_TYPE: {
                 ((Ship) shipBody.getUserData()).shield();
+                break;
+            }
+            case TRIPLE_SHOT_TYPE: {
+                ((Ship) shipBody.getUserData()).setTripleFire(true);
                 break;
             }
         }
@@ -352,26 +317,22 @@ public class GameController implements ContactListener {
     }
 
     /**
-     * A bullet colided with something. Lets remove it.
-     *
-     * @param bulletBody the bullet that colided
-     */
-    private void bulletCollision(Body bulletBody) {
-        ((Bullet) bulletBody.getUserData()).destroy();
-        Game.getInstance().removeBullet((Bullet) bulletBody.getUserData());
-    }
-
-    /**
      * A bullet collided with an ship. Reduce its health
+     *
      * @param bulletBody the bullet that collided
-     * @param shipBody the ship that collided
+     * @param shipBody   the ship that collided
      */
     private void bulletShipCollision(Body bulletBody, Body shipBody) {
+        ((Bullet) bulletBody.getUserData()).destroy();
+        Game.getInstance().removeBullet((Bullet) bulletBody.getUserData());
+
         shipBody.setLinearVelocity(0, 0);
         shipBody.setAngularVelocity(0);
 
-        if(((Ship) shipBody.getUserData()).getShield() == 0)
+        if (((Ship) shipBody.getUserData()).getShield() == 0) {
             ((Ship) shipBody.getUserData()).setHitStatus(true);
+            ((Ship) shipBody.getUserData()).setTripleFire(false);
+        }
     }
 
     /**
@@ -411,13 +372,23 @@ public class GameController implements ContactListener {
      */
     public void fire() {
 
-        if(((Ship) (userShip.getBody().getUserData())).getFireCooldown() <= 0) {
+        if (((Ship) (userShip.getBody().getUserData())).getFireCooldown() <= 0) {
             Bullet b = (((Ship) (userShip.getBody().getUserData())).fire());
             Game.getInstance().addBullet(b);
-            if (b.getSpeed() >= 5000) {
-                UserBulletBody bBody = new UserBulletBody(world, b);
-                bBody.setLinearVelocity(b.getSpeed());
+            UserBulletBody bBody = new UserBulletBody(world, b);
+            bBody.setLinearVelocity(b.getSpeed());
 
+            if(Game.getInstance().getUserShip().getTripleFire())
+            {
+                Bullet b1 = new Bullet(b.getX() - (float)cos(b.getRotation()) * 3, b.getY() - (float)sin(b.getRotation()) * 3, b.getRotation() - 25, b.getSpeed());
+                Game.getInstance().addBullet(b1);
+                UserBulletBody bBody1 = new UserBulletBody(world, b1);
+                bBody1.setLinearVelocity(b1.getSpeed());
+
+                Bullet b2 = new Bullet(b.getX() - (float)cos(b.getRotation()) * -3, b.getY() - (float)sin(b.getRotation()) * -3, b.getRotation() + 25, b.getSpeed());
+                Game.getInstance().addBullet(b2);
+                UserBulletBody bBody2 = new UserBulletBody(world, b2);
+                bBody2.setLinearVelocity(b2.getSpeed());
             }
         }
     }
@@ -425,22 +396,18 @@ public class GameController implements ContactListener {
     /**
      * Rotates enemy ship body to point to user ship, fires and moves
      *
-     * @param body the enemy ship body
+     * @param body  the enemy ship body
      * @param delta The size of this physics step in seconds.
      */
-    private void attack(Body body, float delta)
-    {
-        float angle = new Vector2(Game.getInstance().getUserShip().getX(), Game.getInstance().getUserShip().getY()).sub(body.getPosition()).angleRad() - (float)Math.PI/2 ;
+    private void attack(Body body, float delta) {
+        float angle = new Vector2(Game.getInstance().getUserShip().getX(), Game.getInstance().getUserShip().getY()).sub(body.getPosition()).angleRad() - (float) Math.PI / 2;
         ((Ship) body.getUserData()).setRotation(angle);
         body.setTransform(body.getPosition(), angle);
 
-        if(new Vector2(((Ship) body.getUserData()).getX(), ((Ship) body.getUserData()).getY()).dst(Game.getInstance().getUserShip().getX(), Game.getInstance().getUserShip().getY()) > 30)
-        {
+        if (new Vector2(((Ship) body.getUserData()).getX(), ((Ship) body.getUserData()).getY()).dst(Game.getInstance().getUserShip().getX(), Game.getInstance().getUserShip().getY()) > 30) {
             body.setLinearVelocity(-(float) sin(body.getAngle()) * ((Ship) (body.getUserData())).getSpeed() * delta, (float) cos(body.getAngle()) * ((Ship) (body.getUserData())).getSpeed() * delta);
-        }
-        else
-        {
-            if(((Ship) (body.getUserData())).getFireCooldown() <= 0) {
+        } else {
+            if (((Ship) (body.getUserData())).getFireCooldown() <= 0) {
                 Bullet b = (((Ship) (body.getUserData())).fire());
                 Game.getInstance().addBullet(b);
                 EnemyBulletBody bBody = new EnemyBulletBody(world, b);
@@ -469,13 +436,12 @@ public class GameController implements ContactListener {
     /**
      * Removes marked objects
      */
-    private void removeMarkedObjects()
-    {
+    private void removeMarkedObjects() {
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
         for (Body body : bodies) {
-            if(((GameObject)body.getUserData()).isMarked())
-            world.destroyBody(body);
+            if (((GameObject) body.getUserData()).isMarked())
+                world.destroyBody(body);
         }
 
     }
@@ -485,35 +451,29 @@ public class GameController implements ContactListener {
      *
      * @param body body to be checked
      */
-    private void checkOutOfBounds(Body body)
-    {
+    private void checkOutOfBounds(Body body) {
         boolean oob = false;
-        if(((GameObject)body.getUserData()).getX() > ARENA_WIDTH)
-        {
+        if (((GameObject) body.getUserData()).getX() > ARENA_WIDTH) {
             oob = true;
-            ((GameObject)body.getUserData()).setPosition(ARENA_WIDTH, ((GameObject)body.getUserData()).getY());
+            ((GameObject) body.getUserData()).setPosition(ARENA_WIDTH, ((GameObject) body.getUserData()).getY());
         }
 
-        if(((GameObject)body.getUserData()).getX() < 0)
-        {
+        if (((GameObject) body.getUserData()).getX() < 0) {
             oob = true;
-            ((GameObject)body.getUserData()).setPosition(0, ((GameObject)body.getUserData()).getY());
+            ((GameObject) body.getUserData()).setPosition(0, ((GameObject) body.getUserData()).getY());
         }
 
-        if(((GameObject)body.getUserData()).getY() > ARENA_HEIGHT)
-        {
+        if (((GameObject) body.getUserData()).getY() > ARENA_HEIGHT) {
             oob = true;
-            ((GameObject)body.getUserData()).setPosition(((GameObject)body.getUserData()).getX(), ARENA_HEIGHT);
+            ((GameObject) body.getUserData()).setPosition(((GameObject) body.getUserData()).getX(), ARENA_HEIGHT);
         }
 
-        if(((GameObject)body.getUserData()).getY() < 0)
-        {
+        if (((GameObject) body.getUserData()).getY() < 0) {
             oob = true;
-            ((GameObject)body.getUserData()).setPosition(((GameObject)body.getUserData()).getX(), 0);
+            ((GameObject) body.getUserData()).setPosition(((GameObject) body.getUserData()).getX(), 0);
         }
 
-        if(oob)
-        {
+        if (oob) {
             body.setLinearVelocity(0f, 0f);
             body.setAngularVelocity(0f);
         }
