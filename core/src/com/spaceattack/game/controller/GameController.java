@@ -1,5 +1,8 @@
 package com.spaceattack.game.controller;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -13,10 +16,24 @@ import com.spaceattack.game.model.Game;
 import com.spaceattack.game.model.GameObject;
 import com.spaceattack.game.model.Portal;
 import com.spaceattack.game.model.PowerUp;
+import com.spaceattack.game.model.Score;
 import com.spaceattack.game.model.Ship;
 import com.spaceattack.game.view.GameView;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 import static com.spaceattack.game.model.PowerUp.HEALTH_TYPE;
@@ -122,8 +139,7 @@ public class GameController implements ContactListener {
                 if (((Ship) body.getUserData()).isHit()) {
                     ((Ship) body.getUserData()).decreaseHealth();
                     ((Ship) body.getUserData()).setHitStatus(false);
-                    if(((Ship) body.getUserData()).getBulletSpeed() >= 5000)
-                    {
+                    if (((Ship) body.getUserData()).getBulletSpeed() >= 5000) {
                         ((Ship) body.getUserData()).shield(1);
                     }
                 }
@@ -141,6 +157,7 @@ public class GameController implements ContactListener {
 
                         generatePowerUp(body);
                     } else {
+                        checkHighScores();
                         Game.getInstance().restart();
                         instance = new GameController();
                         return;
@@ -157,6 +174,46 @@ public class GameController implements ContactListener {
         }
         removeMarkedObjects();
         spawnShips(delta);
+    }
+
+    /**
+     * Updates high score list if necessary
+     */
+    private void checkHighScores() {
+        List<Score> l = new ArrayList<Score>();
+        Preferences prefs = Gdx.app.getPreferences("Saved Scores");
+
+        for(int i = 1; i <= 10; i++)
+        {
+            int score = prefs.getInteger("score" + i, 0);
+
+            if(score == 0)
+                break;
+
+            String date = prefs.getString("date" + i, "");
+
+            l.add(new Score(score, date));
+        }
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate localDate = LocalDate.now();
+
+        l.add(new Score((int)Game.getInstance().getScore(), dtf.format(localDate)));
+
+        System.out.println(l.size());
+
+        Collections.sort(l);
+
+        for(int i = 0; i < l.size(); i++)
+        {
+            if(i == 10)
+                break;
+
+            prefs.putInteger("score" + (i + 1), l.get(i).getScore());
+            prefs.putString("date" + (i + 1), l.get(i).getDate());
+        }
+
+        System.out.println(prefs.getInteger("score1", 0));
     }
 
     /**
@@ -226,13 +283,13 @@ public class GameController implements ContactListener {
         } else {
             double prob = Math.random();
 
-            if (prob < 0.50 - 3 * (int)Game.getInstance().getScore()/100000) {
+            if (prob < 0.50 - 3 * (int) Game.getInstance().getScore() / 100000) {
                 s = new Ship(p.getX(), p.getY(), 0, 2, 1500f, 1.6f, 30);
-            } else if (prob < 0.70 - 5 * (int)Game.getInstance().getScore()/100000) {
+            } else if (prob < 0.70 - 5 * (int) Game.getInstance().getScore() / 100000) {
                 s = new Ship(p.getX(), p.getY(), 0, 3, 2000f, 1.4f, 35);
-            } else if (prob < 0.85 - 3 * (int)Game.getInstance().getScore()/100000) {
+            } else if (prob < 0.85 - 3 * (int) Game.getInstance().getScore() / 100000) {
                 s = new Ship(p.getX(), p.getY(), 0, 4, 2500f, 1.2f, 35);
-            } else if (prob < 0.95 - (int)Game.getInstance().getScore()/100000) {
+            } else if (prob < 0.95 - (int) Game.getInstance().getScore() / 100000) {
                 s = new Ship(p.getX(), p.getY(), 0, 5, 3000f, 1f, 40);
             } else {
                 s = new Ship(p.getX(), p.getY(), 0, 6, 3500f, 0.8f, 40);
@@ -382,14 +439,13 @@ public class GameController implements ContactListener {
             UserBulletBody bBody = new UserBulletBody(world, b);
             bBody.setLinearVelocity(b.getSpeed());
 
-            if(Game.getInstance().getUserShip().getTripleFire())
-            {
-                Bullet b1 = new Bullet(b.getX() - (float)cos(b.getRotation()) * 3, b.getY() - (float)sin(b.getRotation()) * 3, b.getRotation() - 25, b.getSpeed());
+            if (Game.getInstance().getUserShip().getTripleFire()) {
+                Bullet b1 = new Bullet(b.getX() - (float) cos(b.getRotation()) * 3, b.getY() - (float) sin(b.getRotation()) * 3, b.getRotation() - 25, b.getSpeed());
                 Game.getInstance().addBullet(b1);
                 UserBulletBody bBody1 = new UserBulletBody(world, b1);
                 bBody1.setLinearVelocity(b1.getSpeed());
 
-                Bullet b2 = new Bullet(b.getX() - (float)cos(b.getRotation()) * -3, b.getY() - (float)sin(b.getRotation()) * -3, b.getRotation() + 25, b.getSpeed());
+                Bullet b2 = new Bullet(b.getX() - (float) cos(b.getRotation()) * -3, b.getY() - (float) sin(b.getRotation()) * -3, b.getRotation() + 25, b.getSpeed());
                 Game.getInstance().addBullet(b2);
                 UserBulletBody bBody2 = new UserBulletBody(world, b2);
                 bBody2.setLinearVelocity(b2.getSpeed());
