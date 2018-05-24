@@ -20,6 +20,7 @@ import java.util.Collections;
 
 
 import static com.spaceattack.game.model.PowerUp.HEALTH_TYPE;
+import static com.spaceattack.game.model.PowerUp.SHIELD_TYPE;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
@@ -109,6 +110,7 @@ public class GameController implements ContactListener {
 
         increaseScore(delta);
 
+        Game.getInstance().getUserShip().reduceShield(delta);
         decreaseCooldown(delta);
 
         Array<Body> bodies = new Array<Body>();
@@ -172,8 +174,18 @@ public class GameController implements ContactListener {
         if (prob > 0.4)
             return;
 
-        if (((Ship) body.getUserData()).getSpeed() > 3000) {
+        if (((Ship) body.getUserData()).getSpeed() == 3500) {
             PowerUp p = new PowerUp(((Ship) body.getUserData()).getX(), ((Ship) body.getUserData()).getY(), 0, HEALTH_TYPE);
+            Game.getInstance().addPowerUp(p);
+            new PowerUpBody(world, p);
+        }
+        else if (((Ship) body.getUserData()).getSpeed() == 3000)
+        {
+
+        }
+        else if (((Ship) body.getUserData()).getSpeed() == 2500)
+        {
+            PowerUp p = new PowerUp(((Ship) body.getUserData()).getX(), ((Ship) body.getUserData()).getY(), 0, SHIELD_TYPE);
             Game.getInstance().addPowerUp(p);
             new PowerUpBody(world, p);
         }
@@ -229,7 +241,7 @@ public class GameController implements ContactListener {
         }
         else
         {
-            double prob = Math.random() * 100 / Game.getInstance().getScore();
+            double prob = Math.random() * 300 / Game.getInstance().getScore();
 
             if (prob > 0.1)
             {
@@ -326,6 +338,12 @@ public class GameController implements ContactListener {
             case HEALTH_TYPE:
             {
                 ((Ship) shipBody.getUserData()).setHealedStatus(true);
+                break;
+            }
+            case SHIELD_TYPE:
+            {
+                ((Ship) shipBody.getUserData()).shield();
+                break;
             }
         }
 
@@ -352,7 +370,8 @@ public class GameController implements ContactListener {
         shipBody.setLinearVelocity(0, 0);
         shipBody.setAngularVelocity(0);
 
-        ((Ship) shipBody.getUserData()).setHitStatus(true);
+        if(((Ship) shipBody.getUserData()).getShield() == 0)
+            ((Ship) shipBody.getUserData()).setHitStatus(true);
     }
 
     /**

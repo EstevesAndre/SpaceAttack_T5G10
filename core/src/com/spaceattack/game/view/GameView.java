@@ -22,6 +22,7 @@ import com.spaceattack.game.model.Ship;
 import static com.spaceattack.game.controller.GameController.ARENA_HEIGHT;
 import static com.spaceattack.game.controller.GameController.ARENA_WIDTH;
 import static com.spaceattack.game.model.PowerUp.HEALTH_TYPE;
+import static com.spaceattack.game.model.PowerUp.SHIELD_TYPE;
 
 public class GameView extends ScreenAdapter {
     /**
@@ -89,6 +90,7 @@ public class GameView extends ScreenAdapter {
     private void loadAssets() {
         this.game.getAssetManager().load("background.png", Texture.class);
         this.game.getAssetManager().load("user_ship.png", Texture.class);
+        this.game.getAssetManager().load("user_ship_shield.png", Texture.class);
         this.game.getAssetManager().load("laserRed.png", Texture.class);
         this.game.getAssetManager().load("laserGreen.png", Texture.class);
         this.game.getAssetManager().load("enemyShipRed.png", Texture.class);
@@ -101,6 +103,7 @@ public class GameView extends ScreenAdapter {
         this.game.getAssetManager().load("fireButton.png", Texture.class);
         this.game.getAssetManager().load("throttleButton.png", Texture.class);
         this.game.getAssetManager().load("1UP.png", Texture.class);
+        this.game.getAssetManager().load("shieldPower.png", Texture.class);
 
         this.game.getAssetManager().finishLoading();
     }
@@ -284,9 +287,19 @@ public class GameView extends ScreenAdapter {
         }
 
         Ship ship = Game.getInstance().getUserShip();
-        UserShipView view = new UserShipView(game);
-        view.update(ship);
-        view.draw(game.getBatch());
+
+        if(Game.getInstance().getUserShip().getShield() > 0)
+        {
+            UserShipShieldView view = new UserShipShieldView(game);
+            view.update(ship);
+            view.draw(game.getBatch());
+        }
+        else
+        {
+            UserShipView view = new UserShipView(game);
+            view.update(ship);
+            view.draw(game.getBatch());
+        }
 
         for (int i = 0; i < Game.getInstance().getBullets().size(); i++) {
             Bullet b = Game.getInstance().getBullets().get(i);
@@ -339,6 +352,14 @@ public class GameView extends ScreenAdapter {
                     HealthPowerUpView pView = new HealthPowerUpView(game);
                     pView.update(p);
                     pView.draw(game.getBatch());
+                    break;
+                }
+                case SHIELD_TYPE:
+                {
+                    ShieldPowerUpView pView = new ShieldPowerUpView(game);
+                    pView.update(p);
+                    pView.draw(game.getBatch());
+                    break;
                 }
             }
 

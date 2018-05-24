@@ -32,6 +32,11 @@ public class Ship extends GameObject{
     private float fireCooldown;
 
     /**
+     * Time left in ship invulnerability
+     */
+    private float shield;
+
+    /**
      * Current bullet speed of this object.
      */
     private float bulletSpeed;
@@ -64,6 +69,7 @@ public class Ship extends GameObject{
         this.speed = speed;
         this.fireRate = fireRate;
         fireCooldown = 0;
+        shield = 0;
         this.bulletSpeed = bulletSpeed;
         this.isHit = false;
         this.isHealed = false;
@@ -244,5 +250,34 @@ public class Ship extends GameObject{
        fireCooldown = fireRate;
 
        return bullet;
+    }
+
+    /**
+     * Activates shield
+     */
+    public void shield() {
+        shield = 10;
+    }
+
+    /**
+     * Reduces invulnerability time
+     *
+     * @param delta time elapsed
+     */
+    public void reduceShield(float delta) {
+        shield -= delta;
+
+        if(shield < 0)
+            shield = 0;
+    }
+
+    /**
+     * Gets the current invulnerability of this ship.
+     *
+     * @return the shield variable.
+     */
+    public float getShield()
+    {
+        return shield;
     }
 }
