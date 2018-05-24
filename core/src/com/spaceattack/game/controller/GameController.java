@@ -2,6 +2,7 @@ package com.spaceattack.game.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -19,19 +20,8 @@ import com.spaceattack.game.model.Score;
 import com.spaceattack.game.model.Ship;
 import com.spaceattack.game.view.GameView;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -93,12 +83,31 @@ public class GameController implements ContactListener {
     private final UserShipBody userShip;
 
     /**
+     * The sound used upon firing
+     */
+    private final Sound fireSound;
+
+    /**
+     * The sound used when hit
+     */
+    private final Sound hitSound;
+
+    /**
+     * The sound used after enemy ship destruction
+     */
+    private final Sound explosionSound;
+
+    /**
      * Creates a new GameController that controls the physics of a certain GameModel.
      */
     private GameController() {
         world = new World(new Vector2(0, 0), true);
 
         userShip = new UserShipBody(world, Game.getInstance().getUserShip());
+
+        fireSound = Gdx.audio.newSound(Gdx.files.internal("laser.mp3"));
+        hitSound = Gdx.audio.newSound(Gdx.files.internal("hit.mp3"));
+        explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.mp3"));
 
         world.setContactListener(this);
     }
@@ -153,10 +162,11 @@ public class GameController implements ContactListener {
 
                 if (((Ship) body.getUserData()).getHealth() == 0) {
                     if (((Ship) body.getUserData()).getBulletSpeed() < 5000) {
+                        explosionSound.play();
+
                         Game.getInstance().addScore(((Ship) body.getUserData()).getSpeed() - 1000);
                         ((Ship) body.getUserData()).destroy();
                         Game.getInstance().removeEnemyShip((Ship) body.getUserData());
-
                         generatePowerUp(body);
                     } else {
                         checkHighScores();
@@ -387,6 +397,11 @@ public class GameController implements ContactListener {
         ((Bullet) bulletBody.getUserData()).destroy();
         Game.getInstance().removeBullet((Bullet) bulletBody.getUserData());
 
+        if(((Ship) shipBody.getUserData()).getBulletSpeed() >= 5000)
+        {
+            hitSound.play();
+        }
+
         shipBody.setLinearVelocity(0, 0);
         shipBody.setAngularVelocity(0);
 
@@ -450,6 +465,8 @@ public class GameController implements ContactListener {
                 UserBulletBody bBody2 = new UserBulletBody(world, b2);
                 bBody2.setLinearVelocity(b2.getSpeed());
             }
+
+            fireSound.play();
         }
     }
 
