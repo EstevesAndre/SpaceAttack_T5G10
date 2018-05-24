@@ -122,6 +122,10 @@ public class GameController implements ContactListener {
                 if (((Ship) body.getUserData()).isHit()) {
                     ((Ship) body.getUserData()).decreaseHealth();
                     ((Ship) body.getUserData()).setHitStatus(false);
+                    if(((Ship) body.getUserData()).getBulletSpeed() >= 5000)
+                    {
+                        ((Ship) body.getUserData()).shield(1);
+                    }
                 }
 
                 if (((Ship) body.getUserData()).isHealed()) {
@@ -303,7 +307,7 @@ public class GameController implements ContactListener {
                 break;
             }
             case SHIELD_TYPE: {
-                ((Ship) shipBody.getUserData()).shield();
+                ((Ship) shipBody.getUserData()).shield(10);
                 break;
             }
             case TRIPLE_SHOT_TYPE: {

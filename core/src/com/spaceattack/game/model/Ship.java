@@ -278,9 +278,11 @@ public class Ship extends GameObject{
 
     /**
      * Activates shield
+     *
+     * @param delta number of protective seconds
      */
-    public void shield() {
-        shield = 10;
+    public void shield(float delta) {
+        shield = delta;
     }
 
     /**
