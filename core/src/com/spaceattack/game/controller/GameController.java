@@ -200,8 +200,6 @@ public class GameController implements ContactListener {
 
         l.add(new Score((int)Game.getInstance().getScore(), dtf.format(localDate)));
 
-        System.out.println(l.size());
-
         Collections.sort(l);
 
         for(int i = 0; i < l.size(); i++)
@@ -213,7 +211,7 @@ public class GameController implements ContactListener {
             prefs.putString("date" + (i + 1), l.get(i).getDate());
         }
 
-        System.out.println(prefs.getInteger("score1", 0));
+        prefs.flush();
     }
 
     /**
