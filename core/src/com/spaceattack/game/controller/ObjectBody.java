@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.spaceattack.game.model.GameObject;
 
-import static com.spaceattack.game.view.GameView.PIXEL_TO_METER;
+import static com.spaceattack.game.view.screens.GameScreen.PIXEL_TO_METER;
 
 public class ObjectBody {
     final static short USER_SHIP_BODY = 0x0001;

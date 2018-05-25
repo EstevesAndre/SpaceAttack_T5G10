@@ -18,7 +18,7 @@ import com.spaceattack.game.model.Portal;
 import com.spaceattack.game.model.PowerUp;
 import com.spaceattack.game.model.Score;
 import com.spaceattack.game.model.Ship;
-import com.spaceattack.game.view.GameView;
+import com.spaceattack.game.view.screens.GameScreen;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -105,9 +105,9 @@ public class GameController implements ContactListener {
 
         userShip = new UserShipBody(world, Game.getInstance().getUserShip());
 
-        fireSound = Gdx.audio.newSound(Gdx.files.internal("laser.mp3"));
-        hitSound = Gdx.audio.newSound(Gdx.files.internal("hit.mp3"));
-        explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.mp3"));
+        fireSound = Gdx.audio.newSound(Gdx.files.internal("musics/laser.mp3"));
+        hitSound = Gdx.audio.newSound(Gdx.files.internal("musics/hit.mp3"));
+        explosionSound = Gdx.audio.newSound(Gdx.files.internal("musics/explosion.mp3"));
 
         world.setContactListener(this);
     }
@@ -169,9 +169,7 @@ public class GameController implements ContactListener {
                         Game.getInstance().removeEnemyShip((Ship) body.getUserData());
                         generatePowerUp(body);
                     } else {
-                        checkHighScores();
-                        Game.getInstance().restart();
-                        instance = new GameController();
+                        restart();
                         return;
                     }
 
@@ -503,7 +501,7 @@ public class GameController implements ContactListener {
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
         for (Body body : bodies) {
-            if (body.getUserData() instanceof Bullet && (GameView.isOutOfViewport((GameObject) body.getUserData()))) {
+            if (body.getUserData() instanceof Bullet && (GameScreen.isOutOfViewport((GameObject) body.getUserData()))) {
                 ((Bullet) body.getUserData()).destroy();
                 Game.getInstance().removeBullet((Bullet) body.getUserData());
             }
@@ -554,6 +552,13 @@ public class GameController implements ContactListener {
             body.setLinearVelocity(0f, 0f);
             body.setAngularVelocity(0f);
         }
+    }
+
+    public void restart()
+    {
+        checkHighScores();
+        Game.getInstance().restart();
+        instance = new GameController();
     }
 
 }
