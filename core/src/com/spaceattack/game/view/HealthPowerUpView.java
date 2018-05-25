@@ -38,7 +38,7 @@ public class HealthPowerUpView extends ObjectView{
      * @return the texture used
      */
     private TextureRegion createPowerUpRegion(SpaceAttackGame game) {
-        Texture PowerUpTexture = game.getAssetManager().get("1UP.png");
+        Texture PowerUpTexture = game.getAssetManager().get("powerUps/1UP.png");
         return new TextureRegion(PowerUpTexture, PowerUpTexture.getWidth(), PowerUpTexture.getHeight());
     }
 

@@ -38,7 +38,7 @@ public class ShieldPowerUpView extends ObjectView{
      * @return the texture used
      */
     private TextureRegion createPowerUpRegion(SpaceAttackGame game) {
-        Texture PowerUpTexture = game.getAssetManager().get("shieldPower.png");
+        Texture PowerUpTexture = game.getAssetManager().get("powerUps/shieldPower.png");
         return new TextureRegion(PowerUpTexture, PowerUpTexture.getWidth(), PowerUpTexture.getHeight());
     }
 

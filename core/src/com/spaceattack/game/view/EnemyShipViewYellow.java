@@ -38,7 +38,7 @@ public class EnemyShipViewYellow extends ObjectView{
      * @return the texture used when the ship is not accelerating
      */
     private TextureRegion createUserShipRegion(SpaceAttackGame game) {
-        Texture UserShipTexture = game.getAssetManager().get("enemyShipYellow.png");
+        Texture UserShipTexture = game.getAssetManager().get("enemyShips/enemyShipYellow.png");
 
         return new TextureRegion(UserShipTexture, UserShipTexture.getWidth(), UserShipTexture.getHeight());
     }

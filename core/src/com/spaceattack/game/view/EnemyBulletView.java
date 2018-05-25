@@ -42,7 +42,7 @@ public class EnemyBulletView extends ObjectView{
      * @return the texture used for each bullet
      */
     private TextureRegion createUserBulletRegion(SpaceAttackGame game) {
-        Texture UserShipBulletTexture = game.getAssetManager().get("laserGreen.png");
+        Texture UserShipBulletTexture = game.getAssetManager().get("enemyShips/laserGreen.png");
         return new TextureRegion(UserShipBulletTexture, UserShipBulletTexture.getWidth(), UserShipBulletTexture.getHeight());
     }
 

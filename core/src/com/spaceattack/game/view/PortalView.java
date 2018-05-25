@@ -64,7 +64,7 @@ public class PortalView extends ObjectView{
      * @return the texture used when the ship is not accelerating
      */
     private TextureRegion createRegion(SpaceAttackGame game) {
-        Texture stopTexture = game.getAssetManager().get("portal.png");
+        Texture stopTexture = game.getAssetManager().get("animations/portal.png");
         return new TextureRegion(stopTexture, stopTexture.getWidth() / 8, stopTexture.getHeight());
     }
 
@@ -76,7 +76,7 @@ public class PortalView extends ObjectView{
      * @return the animation used when the ship is accelerating
      */
     private Animation<TextureRegion> createAnimation(SpaceAttackGame game) {
-        Texture portalTexture = game.getAssetManager().get("portal.png");
+        Texture portalTexture = game.getAssetManager().get("animations/portal.png");
         TextureRegion[][] portalRegion = TextureRegion.split(portalTexture, portalTexture.getWidth() / 8, portalTexture.getHeight());
 
         TextureRegion[] frames = new TextureRegion[8];

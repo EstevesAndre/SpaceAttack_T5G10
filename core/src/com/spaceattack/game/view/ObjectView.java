@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.spaceattack.game.SpaceAttackGame;
 import com.spaceattack.game.model.GameObject;
 
-import static com.spaceattack.game.view.GameView.PIXEL_TO_METER;
+import static com.spaceattack.game.view.screens.GameScreen.PIXEL_TO_METER;
 
 public abstract class ObjectView {
 
