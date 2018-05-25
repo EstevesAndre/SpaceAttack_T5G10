@@ -30,6 +30,8 @@ public class SpaceAttackGame extends Game {
         //skin1 = new Skin(Gdx.files.internal("skins/star-soldier-ui.json"), new TextureAtlas("skins/star-soldier-ui.atlas"));
         skin1 = new Skin(Gdx.files.internal("skins/skin.json"), new TextureAtlas("skins/skin.atlas"));
 
+        //skin1 = new Skin();
+
         loadAssets();
         setMusic();
         createBitmapFont();

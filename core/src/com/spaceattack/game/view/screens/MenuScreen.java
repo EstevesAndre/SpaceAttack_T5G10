@@ -51,7 +51,7 @@ public abstract class MenuScreen extends ScreenAdapter {
         this.game = game;
         batch = game.getBatch();
         //  gameServices = game.getGameServices();
-          skin1 = game.getSkin();
+        skin1 = game.getSkin();
         //  skin2 = game.getSecondarySkin();
 
         viewport = new FitViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
@@ -63,7 +63,7 @@ public abstract class MenuScreen extends ScreenAdapter {
         backgroundImg.setScale(VIEWPORT_WIDTH / backgroundImg.getWidth(), VIEWPORT_HEIGHT / backgroundImg.getHeight());
 
         titleImg = new Image(game.getAssetManager().get("space_attack_title.png", Texture.class));
-        titleImg.setSize(0.8f * titleImg.getWidth(), 0.8f * titleImg.getHeight());
+        titleImg.setSize(0.35f * titleImg.getWidth(), 0.35f * titleImg.getHeight());
         titleImg.setPosition(VIEWPORT_WIDTH / 2 - titleImg.getWidth() / 2, VIEWPORT_HEIGHT * 0.98f - titleImg.getHeight());
     }
 

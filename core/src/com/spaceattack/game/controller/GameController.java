@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.spaceattack.game.SpaceAttackGame;
 import com.spaceattack.game.model.Bullet;
 import com.spaceattack.game.model.Game;
 import com.spaceattack.game.model.GameObject;
@@ -257,10 +258,10 @@ public class GameController implements ContactListener {
     private void increaseScore(float delta) {
         scoreTimer += delta;
 
-        if (scoreTimer >= 1) {
-            Game.getInstance().addScore(10);
-            scoreTimer = 0;
-        }
+      //  if (scoreTimer >= 1) {
+            Game.getInstance().addScore(delta);
+       //     scoreTimer = 0;
+       // }
     }
 
     /**
