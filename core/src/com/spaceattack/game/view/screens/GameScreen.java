@@ -87,6 +87,11 @@ public class GameScreen extends ScreenAdapter {
 
         updateCamera();
 
+        if(Game.getInstance().getUserShip().getHealth() == 0)
+        {
+            game.setScreen(new MainMenuScreen(game));
+        }
+
         game.getBatch().setProjectionMatrix(camera.combined);
         game.getBatch().begin();
         drawBackground();

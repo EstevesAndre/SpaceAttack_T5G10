@@ -137,7 +137,7 @@ public class GameController implements ContactListener {
             accumulator -= 1 / 60f;
         }
 
-        increaseScore(delta);
+        increaseScore(delta * 10);
 
         Game.getInstance().getUserShip().reduceShield(delta);
         decreaseCooldown(delta);
@@ -558,7 +558,6 @@ public class GameController implements ContactListener {
     public void restart()
     {
         checkHighScores();
-        Game.getInstance().restart();
         instance = new GameController();
     }
 

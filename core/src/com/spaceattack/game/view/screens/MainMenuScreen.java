@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.spaceattack.game.model.Game;
 
 
 public class MainMenuScreen extends MenuScreen {
@@ -74,6 +75,7 @@ public class MainMenuScreen extends MenuScreen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Game.getInstance().restart();
                 game.setScreen(new GameScreen(game));
             }
         });
