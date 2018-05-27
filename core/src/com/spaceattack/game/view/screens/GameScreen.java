@@ -238,11 +238,7 @@ public class GameScreen extends ScreenAdapter {
             GameController.getInstance().fire();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-<<<<<<< HEAD
             game.setScreen(new PauseMenu(game, this));
-=======
-            game.setScreen(new PauseMenu(game,this));
->>>>>>> 257443c601f0efd1223ca1bac4be5f8fe6663de1
         }
 
         if (Gdx.input.getAccelerometerY() > 1) {
