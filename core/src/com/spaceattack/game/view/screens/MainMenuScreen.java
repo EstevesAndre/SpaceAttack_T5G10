@@ -1,24 +1,16 @@
 package com.spaceattack.game.view.screens;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.spaceattack.game.SpaceAttackGame;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.spaceattack.game.model.Game;
-
 
 public class MainMenuScreen extends MenuScreen {
-
-    //Layout Macros
-
-    protected static final float BUTTON_WIDTH = VIEWPORT_WIDTH / 2;
-
-    protected static final float BUTTON_EDGE = VIEWPORT_WIDTH / 75;
-
-    protected static final float BOTTOM_EDGE = VIEWPORT_WIDTH / 75;
 
     public MainMenuScreen(final SpaceAttackGame game) {
         super(game);
@@ -28,23 +20,14 @@ public class MainMenuScreen extends MenuScreen {
 
         table.bottom();
 
-        addPlayButton(table);
+        addPlayButton(table, "Play");
         addOptionsButton(table);
+        addLeaderBoardButton(table);
+
         //addNetworkingButton(table);
         addExitButton(table);
 
         table.padBottom(BOTTOM_EDGE);
-    }
-
-    private void addExitButton(Table table) {
-        TextButton exitButton = new TextButton("Exit", skin1);
-        exitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-            }
-        });
-        table.add(exitButton).size(BUTTON_WIDTH, DEFAULT_BUTTON_SIZE).pad(BUTTON_EDGE).row();
     }
 
     /*private void addNetworkingButton(Table table) {
@@ -58,29 +41,28 @@ public class MainMenuScreen extends MenuScreen {
         table.add(networkingButton).size(BUTTON_WIDTH, DEFAULT_BUTTON_SIZE).pad(BUTTON_EDGE).row();
     }*/
 
+    private void addLeaderBoardButton(Table table) {
+        TextButton leaderboardButton = new TextButton("Leaderboard", skin);
+        leaderboardButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new LeaderboardMenuScreen(game));
+            }
+        });
+        table.add(leaderboardButton).size(BUTTON_WIDTH, DEFAULT_BUTTON_SIZE).pad(BUTTON_EDGE).row();
+    }
+
     private void addOptionsButton(Table table) {
-        TextButton optionsButton = new TextButton("Options", skin1);
+        TextButton optionsButton = new TextButton("Options", skin);
         optionsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-               // game.setScreen(new CustomizeMenuScreen(game));
+                game.setScreen(new OptionsScreen(game));
             }
         });
         table.add(optionsButton).size(BUTTON_WIDTH, DEFAULT_BUTTON_SIZE).pad(BUTTON_EDGE).row();
     }
 
-    private void addPlayButton(Table table) {
-        TextButton playButton = new TextButton("Play", skin1);
-
-        playButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Game.getInstance().restart();
-                game.setScreen(new GameScreen(game));
-            }
-        });
-        table.add(playButton).size(BUTTON_WIDTH, DEFAULT_BUTTON_SIZE).pad(BUTTON_EDGE).row();
-    }
 
     @Override
     public void show() {
@@ -88,6 +70,7 @@ public class MainMenuScreen extends MenuScreen {
 
         Table table = new Table();
         table.setFillParent(true);
+        //table.setDebug(true);
 
         createMenuButtons(table);
 

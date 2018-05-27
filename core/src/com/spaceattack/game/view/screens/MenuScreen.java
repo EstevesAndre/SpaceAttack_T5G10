@@ -1,5 +1,6 @@
 package com.spaceattack.game.view.screens;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.spaceattack.game.SpaceAttackGame;
 //import com.spaceattack.game.GameServices;
 
@@ -16,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.spaceattack.game.model.Game;
 
 
 public abstract class MenuScreen extends ScreenAdapter {
@@ -26,24 +28,28 @@ public abstract class MenuScreen extends ScreenAdapter {
 
     private Viewport viewport;
 
-    private SpriteBatch batch;
+    protected SpriteBatch batch;
 
-    protected Skin skin1;
+    protected Skin skin;
 
-    protected Skin skin2;
+    private Image backgroundImg;
+
+    private Image titleImg;
 
     /**
      * Game Services used for Networking.
      */
     // GameServices gameServices;
 
-    protected static final float VIEWPORT_WIDTH = 750;
+    protected static final float VIEWPORT_WIDTH = Gdx.graphics.getWidth();
 
-    private static final float VIEWPORT_HEIGHT = VIEWPORT_WIDTH * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
+    protected static final float VIEWPORT_HEIGHT = Gdx.graphics.getHeight();
 
-    private Image backgroundImg;
+    protected static final float BUTTON_WIDTH = VIEWPORT_WIDTH / 2;
 
-    private Image titleImg;
+    protected static final float BUTTON_EDGE = VIEWPORT_WIDTH / 75;
+
+    protected static final float BOTTOM_EDGE = VIEWPORT_WIDTH / 75;
 
     protected static final float DEFAULT_BUTTON_SIZE = VIEWPORT_WIDTH / 15;
 
@@ -51,8 +57,7 @@ public abstract class MenuScreen extends ScreenAdapter {
         this.game = game;
         batch = game.getBatch();
         //  gameServices = game.getGameServices();
-        skin1 = game.getSkin();
-        //  skin2 = game.getSecondarySkin();
+        skin = game.getSkin();
 
         viewport = new FitViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
         viewport.apply();
@@ -63,13 +68,28 @@ public abstract class MenuScreen extends ScreenAdapter {
         backgroundImg.setScale(VIEWPORT_WIDTH / backgroundImg.getWidth(), VIEWPORT_HEIGHT / backgroundImg.getHeight());
 
         titleImg = new Image(game.getAssetManager().get("space_attack_title.png", Texture.class));
-        titleImg.setSize(0.35f * titleImg.getWidth(), 0.35f * titleImg.getHeight());
+        titleImg.setSize(0.9f * VIEWPORT_WIDTH, 0.3f * VIEWPORT_HEIGHT);
         titleImg.setPosition(VIEWPORT_WIDTH / 2 - titleImg.getWidth() / 2, VIEWPORT_HEIGHT * 0.98f - titleImg.getHeight());
     }
 
+    protected void addPlayButton(Table table, String text) {
+        TextButton playButton = new TextButton( text, skin);
 
-    protected TextButton addBackButton(boolean style) {
-        TextButton backButton = new TextButton("Back", (style ? skin2 : skin1));
+        playButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Game.getInstance().restart();
+                game.setScreen(new GameScreen(game));
+            }
+        });
+
+        table.add(playButton).size(BUTTON_WIDTH, DEFAULT_BUTTON_SIZE).pad(BUTTON_EDGE).row();
+    }
+
+
+
+    protected void addBackToMainMenuButton(Table table) {
+        TextButton backButton = new TextButton("Back To Main Menu", skin);
 
         backButton.addListener(new ClickListener() {
             @Override
@@ -78,7 +98,18 @@ public abstract class MenuScreen extends ScreenAdapter {
             }
         });
 
-        return backButton;
+        table.add(backButton).size(BUTTON_WIDTH + 50, DEFAULT_BUTTON_SIZE).pad(BUTTON_EDGE).row();
+    }
+
+    protected void addExitButton(Table table) {
+        TextButton exitButton = new TextButton("Exit Game", skin);
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+        table.add(exitButton).size(BUTTON_WIDTH, DEFAULT_BUTTON_SIZE).pad(BUTTON_EDGE).row();
     }
 
     @Override
@@ -86,6 +117,11 @@ public abstract class MenuScreen extends ScreenAdapter {
         //Displaying the background and the Image
         stage.addActor(backgroundImg);
         stage.addActor(titleImg);
+    }
+
+    protected void showBackground()
+    {
+        stage.addActor(backgroundImg);
     }
 
     @Override

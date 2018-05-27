@@ -4,14 +4,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.spaceattack.game.view.screens.GameScreen;
 import com.spaceattack.game.view.screens.MainMenuScreen;
 
 public class SpaceAttackGame extends Game {
@@ -84,8 +82,10 @@ public class SpaceAttackGame extends Game {
         this.assetManager.load("powerUps/1UP.png", Texture.class);
         this.assetManager.load("powerUps/shieldPower.png", Texture.class);
         this.assetManager.load("powerUps/bulletPower.png", Texture.class);
-
-
+/*
+        this.assetManager.load("test/block.png", Texture.class);
+        this.assetManager.load("test/touchBackground.png", Texture.class);
+        this.assetManager.load("test/touchKnob.png", Texture.class);*/
         // load animations
 
         this.assetManager.finishLoading();
@@ -95,8 +95,6 @@ public class SpaceAttackGame extends Game {
      * Starts the Game.
      */
     private void startGame() {
-        // for now
-        //setScreen(new GameScreen(this));
         setScreen(new MainMenuScreen(this));
     }
 
@@ -135,4 +133,5 @@ public class SpaceAttackGame extends Game {
     public Skin getSkin() {
         return skin1;
     }
+
 }
