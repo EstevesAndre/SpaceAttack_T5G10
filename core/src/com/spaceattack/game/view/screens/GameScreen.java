@@ -236,6 +236,9 @@ public class GameScreen extends ScreenAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             GameController.getInstance().fire();
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            game.setScreen(new PauseMenu(game, this));
+        }
 
         if (Gdx.input.getAccelerometerY() > 1) {
             GameController.getInstance().rotateRight(delta);
@@ -244,27 +247,28 @@ public class GameScreen extends ScreenAdapter {
             GameController.getInstance().rotateLeft(delta);
         }
 
-        if (Gdx.input.isTouched()) {
-            float xStartPos = (camera.position.x * PIXEL_TO_METER - (VIEWPORT_WIDTH / 2)) / PIXEL_TO_METER;
-            float xEndPos = (camera.position.x * PIXEL_TO_METER + (VIEWPORT_WIDTH / 2)) / PIXEL_TO_METER;
-            float yStartPos = ((camera.position.y * PIXEL_TO_METER - (VIEWPORT_WIDTH * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth())) / 2) / PIXEL_TO_METER);
+        for(int i = 0; i < 20; i++) {
+            if (Gdx.input.isTouched(i)) {
+                float xStartPos = (camera.position.x * PIXEL_TO_METER - (VIEWPORT_WIDTH / 2)) / PIXEL_TO_METER;
+                float xEndPos = (camera.position.x * PIXEL_TO_METER + (VIEWPORT_WIDTH / 2)) / PIXEL_TO_METER;
+                float yStartPos = ((camera.position.y * PIXEL_TO_METER - (VIEWPORT_WIDTH * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth())) / 2) / PIXEL_TO_METER);
 
-            Vector3 mousePos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(mousePos);
+                Vector3 mousePos = new Vector3(Gdx.input.getX(i), Gdx.input.getY(i), 0);
+                camera.unproject(mousePos);
 
-            Texture t = game.getAssetManager().get("gameScreen/fireButton.png");
+                Texture t = game.getAssetManager().get("gameScreen/fireButton.png");
 
-            if (mousePos.y > yStartPos && mousePos.y < yStartPos + t.getHeight() * 2) {
-                if (mousePos.x > xStartPos && mousePos.x < xStartPos + t.getWidth() * 2)
-                    GameController.getInstance().accelerate(delta);
-                else if (mousePos.x < xEndPos && mousePos.x > xEndPos - t.getWidth() * 2)
-                    GameController.getInstance().fire();
-                else
+                if (mousePos.y > yStartPos && mousePos.y < yStartPos + t.getHeight() * 2) {
+                    if (mousePos.x > xStartPos && mousePos.x < xStartPos + t.getWidth() * 2)
+                        GameController.getInstance().accelerate(delta);
+                    else if (mousePos.x < xEndPos && mousePos.x > xEndPos - t.getWidth() * 2)
+                        GameController.getInstance().fire();
+                    else
+                        game.setScreen(new PauseMenu(game, this));
+
+                } else
                     game.setScreen(new PauseMenu(game, this));
-
             }
-            else
-                game.setScreen(new PauseMenu(game, this));
         }
     }
 
