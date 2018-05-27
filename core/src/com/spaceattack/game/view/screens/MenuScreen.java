@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.spaceattack.game.controller.GameController;
 import com.spaceattack.game.model.Game;
 
 
@@ -79,6 +80,7 @@ public abstract class MenuScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Game.getInstance().restart();
+                GameController.getInstance().restart();
                 game.setScreen(new GameScreen(game));
             }
         });

@@ -259,8 +259,12 @@ public class GameScreen extends ScreenAdapter {
                     GameController.getInstance().accelerate(delta);
                 if (mousePos.x < xEndPos && mousePos.x > xEndPos - t.getWidth() * 2)
                     GameController.getInstance().fire();
+                else
+                    game.setScreen(new PauseMenu(game, this));
 
             }
+            else
+                game.setScreen(new PauseMenu(game, this));
         }
     }
 
