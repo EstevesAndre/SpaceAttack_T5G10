@@ -6,11 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.spaceattack.game.SpaceAttackGame;
 import com.spaceattack.game.model.Game;
 
-
-/**
- * Created by estev on 27/05/2018.
- */
-
 public class GameOverScreen extends MenuScreen {
 
     private Label message;

@@ -96,18 +96,37 @@ public class LeaderboardMenuScreen extends MenuScreen {
 
         Label[] scoresArray = new Label[10];
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             message = new Label("", style);
 
             if (i < highScores.size()) {
                 if (i + 1 == 1) {
-                    message.setText("[#ff0000]" + (i + 1) + "ST [#00ff00]" + highScores.get(i).getScore() + " [#0000ff] " + highScores.get(i).getDate() + " ");
+                    message.setText("[#ffffff]" + (i + 1) + "ST [#008fff]" + highScores.get(i).getScore() + "[#0000ff] " + highScores.get(i).getDate() + "  ");
                 } else if (i + 1 == 2) {
-                    message.setText("[#ff0000]" + (i + 1) + "ND [#00ff00]" + highScores.get(i).getScore() + " [#0000ff] " + highScores.get(i).getDate() + " ");
+                    message.setText("[#ffffff]" + (i + 1) + "ND [#008fff]" + highScores.get(i).getScore() + "[#0000ff] " + highScores.get(i).getDate() + "  ");
                 } else if (i + 1 == 3) {
-                    message.setText("[#ff0000]" + (i + 1) + "RD [#00ff00]" + highScores.get(i).getScore() + " [#0000ff] " + highScores.get(i).getDate() + " ");
+                    message.setText("[#ffffff]" + (i + 1) + "RD [#008fff]" + highScores.get(i).getScore() + "[#0000ff] " + highScores.get(i).getDate() + "  ");
                 } else {
-                    message.setText("[#ff0000]" + (i + 1) + "TH [#00ff00]" + highScores.get(i).getScore() + " [#0000ff] " + highScores.get(i).getDate() + " ");
+                    message.setText("[#ffffff]" + (i + 1) + "TH [#008fff]" + highScores.get(i).getScore() + "[#0000ff] " + highScores.get(i).getDate() + "  ");
+                }
+                scoresArray[i] = message;
+            } else {
+                scoresArray[i] = message;
+            }
+        }
+
+        for (int i = 5; i < 10; i++) {
+            message = new Label("", style);
+
+            if (i < highScores.size()) {
+                if (i + 1 == 1) {
+                    message.setText("  " + "[#ffffff]" + (i + 1) + "ST [#008fff]" + highScores.get(i).getScore() + "[#0000ff] " + highScores.get(i).getDate());
+                } else if (i + 1 == 2) {
+                    message.setText("  " + "[#ffffff]" + (i + 1) + "ND [#008fff]" + highScores.get(i).getScore() + "[#0000ff] " + highScores.get(i).getDate());
+                } else if (i + 1 == 3) {
+                    message.setText("  " + "[#ffffff]" + (i + 1) + "RD [#008fff]" + highScores.get(i).getScore() + "[#0000ff] " + highScores.get(i).getDate());
+                } else {
+                    message.setText("  " + "[#ffffff]" + (i + 1) + "TH [#008fff]" + highScores.get(i).getScore() + "[#0000ff] " + highScores.get(i).getDate());
                 }
                 scoresArray[i] = message;
             } else {
@@ -119,15 +138,15 @@ public class LeaderboardMenuScreen extends MenuScreen {
 
         if (highScores.size() <= 5) {
             for (int i = 0; i < highScores.size(); i++) {
-                table.add(scoresArray[i]).padBottom(DEFAULT_TEXT_SIZE).right().row();
+                table.add(scoresArray[i]).padBottom(DEFAULT_TEXT_SIZE).center().row();
                 scoresArray[i].setFontScale(MESSAGE_FONT_SCALE);
             }
         } else {
             for (int i = 0; i < scoresArray.length / 2.0; i++) {
-                table.add(scoresArray[i]).padBottom(DEFAULT_TEXT_SIZE).right();
+                table.add(scoresArray[i]).padBottom(DEFAULT_TEXT_SIZE).center();
                 scoresArray[i].setFontScale(MESSAGE_FONT_SCALE);
 
-                table.add(scoresArray[i + scoresArray.length / 2]).padBottom(DEFAULT_TEXT_SIZE).right().row();
+                table.add(scoresArray[i + scoresArray.length / 2]).padBottom(DEFAULT_TEXT_SIZE).center().row();
                 scoresArray[i + scoresArray.length / 2].setFontScale(MESSAGE_FONT_SCALE);
             }
         }

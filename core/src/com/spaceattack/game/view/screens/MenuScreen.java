@@ -89,7 +89,7 @@ public abstract class MenuScreen extends ScreenAdapter {
 
 
     protected void addBackToMainMenuButton(Table table) {
-        TextButton backButton = new TextButton("Back To Main Menu", skin);
+        TextButton backButton = new TextButton("Main Menu", skin);
 
         backButton.addListener(new ClickListener() {
             @Override
@@ -98,7 +98,7 @@ public abstract class MenuScreen extends ScreenAdapter {
             }
         });
 
-        table.add(backButton).size(BUTTON_WIDTH + 50, DEFAULT_BUTTON_SIZE).pad(BUTTON_EDGE).row();
+        table.add(backButton).size(BUTTON_WIDTH, DEFAULT_BUTTON_SIZE).pad(BUTTON_EDGE).row();
     }
 
     protected void addExitButton(Table table) {
