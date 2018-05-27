@@ -258,10 +258,10 @@ public class GameController implements ContactListener {
     private void increaseScore(float delta) {
         scoreTimer += delta;
 
-      //  if (scoreTimer >= 1) {
-            Game.getInstance().addScore(delta);
-       //     scoreTimer = 0;
-       // }
+        if (scoreTimer >= 1) {
+            Game.getInstance().addScore(1);
+            scoreTimer = 0;
+        }
     }
 
     /**
@@ -273,7 +273,7 @@ public class GameController implements ContactListener {
         for (Portal p : Game.getInstance().getPortals()) {
             if (Game.getInstance().getEnemyShips().size() < 3) {
                 spawnShipAtPortal(p);
-            } else if (spawnTimer >= 4 && Game.getInstance().getEnemyShips().size() < 10) {
+            } else if (spawnTimer >= 4 && Game.getInstance().getEnemyShips().size() < 7) {
                 spawnShipAtPortal(p);
                 spawnTimer = 0;
             }
@@ -290,15 +290,17 @@ public class GameController implements ContactListener {
         if (Game.getInstance().getScore() == 0) {
             s = new Ship(p.getX(), p.getY(), 0, 2, 1500f, 1.6f, 30);
         } else {
+
+            float[] shipProb = getShipRatio();
             double prob = Math.random();
 
-            if (prob < 0.50 - 3 * (int) Game.getInstance().getScore() / 100000) {
+            if (prob < shipProb[0]) {
                 s = new Ship(p.getX(), p.getY(), 0, 2, 1500f, 1.6f, 30);
-            } else if (prob < 0.70 - 5 * (int) Game.getInstance().getScore() / 100000) {
+            } else if (prob < shipProb[1]) {
                 s = new Ship(p.getX(), p.getY(), 0, 3, 2000f, 1.4f, 35);
-            } else if (prob < 0.85 - 3 * (int) Game.getInstance().getScore() / 100000) {
+            } else if (prob < shipProb[2]) {
                 s = new Ship(p.getX(), p.getY(), 0, 4, 2500f, 1.2f, 35);
-            } else if (prob < 0.95 - (int) Game.getInstance().getScore() / 100000) {
+            } else if (prob < shipProb[3]) {
                 s = new Ship(p.getX(), p.getY(), 0, 5, 3000f, 1f, 40);
             } else {
                 s = new Ship(p.getX(), p.getY(), 0, 6, 3500f, 0.8f, 40);
@@ -307,6 +309,55 @@ public class GameController implements ContactListener {
 
         Game.getInstance().addEnemyShip(s);
         new EnemyShipBody(world, s);
+    }
+
+    private float[] getShipRatio() {
+        float[] ret = new float[5];
+
+        int score = (int)Game.getInstance().getScore();
+
+        if(score < 10000)
+        {
+            ret[0] = 0.6f;
+            ret[1] = 0.9f;
+            ret[2] = 1.0f;
+            ret[3] = 1.1f;
+            ret[4] = 1.1f;
+        }
+        else if(score < 20000)
+        {
+            ret[0] = 0.4f;
+            ret[1] = 0.7f;
+            ret[2] = 0.9f;
+            ret[3] = 1.0f;
+            ret[4] = 1.1f;
+        }
+        else if(score < 30000)
+        {
+            ret[0] = 0.2f;
+            ret[1] = 0.4f;
+            ret[2] = 0.7f;
+            ret[3] = 0.9f;
+            ret[4] = 1.0f;
+        }
+        else if(score < 40000)
+        {
+            ret[0] = 0.0f;
+            ret[1] = 0.3f;
+            ret[2] = 0.6f;
+            ret[3] = 0.8f;
+            ret[4] = 1.0f;
+        }
+        else
+        {
+            ret[0] = 0.0f;
+            ret[1] = 0.0f;
+            ret[2] = 0.4f;
+            ret[3] = 0.7f;
+            ret[4] = 1.0f;
+        }
+
+        return ret;
     }
 
     @Override
