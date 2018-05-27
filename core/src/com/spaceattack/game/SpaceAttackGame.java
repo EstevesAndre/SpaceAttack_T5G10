@@ -14,21 +14,27 @@ import com.spaceattack.game.view.screens.MainMenuScreen;
 
 public class SpaceAttackGame extends Game {
     SpriteBatch batch;
+
     private AssetManager assetManager;
+
+    private AppPreferences preferences;
 
     private BitmapFont font;
 
     private Skin skin1;
 
+    private Skin skin2;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
         assetManager = new AssetManager();
+        preferences = new AppPreferences();
 
-        //skin1 = new Skin(Gdx.files.internal("skins/star-soldier-ui.json"), new TextureAtlas("skins/star-soldier-ui.atlas"));
+
         skin1 = new Skin(Gdx.files.internal("skins/skin.json"), new TextureAtlas("skins/skin.atlas"));
 
-        //skin1 = new Skin();
+        skin2 = new Skin(Gdx.files.internal("skins/flat-earth-ui.json"), new TextureAtlas("skins/flat-earth-ui.atlas"));
 
         loadAssets();
         setMusic();
@@ -47,6 +53,10 @@ public class SpaceAttackGame extends Game {
     public void dispose() {
         batch.dispose();
         assetManager.dispose();
+    }
+
+    public AppPreferences getPreferences(){
+        return this.preferences;
     }
 
     private void createBitmapFont() {
@@ -132,6 +142,10 @@ public class SpaceAttackGame extends Game {
 
     public Skin getSkin() {
         return skin1;
+    }
+
+    public Skin getSkin2() {
+        return skin2;
     }
 
 }
