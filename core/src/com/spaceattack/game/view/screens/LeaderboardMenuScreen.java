@@ -1,5 +1,7 @@
 package com.spaceattack.game.view.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -11,6 +13,7 @@ import com.spaceattack.game.SpaceAttackGame;
 import com.spaceattack.game.controller.GameController;
 import com.spaceattack.game.model.Score;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -75,7 +78,21 @@ public class LeaderboardMenuScreen extends MenuScreen {
     }
 
     private void drawHighScores(Table table) {
-        List<Score> highScores = GameController.getInstance().getHighScores();
+        List<Score> highScores = new ArrayList<Score>();
+
+        Preferences prefs = Gdx.app.getPreferences("Saved Scores");
+
+        for(int i = 1; i <= 10; i++)
+        {
+            int score = prefs.getInteger("score" + i, 0);
+
+            if(score == 0)
+                break;
+
+            String date = prefs.getString("date" + i, "");
+
+            highScores.add(new Score(score, date));
+        }
 
         Label[] scoresArray = new Label[10];
 

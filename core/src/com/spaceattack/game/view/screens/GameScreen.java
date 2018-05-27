@@ -102,7 +102,7 @@ public class GameScreen extends ScreenAdapter {
 
         if(Game.getInstance().getUserShip().getHealth() == 0)
         {
-            game.setScreen(new EndGameMenu(game));
+            game.setScreen(new GameOverScreen(game));
         }
 
         game.getBatch().setProjectionMatrix(camera.combined);
