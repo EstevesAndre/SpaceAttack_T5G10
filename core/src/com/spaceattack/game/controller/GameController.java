@@ -579,31 +579,34 @@ public class GameController implements ContactListener {
      * @param body body to be checked
      */
     private void checkOutOfBounds(Body body) {
-        boolean oob = false;
         if (((GameObject) body.getUserData()).getX() > ARENA_WIDTH) {
-            oob = true;
             ((GameObject) body.getUserData()).setPosition(ARENA_WIDTH, ((GameObject) body.getUserData()).getY());
+            body.setLinearVelocity(0, 0);
+            body.setAngularVelocity(0);
+            body.applyForceToCenter(-2000, 0, true);
         }
 
         if (((GameObject) body.getUserData()).getX() < 0) {
-            oob = true;
             ((GameObject) body.getUserData()).setPosition(0, ((GameObject) body.getUserData()).getY());
+            body.setLinearVelocity(0, 0);
+            body.setAngularVelocity(0);
+            body.applyForceToCenter(2000, 0, true);
         }
 
         if (((GameObject) body.getUserData()).getY() > ARENA_HEIGHT) {
-            oob = true;
             ((GameObject) body.getUserData()).setPosition(((GameObject) body.getUserData()).getX(), ARENA_HEIGHT);
+            body.setLinearVelocity(0, 0);
+            body.setAngularVelocity(0);
+            body.applyForceToCenter(0, -2000, true);
         }
 
         if (((GameObject) body.getUserData()).getY() < 0) {
-            oob = true;
             ((GameObject) body.getUserData()).setPosition(((GameObject) body.getUserData()).getX(), 0);
+            body.setLinearVelocity(0, 0);
+            body.setAngularVelocity(0);
+            body.applyForceToCenter(0, 2000, true);
         }
 
-        if (oob) {
-            body.setLinearVelocity(0f, 0f);
-            body.setAngularVelocity(0f);
-        }
     }
 
     public void restart()
