@@ -7,9 +7,9 @@ import com.spaceattack.game.SpaceAttackGame;
  * Created by estev on 24/05/2018.
  */
 
-public class PauseMenu extends OptionsMenu {
+public class PauseMenu  {
 
-    PauseMenu(Viewport viewport, SpaceAttackGame game) {
+   /* PauseMenu(Viewport viewport, SpaceAttackGame game) {
         super(viewport, game);
         setMessage();
     }
@@ -26,5 +26,5 @@ public class PauseMenu extends OptionsMenu {
     @Override
     protected void setMessage() {
         message.setText("GAME PAUSED");
-    }
+    }*/
 }

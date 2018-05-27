@@ -3,13 +3,16 @@ package com.spaceattack.game.view.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
-
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.spaceattack.game.SpaceAttackGame;
 import com.spaceattack.game.controller.GameController;
 import com.spaceattack.game.model.Bullet;
@@ -32,8 +35,6 @@ import static com.spaceattack.game.model.PowerUp.TRIPLE_SHOT_TYPE;
 
 public class GameScreen extends ScreenAdapter {
 
-    private static final boolean DEBUG_PHYSICS = false;
-
     public final static float PIXEL_TO_METER = 0.04f;
 
     private static final float VIEWPORT_WIDTH = 100;
@@ -48,6 +49,10 @@ public class GameScreen extends ScreenAdapter {
 
     private Texture gameBackground;
 
+    private Viewport viewport;
+
+    private boolean pause;
+
     public GameScreen(SpaceAttackGame game) {
         this.game = game;
 
@@ -55,7 +60,12 @@ public class GameScreen extends ScreenAdapter {
 
         camera = createCamera();
 
+        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+
         gameBackground = game.getAssetManager().get("gameScreen/background.png", Texture.class);
+        gameBackground.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
+        pause = false;
     }
 
     /**
@@ -64,7 +74,7 @@ public class GameScreen extends ScreenAdapter {
      * @return the camera
      */
     private OrthographicCamera createCamera() {
-        OrthographicCamera camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER,VIEWPORT_HEIGHT / PIXEL_TO_METER );
+        OrthographicCamera camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_HEIGHT / PIXEL_TO_METER);
 
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
@@ -80,16 +90,19 @@ public class GameScreen extends ScreenAdapter {
      */
     @Override
     public void render(float delta) {
-        handleInputs(delta);
-        GameController.getInstance().markBullets();
 
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        handleInputs(delta);
+
+        GameController.getInstance().markBullets();
         GameController.getInstance().update(delta);
 
         updateCamera();
 
         if(Game.getInstance().getUserShip().getHealth() == 0)
         {
-            game.setScreen(new MainMenuScreen(game));
+            game.setScreen(new EndGameMenu(game));
         }
 
         game.getBatch().setProjectionMatrix(camera.combined);
@@ -99,14 +112,15 @@ public class GameScreen extends ScreenAdapter {
         drawHealth();
         drawScore();
         drawButtons();
+        //blockSprite.draw(game.getBatch());
         game.getBatch().end();
+
     }
 
     /**
      * Updates camera's position according to the player's position.
      */
-    private void updateCamera()
-    {
+    private void updateCamera() {
         float shipX = Game.getInstance().getUserShip().getX() / PIXEL_TO_METER;
         float shipY = Game.getInstance().getUserShip().getY() / PIXEL_TO_METER;
 
@@ -176,7 +190,6 @@ public class GameScreen extends ScreenAdapter {
         float xStartPos = (camera.position.x * PIXEL_TO_METER - (VIEWPORT_WIDTH / 2) + 2) / PIXEL_TO_METER;
         float yStartPos = ((camera.position.y * PIXEL_TO_METER + (VIEWPORT_WIDTH * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth())) / 2 - 2) / PIXEL_TO_METER);
 
-
         font.draw(game.getBatch(), "Score: " + (int) Game.getInstance().getScore(), xStartPos, yStartPos);
     }
 
@@ -241,10 +254,10 @@ public class GameScreen extends ScreenAdapter {
 
             Texture t = game.getAssetManager().get("gameScreen/fireButton.png");
 
-            if(mousePos.y > yStartPos && mousePos.y < yStartPos + t.getHeight() * 2) {
-                if(mousePos.x > xStartPos && mousePos.x < xStartPos + t.getWidth() * 2)
+            if (mousePos.y > yStartPos && mousePos.y < yStartPos + t.getHeight() * 2) {
+                if (mousePos.x > xStartPos && mousePos.x < xStartPos + t.getWidth() * 2)
                     GameController.getInstance().accelerate(delta);
-                if(mousePos.x < xEndPos && mousePos.x > xEndPos - t.getWidth() * 2)
+                if (mousePos.x < xEndPos && mousePos.x > xEndPos - t.getWidth() * 2)
                     GameController.getInstance().fire();
 
             }
@@ -266,14 +279,11 @@ public class GameScreen extends ScreenAdapter {
 
         Ship ship = Game.getInstance().getUserShip();
 
-        if(Game.getInstance().getUserShip().getShield() > 0)
-        {
+        if (Game.getInstance().getUserShip().getShield() > 0) {
             UserShipShieldView view = new UserShipShieldView(game);
             view.update(ship);
             view.draw(game.getBatch());
-        }
-        else
-        {
+        } else {
             UserShipView view = new UserShipView(game);
             view.update(ship);
             view.draw(game.getBatch());
@@ -323,24 +333,20 @@ public class GameScreen extends ScreenAdapter {
         for (int i = 0; i < Game.getInstance().getPowerUps().size(); i++) {
             PowerUp p = Game.getInstance().getPowerUps().get(i);
 
-            switch (p.getType())
-            {
-                case HEALTH_TYPE:
-                {
+            switch (p.getType()) {
+                case HEALTH_TYPE: {
                     HealthPowerUpView pView = new HealthPowerUpView(game);
                     pView.update(p);
                     pView.draw(game.getBatch());
                     break;
                 }
-                case SHIELD_TYPE:
-                {
+                case SHIELD_TYPE: {
                     ShieldPowerUpView pView = new ShieldPowerUpView(game);
                     pView.update(p);
                     pView.draw(game.getBatch());
                     break;
                 }
-                case TRIPLE_SHOT_TYPE:
-                {
+                case TRIPLE_SHOT_TYPE: {
                     TripleFirePowerUpView pView = new TripleFirePowerUpView(game);
                     pView.update(p);
                     pView.draw(game.getBatch());
@@ -355,9 +361,7 @@ public class GameScreen extends ScreenAdapter {
      * Draws the background
      */
     private void drawBackground() {
-        Texture background = game.getAssetManager().get("gameScreen/background.png", Texture.class);
-        background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        game.getBatch().draw(background, 0, 0, 0, 0, (int) (ARENA_WIDTH / PIXEL_TO_METER), (int) (ARENA_HEIGHT / PIXEL_TO_METER));
+        game.getBatch().draw(gameBackground, 0, 0, 0, 0, (int) (ARENA_WIDTH / PIXEL_TO_METER), (int) (ARENA_HEIGHT / PIXEL_TO_METER));
     }
 
 
