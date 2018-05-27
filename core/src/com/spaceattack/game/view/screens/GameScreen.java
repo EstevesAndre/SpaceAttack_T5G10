@@ -257,7 +257,7 @@ public class GameScreen extends ScreenAdapter {
             if (mousePos.y > yStartPos && mousePos.y < yStartPos + t.getHeight() * 2) {
                 if (mousePos.x > xStartPos && mousePos.x < xStartPos + t.getWidth() * 2)
                     GameController.getInstance().accelerate(delta);
-                if (mousePos.x < xEndPos && mousePos.x > xEndPos - t.getWidth() * 2)
+                else if (mousePos.x < xEndPos && mousePos.x > xEndPos - t.getWidth() * 2)
                     GameController.getInstance().fire();
                 else
                     game.setScreen(new PauseMenu(game, this));
