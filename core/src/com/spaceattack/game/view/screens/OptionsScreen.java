@@ -4,5 +4,5 @@ package com.spaceattack.game.view.screens;
  * Created by estev on 27/05/2018.
  */
 
-public class OptionsMenu extends MenuScreen {
+public class OptionsScreen extends MenuScreen {
 }

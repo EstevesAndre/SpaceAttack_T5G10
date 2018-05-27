@@ -225,6 +225,26 @@ public class GameController implements ContactListener {
         prefs.flush();
     }
 
+    public List<Score> getHighScores()
+    {
+        List<Score> l = new ArrayList<Score>();
+        Preferences prefs = Gdx.app.getPreferences("Saved Scores");
+
+        for(int i = 1; i <= 10; i++)
+        {
+            int score = prefs.getInteger("score" + i, 0);
+
+            if(score == 0)
+                break;
+
+            String date = prefs.getString("date" + i, "");
+
+            l.add(new Score(score, date));
+        }
+
+        return l;
+    }
+
     /**
      * Possibly spawns a power up in the position of a destroyed enemy ship
      */
