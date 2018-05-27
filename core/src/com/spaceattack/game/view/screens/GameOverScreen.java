@@ -1,5 +1,9 @@
 package com.spaceattack.game.view.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -10,14 +14,12 @@ public class GameOverScreen extends MenuScreen {
 
     private Label message;
 
-    private Skin skin;
-
     GameOverScreen(SpaceAttackGame game) {
         super(game);
 
-        skin = game.getSkin();
-        message = new Label ("GAME OVER!", skin);
-        message.setFontScale(2);
+        BitmapFont font = game.getBitMapFont();
+        Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
+        message = new Label ("GAME OVER!", style);
     }
 
 
