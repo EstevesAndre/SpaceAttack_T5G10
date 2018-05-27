@@ -28,6 +28,7 @@ import static com.spaceattack.game.controller.GameController.ARENA_WIDTH;
 import static com.spaceattack.game.model.PowerUp.HEALTH_TYPE;
 import static com.spaceattack.game.model.PowerUp.SHIELD_TYPE;
 import static com.spaceattack.game.model.PowerUp.TRIPLE_SHOT_TYPE;
+import static java.lang.Thread.sleep;
 
 /**
  * Created by estev on 25/05/2018.
@@ -235,6 +236,9 @@ public class GameScreen extends ScreenAdapter {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             GameController.getInstance().fire();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            game.setScreen(new PauseMenu(game,this));
         }
 
         if (Gdx.input.getAccelerometerY() > 1) {
