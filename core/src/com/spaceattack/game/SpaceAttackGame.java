@@ -32,6 +32,9 @@ public class SpaceAttackGame extends Game {
 
     private Skin skin2;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -51,11 +54,17 @@ public class SpaceAttackGame extends Game {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void dispose() {
         batch.dispose();

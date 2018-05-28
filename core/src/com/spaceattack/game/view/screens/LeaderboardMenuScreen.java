@@ -10,35 +10,51 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spaceattack.game.SpaceAttackGame;
-import com.spaceattack.game.controller.GameController;
 import com.spaceattack.game.model.Score;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * Created by estev on 27/05/2018.
+ * LeaderBoard Menu Screen
  */
-
 public class LeaderboardMenuScreen extends MenuScreen {
 
+    /**
+     * Message to be added to the table and the stage
+     */
     private Label message;
 
+    /**
+     * Skin to be applied to the message Label
+     */
     private Skin skin;
 
+    /**
+     * BitmapFont to be applied to the Label.LabelStyle
+     */
     private BitmapFont font;
 
+    /**
+     * style to be applied to the message Label
+     */
     private Label.LabelStyle style;
 
+    /**
+     * Default Size to the message Label
+     */
     private static final float DEFAULT_TEXT_SIZE = VIEWPORT_WIDTH / 30;
 
     /**
-     * The Scale that should be applied to the Message Label's Font.
+     * Scale to the Message Label's Font.
      */
     private static final float MESSAGE_FONT_SCALE = VIEWPORT_WIDTH / 1800;
 
-
+    /**
+     * Constructs the abstract Leaderboard Menu Screen
+     *
+     * @param game the game this screen belongs to. Needs to access the SpriteBatch batch
+     */
     LeaderboardMenuScreen(SpaceAttackGame game) {
         super(game);
 
@@ -54,6 +70,11 @@ public class LeaderboardMenuScreen extends MenuScreen {
 
     }
 
+    /**
+     * Adds the back to main menu button to the given table
+     *
+     * @param table table to be added the buttons
+     */
     private void createMenuButtons(Table table) {
 
         table.bottom();
@@ -63,6 +84,11 @@ public class LeaderboardMenuScreen extends MenuScreen {
         table.padBottom(BOTTOM_EDGE);
     }
 
+    /**
+     * Adds the Back to Main Menu Button to the table given as argument
+     *
+     * @param table table to be added the Back to Main Menu button
+     */
     protected void addBackToMainMenuButton(Table table) {
         TextButton backButton = new TextButton("Back To Main Menu", skin);
 
@@ -77,6 +103,10 @@ public class LeaderboardMenuScreen extends MenuScreen {
         table.add(backButton).size((BUTTON_WIDTH + 50) * 0.8f, DEFAULT_BUTTON_SIZE * 0.8f).pad(BUTTON_EDGE * 0.8f).row();
     }
 
+    /**
+     * Adds to the table the High Scores
+     * @param table table to the added the High Scores
+     */
     private void drawHighScores(Table table) {
         List<Score> highScores = new ArrayList<Score>();
 
@@ -153,6 +183,11 @@ public class LeaderboardMenuScreen extends MenuScreen {
         table.pad(0.2f * VIEWPORT_HEIGHT);
     }
 
+    /**
+     * Adds the message, "LEADERBOARD", to the given table
+     *
+     * @param table table to be added the Label
+     */
     private void drawTitle(Table table) {
         table.top();
 
@@ -161,26 +196,23 @@ public class LeaderboardMenuScreen extends MenuScreen {
         table.add(message).padTop(DEFAULT_TEXT_SIZE);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void show() {
         super.showBackground();
 
         Table table = new Table();
         table.setFillParent(true);
-//        table.setDebug(true);
-
         createMenuButtons(table);
 
         Table tableScores = new Table();
         tableScores.setFillParent(true);
-//        tableScores.setDebug(true);
-
         drawHighScores(tableScores);
 
         Table title = new Table();
         title.setFillParent(true);
-//        title.setDebug(true);
-
         drawTitle(title);
 
         stage.addActor(table);

@@ -31,29 +31,51 @@ import static com.spaceattack.game.model.PowerUp.TRIPLE_SHOT_TYPE;
 import static java.lang.Thread.sleep;
 
 /**
- * Created by estev on 25/05/2018.
+ * Game Screen
  */
-
 public class GameScreen extends ScreenAdapter {
 
+    /**
+     * How much meters does a pixel represent.
+     */
     public final static float PIXEL_TO_METER = 0.04f;
 
+    /**
+     * How much meters does a pixel represent.
+     */
     private static final float VIEWPORT_WIDTH = 100;
 
+    /**
+     * The height of the viewport in meters. The height is
+     * automatically calculated using the screen ratio.
+     */
     private static final float VIEWPORT_HEIGHT = VIEWPORT_WIDTH * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
 
+    /**
+     * The camera used to show the viewport.
+     */
     private final OrthographicCamera camera;
 
+    /**
+     * Score's label font
+     */
     private final BitmapFont font;
 
+    /**
+     * The current game
+     */
     private SpaceAttackGame game;
 
+    /**
+     * The game's background Image
+     */
     private Texture gameBackground;
 
-    private Viewport viewport;
-
-    private boolean pause;
-
+    /**
+     * Constructs the abstract Menu Screen
+     *
+     * @param game the game this screen belongs to. Needs to access the SpriteBatch batch
+     */
     public GameScreen(SpaceAttackGame game) {
         this.game = game;
 
@@ -61,12 +83,8 @@ public class GameScreen extends ScreenAdapter {
 
         camera = createCamera();
 
-        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
-
         gameBackground = game.getAssetManager().get("gameScreen/background.png", Texture.class);
         gameBackground.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-
-        pause = false;
     }
 
     /**
@@ -85,9 +103,7 @@ public class GameScreen extends ScreenAdapter {
 
 
     /**
-     * Renders this screen.
-     *
-     * @param delta time since last renders in seconds.
+     * {@inheritDoc}
      */
     @Override
     public void render(float delta) {
@@ -101,8 +117,7 @@ public class GameScreen extends ScreenAdapter {
 
         updateCamera();
 
-        if(Game.getInstance().getUserShip().getHealth() == 0)
-        {
+        if (Game.getInstance().getUserShip().getHealth() == 0) {
             game.setScreen(new GameOverScreen(game));
         }
 
@@ -171,16 +186,6 @@ public class GameScreen extends ScreenAdapter {
 
         s.setCenter(xStartPos, yStartPos);
         s.draw(game.getBatch());
-
-        /*xStartPos = (camera.position.x);
-
-        Texture pauseTexture = game.getAssetManager().get("gameScreen/pauseButton.png");
-        t = new TextureRegion(pauseTexture, pauseTexture.getWidth(), pauseTexture.getHeight());
-        s = new Sprite(t);
-        s.setScale(2f, 2f);
-
-        s.setCenter(xStartPos, yStartPos);
-        s.draw(game.getBatch());*/
     }
 
     /**
@@ -248,7 +253,7 @@ public class GameScreen extends ScreenAdapter {
             GameController.getInstance().rotateLeft(delta);
         }
 
-        for(int i = 0; i < 20; i++) {
+        for (int i = 0; i < 20; i++) {
             if (Gdx.input.isTouched(i)) {
                 float xStartPos = (camera.position.x * PIXEL_TO_METER - (VIEWPORT_WIDTH / 2)) / PIXEL_TO_METER;
                 float xEndPos = (camera.position.x * PIXEL_TO_METER + (VIEWPORT_WIDTH / 2)) / PIXEL_TO_METER;
@@ -365,8 +370,7 @@ public class GameScreen extends ScreenAdapter {
             }
 
             s.reduceShield(delta);
-            if(s.getShield() == 0)
-            {
+            if (s.getShield() == 0) {
                 Game.getInstance().removeExplodingShip(s);
             }
         }

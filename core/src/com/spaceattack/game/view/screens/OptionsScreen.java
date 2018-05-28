@@ -2,7 +2,6 @@ package com.spaceattack.game.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,47 +15,73 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spaceattack.game.SpaceAttackGame;
 
 /**
- * Created by estev on 27/05/2018.
+ * Options Screen
  */
-
 public class OptionsScreen extends MenuScreen {
 
+    /**
+     * Message to be added to the table and the stage
+     */
     private Label message;
 
+    /**
+     * BitmapFont to be applied to the Label.LabelStyle
+     */
     private BitmapFont font;
 
-    private Skin skin12;
+    /**
+     * Skin to be applied to the sliders and checkBoxes
+     */
+    private Skin slider_CheckBox_Skin;
 
+    /**
+     * style to be applied to the message Label
+     */
     private Label.LabelStyle style;
 
+    /**
+     * volumeMusic Label
+     */
     private Label volumeMusicLabel;
 
+    /**
+     * volumeSound Label
+     */
     private Label volumeSoundLabel;
 
+    /**
+     * musicOnOff Label
+     */
     private Label musicOnOffLabel;
 
+    /**
+     * soundOnOff Label
+     */
     private Label soundOnOffLabel;
 
+    /**
+     * The width of the viewport in pixels.
+     */
     protected static final float VIEWPORT_WIDTH = 750;
 
+    /**
+     * The height of the viewport in pixels.
+     */
     protected static final float VIEWPORT_HEIGHT = VIEWPORT_WIDTH * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
-
-    protected static final float BUTTON_WIDTH = VIEWPORT_WIDTH / 2;
-
-    protected static final float BUTTON_EDGE = VIEWPORT_WIDTH / 75;
-
-    protected static final float BOTTOM_EDGE = VIEWPORT_WIDTH / 75;
-
-    protected static final float DEFAULT_BUTTON_SIZE = VIEWPORT_WIDTH / 15;
 
     private static final float DEFAULT_TEXT_SIZE = VIEWPORT_WIDTH / 30;
 
+    /**
+     * Constructs the abstract Options Menu Screen
+     *
+     * @param game the game this screen belongs to. Needs to access the SpriteBatch batch
+     */
     public OptionsScreen(final SpaceAttackGame game) {
         super(game, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 
         font = game.getBitMapFont();
 
-        skin12 = game.getSkin2();
+        slider_CheckBox_Skin = game.getSkin2();
 
         font.getData().markupEnabled = true;
 
@@ -65,6 +90,11 @@ public class OptionsScreen extends MenuScreen {
         message = new Label("", style);
     }
 
+    /**
+     * Adds the back to main menu button to the given table
+     *
+     * @param table table to be added the buttons
+     */
     protected void addButtons(Table table) {
 
         table.bottom();
@@ -74,6 +104,11 @@ public class OptionsScreen extends MenuScreen {
         table.padBottom(BOTTOM_EDGE);
     }
 
+    /**
+     * Adds Back to Main Menu Button to the table given as argument
+     *
+     * @param table table to be added the Back to Main Menu button
+     */
     protected void addBackToMainMenuButton(Table table) {
         TextButton backButton = new TextButton("Main Menu", skin);
 
@@ -87,6 +122,11 @@ public class OptionsScreen extends MenuScreen {
         table.add(backButton).size(BUTTON_WIDTH, DEFAULT_BUTTON_SIZE).pad(BUTTON_EDGE).row();
     }
 
+    /**
+     * Adds the message, "OPTIONS", to the given table
+     *
+     * @param table table to be added the Label
+     */
     private void drawTitle(Table table) {
         table.top();
 
@@ -95,10 +135,23 @@ public class OptionsScreen extends MenuScreen {
         table.add(message).padTop(DEFAULT_TEXT_SIZE);
     }
 
+    /**
+     * Adds the Option Elements to the given table
+     * - Slider volumeMusicSlider
+     * - Slider soundMusicSlider
+     * - CheckBox musicCheckBox
+     * - CheckBox soundCheckBox
+     * - Label volumeMusicLabel
+     * - Label volumeSoundLabel
+     * - Label musicOnOffLabel
+     * - Label soundOnOffLabel
+     *
+     * @param table table to be added the Option Elements
+     */
     private void addOptionElements(Table table) {
 
         // MUSIC VOLUME
-        final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin12);
+        final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, slider_CheckBox_Skin);
         volumeMusicSlider.setValue(game.getPreferences().getMusicVolume());
         volumeMusicSlider.addListener(new EventListener() {
             @Override
@@ -110,7 +163,7 @@ public class OptionsScreen extends MenuScreen {
         });
 
         // SOUND VOLUME
-        final Slider soundMusicSlider = new Slider(0f, 1f, 0.1f, false, skin12);
+        final Slider soundMusicSlider = new Slider(0f, 1f, 0.1f, false, slider_CheckBox_Skin);
         soundMusicSlider.setValue(game.getPreferences().getSoundVolume());
         soundMusicSlider.addListener(new EventListener() {
             @Override
@@ -121,7 +174,7 @@ public class OptionsScreen extends MenuScreen {
         });
 
         // MUSIC ON/OFF
-        final CheckBox musicCheckBox = new CheckBox(null, skin12);
+        final CheckBox musicCheckBox = new CheckBox(null, slider_CheckBox_Skin);
         musicCheckBox.setChecked(game.getPreferences().isMusicEnabled());
         musicCheckBox.addListener(new EventListener() {
             @Override
@@ -138,7 +191,7 @@ public class OptionsScreen extends MenuScreen {
         });
 
         // SOUND ON/OFF
-        final CheckBox soundCheckBox = new CheckBox(null, skin12);
+        final CheckBox soundCheckBox = new CheckBox(null, slider_CheckBox_Skin);
         soundCheckBox.setChecked(game.getPreferences().isSoundEnabled());
         soundCheckBox.addListener(new EventListener() {
             @Override
@@ -170,26 +223,23 @@ public class OptionsScreen extends MenuScreen {
         table.padBottom(0.15f * VIEWPORT_HEIGHT);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void show() {
         super.showBackground();
 
         Table table = new Table();
         table.setFillParent(true);
-        //table.setDebug(true);
-
         addButtons(table);
 
         Table title = new Table();
         title.setFillParent(true);
-//        title.setDebug(true);
-
         drawTitle(title);
 
         Table options = new Table();
         options.setFillParent(true);
-        //options.setDebug(true);
-
         addOptionElements(options);
 
         stage.addActor(table);
