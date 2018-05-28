@@ -64,6 +64,8 @@ public class GameController implements ContactListener {
      * The world controlled by this controller.
      */
     private final World world;
+    private final boolean sound;
+    private final float soundVol;
 
     /**
      * Accumulator used to calculate the simulation step.
@@ -107,6 +109,10 @@ public class GameController implements ContactListener {
         world = new World(new Vector2(0, 0), true);
 
         userShip = new UserShipBody(world, Game.getInstance().getUserShip());
+
+        Preferences prefs = Gdx.app.getPreferences("spaceattack");
+        this.sound = prefs.getBoolean("sound.enabled", true);
+        this.soundVol = prefs.getFloat("sound", 0.5f);
 
         fireSound = Gdx.audio.newSound(Gdx.files.internal("musics/laser.mp3"));
         hitSound = Gdx.audio.newSound(Gdx.files.internal("musics/hit.mp3"));
@@ -165,7 +171,10 @@ public class GameController implements ContactListener {
 
                 if (((Ship) body.getUserData()).getHealth() == 0) {
                     if (((Ship) body.getUserData()).getBulletSpeed() < 5000) {
-                        explosionSound.play();
+                        if(sound) {
+                            long id = explosionSound.play();
+                            explosionSound.setVolume(id, soundVol);
+                        }
 
                         Game.getInstance().addScore(((Ship) body.getUserData()).getSpeed() - 1000);
                         ((Ship) body.getUserData()).destroy();
@@ -456,7 +465,10 @@ public class GameController implements ContactListener {
 
         if(((Ship) shipBody.getUserData()).getBulletSpeed() >= 5000)
         {
-            hitSound.play();
+            if(sound) {
+                long id = hitSound.play();
+                hitSound.setVolume(id, soundVol);
+            }
         }
 
         shipBody.setLinearVelocity(0, 0);
@@ -523,7 +535,10 @@ public class GameController implements ContactListener {
                 bBody2.setLinearVelocity(b2.getSpeed());
             }
 
-            fireSound.play();
+            if(sound) {
+                long id = fireSound.play();
+                fireSound.setVolume(id, soundVol);
+            }
         }
     }
 
