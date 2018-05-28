@@ -3,6 +3,9 @@ package com.spaceattack.game.controller;
 import com.badlogic.gdx.physics.box2d.World;
 import com.spaceattack.game.model.Bullet;
 
+/**
+ * User Bullet Body
+ */
 public class UserBulletBody extends ObjectBody{
     /**
      * Constructor of a user bullet body

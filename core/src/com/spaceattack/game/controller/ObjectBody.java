@@ -9,6 +9,9 @@ import com.spaceattack.game.model.GameObject;
 
 import static com.spaceattack.game.view.screens.GameScreen.PIXEL_TO_METER;
 
+/**
+ * Main Class - ObjectBody
+ */
 public class ObjectBody {
     final static short USER_SHIP_BODY = 0x0001;
     final static short ENEMY_SHIP_BODY = 0x0002;

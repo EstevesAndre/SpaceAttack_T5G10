@@ -3,6 +3,9 @@ package com.spaceattack.game.controller;
 import com.badlogic.gdx.physics.box2d.World;
 import com.spaceattack.game.model.Ship;
 
+/**
+ * Enemy Ship body
+ */
 public class EnemyShipBody extends ObjectBody{
     /**
      * Constructor of a user ship body

@@ -35,7 +35,9 @@ import static com.spaceattack.game.model.PowerUp.TRIPLE_SHOT_TYPE;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
-
+/**
+ * Game Controller - Singleton
+ */
 public class GameController implements ContactListener {
 
     /**
@@ -311,6 +313,11 @@ public class GameController implements ContactListener {
         new EnemyShipBody(world, s);
     }
 
+    /**
+     * Returns the probability of each Enemy Ship(5) depending on the current score.
+     *
+     * @return Array of floats with each Enemy Ship probability.
+     */
     private float[] getShipRatio() {
         float[] ret = new float[5];
 
@@ -609,6 +616,9 @@ public class GameController implements ContactListener {
 
     }
 
+    /**
+     * Updates High Scores and initializes again the singleton of the GameController
+     */
     public void restart()
     {
         checkHighScores();

@@ -4,6 +4,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.spaceattack.game.model.Bullet;
 import com.spaceattack.game.model.PowerUp;
 
+/**
+ * Power Up Body
+ */
 public class PowerUpBody extends ObjectBody{
     /**
      * Constructor of a power up body
