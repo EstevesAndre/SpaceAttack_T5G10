@@ -42,9 +42,9 @@ public abstract class MenuScreen extends ScreenAdapter {
      */
     // GameServices gameServices;
 
-    protected static final float VIEWPORT_WIDTH = Gdx.graphics.getWidth();
+    protected static final float VIEWPORT_WIDTH = 750;
 
-    protected static final float VIEWPORT_HEIGHT = Gdx.graphics.getHeight();
+    protected static final float VIEWPORT_HEIGHT = VIEWPORT_WIDTH * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
 
     protected static final float BUTTON_WIDTH = VIEWPORT_WIDTH / 2;
 

@@ -69,44 +69,54 @@ public class OptionsScreen extends MenuScreen {
 
     private void addOptionElements(Table table) {
 
-        // SOUND VOLUME
-        final Slider soundMusicSlider = new Slider(0f, 1f, 0.1f, false, skin12);
-        soundMusicSlider.setValue(game.getPreferences().getMusicVolume());
-        soundMusicSlider.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                game.getPreferences().setMusicVolume(soundMusicSlider.getValue());
-                return false;
-            }
-        });
-
-        // MUSIC Volume
+        // MUSIC VOLUME
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin12);
         volumeMusicSlider.setValue(game.getPreferences().getMusicVolume());
         volumeMusicSlider.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
                 game.getPreferences().setMusicVolume(volumeMusicSlider.getValue());
+                game.getMusic().setVolume(volumeMusicSlider.getValue());
                 return false;
             }
         });
 
+        // SOUND VOLUME
+        final Slider soundMusicSlider = new Slider(0f, 1f, 0.1f, false, skin12);
+        soundMusicSlider.setValue(game.getPreferences().getSoundVolume());
+        soundMusicSlider.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                game.getPreferences().setSoundVolume(soundMusicSlider.getValue());
+                return false;
+            }
+        });
+
+        // MUSIC ON/OFF
         final CheckBox musicCheckBox = new CheckBox(null, skin12);
         musicCheckBox.setChecked(game.getPreferences().isMusicEnabled());
         musicCheckBox.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                game.getPreferences().setMusicEnabled(musicCheckBox.isChecked());
+                boolean enabled = musicCheckBox.isChecked();
+                game.getPreferences().setMusicEnabled(enabled);
+                if(enabled)
+                    game.getMusic().play();
+                else
+                    game.getMusic().pause();
+
                 return false;
             }
         });
 
+        // SOUND ON/OFF
         final CheckBox soundCheckBox = new CheckBox(null, skin12);
-        soundCheckBox.setChecked(game.getPreferences().isSoundnabled());
+        soundCheckBox.setChecked(game.getPreferences().isSoundEnabled());
         soundCheckBox.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                game.getPreferences().setSoundEnabled(soundCheckBox.isChecked());
+                boolean enabled = soundCheckBox.isChecked();
+                game.getPreferences().setSoundEnabled(enabled);
                 return false;
             }
         });
@@ -116,19 +126,20 @@ public class OptionsScreen extends MenuScreen {
         musicOnOffLabel = new Label("Music           ", skin);
         soundOnOffLabel = new Label("Sound           ", skin);
 
-        table.row().pad(10,0,0,10);
+        table.bottom();
+        table.row().pad(10,0,30,10);
         table.add(volumeMusicLabel).left();
-        table.add(soundMusicSlider).row();
-        table.pad(10, 0, 0, 10);
+        table.add(volumeMusicSlider);
+        table.row().pad(10,0,30,10);
         table.add(musicOnOffLabel).left();
-        table.add(musicCheckBox).row();
-        table.pad(10, 0, 10, 10);
+        table.add(musicCheckBox);
+        table.row().pad(10,0,30,10);
         table.add(volumeSoundLabel).left();
-        table.add(volumeMusicSlider).row();
-        table.pad(10, 0, 10, 10);
+        table.add(soundMusicSlider);
+        table.row().pad(10,0,30,10);
         table.add(soundOnOffLabel).left();
-        table.add(soundCheckBox).row();
-        table.pad(10, 0, 10, 10);
+        table.add(soundCheckBox);
+        table.padBottom(0.15f * VIEWPORT_HEIGHT);
     }
 
     @Override
