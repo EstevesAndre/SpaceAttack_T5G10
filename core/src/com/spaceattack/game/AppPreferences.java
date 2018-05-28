@@ -19,7 +19,7 @@ public class AppPreferences {
         return Gdx.app.getPreferences(PREFS_NAME);
     }
 
-    public boolean isSoundnabled() {
+    public boolean isSoundEnabled() {
         return getPrefs().getBoolean(PREF_SOUND_ENABLED, true);
     }
 

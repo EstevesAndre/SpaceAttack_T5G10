@@ -19,6 +19,8 @@ public class SpaceAttackGame extends Game {
 
     private AppPreferences preferences;
 
+    private Music music;
+
     private BitmapFont font;
 
     private Skin skin1;
@@ -55,7 +57,7 @@ public class SpaceAttackGame extends Game {
         assetManager.dispose();
     }
 
-    public AppPreferences getPreferences(){
+    public AppPreferences getPreferences() {
         return this.preferences;
     }
 
@@ -112,10 +114,14 @@ public class SpaceAttackGame extends Game {
      * Set the Game's Music.
      */
     private void setMusic() {
-        Music music = Gdx.audio.newMusic(Gdx.files.internal("musics/backgroundMusic.ogg"));
-        music.setVolume(0.5f);
+        music = Gdx.audio.newMusic(Gdx.files.internal("musics/backgroundMusic.ogg"));
+        music.setVolume(preferences.getMusicVolume());
         music.setLooping(true);
-        music.play();
+
+        if (preferences.isMusicEnabled())
+            music.play();
+        else
+            music.pause();
     }
 
     /**
@@ -146,6 +152,10 @@ public class SpaceAttackGame extends Game {
 
     public Skin getSkin2() {
         return skin2;
+    }
+
+    public Music getMusic() {
+        return music;
     }
 
 }
