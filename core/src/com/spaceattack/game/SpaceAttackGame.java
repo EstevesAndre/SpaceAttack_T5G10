@@ -12,8 +12,13 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.spaceattack.game.view.screens.MainMenuScreen;
 
+/**
+ * Game Class - SpaceAttackGame
+ */
 public class SpaceAttackGame extends Game {
-    SpriteBatch batch;
+
+
+    private SpriteBatch batch;
 
     private AssetManager assetManager;
 
@@ -57,10 +62,18 @@ public class SpaceAttackGame extends Game {
         assetManager.dispose();
     }
 
+    /**
+     * Gets the AppPreferences Clas of the Game
+     *
+     * @return respective preferences
+     */
     public AppPreferences getPreferences() {
         return this.preferences;
     }
 
+    /**
+     * Creates BitmapFont to use on different menus
+     */
     private void createBitmapFont() {
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("virgo.ttf"));
@@ -77,23 +90,32 @@ public class SpaceAttackGame extends Game {
         this.assetManager.load("menuBackground.png", Texture.class);
         this.assetManager.load("space_attack_title.png", Texture.class);
 
-        this.assetManager.load("gameScreen/background.png", Texture.class);
+        // User Ships
         this.assetManager.load("userShip/userShip.png", Texture.class);
         this.assetManager.load("userShip/shipShield.png", Texture.class);
         this.assetManager.load("userShip/laserRed.png", Texture.class);
+
+        // Enemy Ships
         this.assetManager.load("enemyShips/laserGreen.png", Texture.class);
         this.assetManager.load("enemyShips/enemyShipRed.png", Texture.class);
         this.assetManager.load("enemyShips/enemyShipGreen.png", Texture.class);
         this.assetManager.load("enemyShips/enemyShipYellow.png", Texture.class);
         this.assetManager.load("enemyShips/enemyShipBlue.png", Texture.class);
         this.assetManager.load("enemyShips/enemyShipPurple.png", Texture.class);
-        this.assetManager.load("animations/portal.png", Texture.class);
+
+        // Game Screen
+        this.assetManager.load("gameScreen/background.png", Texture.class);
         this.assetManager.load("gameScreen/heart.png", Texture.class);
         this.assetManager.load("gameScreen/fireButton.png", Texture.class);
         this.assetManager.load("gameScreen/throttleButton.png", Texture.class);
+
+        // PowerUps
         this.assetManager.load("powerUps/1UP.png", Texture.class);
         this.assetManager.load("powerUps/shieldPower.png", Texture.class);
         this.assetManager.load("powerUps/bulletPower.png", Texture.class);
+
+        // Animations
+        this.assetManager.load("animations/portal.png", Texture.class);
         this.assetManager.load("animations/redExplosion.png", Texture.class);
         this.assetManager.load("animations/blueExplosion.png", Texture.class);
         this.assetManager.load("animations/greenExplosion.png", Texture.class);
@@ -142,18 +164,38 @@ public class SpaceAttackGame extends Game {
         return batch;
     }
 
+    /**
+     * Gets the BitmapFont
+     *
+     * @return the BitmapFont font
+     */
     public BitmapFont getBitMapFont() {
         return font;
     }
 
+    /**
+     * Gets the Skin to menu buttons
+     *
+     * @return the skin1
+     */
     public Skin getSkin() {
         return skin1;
     }
 
+    /**
+     * Gets the Skin to Sliders and Check Boxes
+     *
+     * @return the skin2
+     */
     public Skin getSkin2() {
         return skin2;
     }
 
+    /**
+     * Gets the Music to play on the Game
+     *
+     * @return the music
+     */
     public Music getMusic() {
         return music;
     }
