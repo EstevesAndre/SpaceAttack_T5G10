@@ -109,7 +109,7 @@ public class GameScreen extends ScreenAdapter {
         game.getBatch().setProjectionMatrix(camera.combined);
         game.getBatch().begin();
         drawBackground();
-        drawEntities();
+        drawEntities(delta);
         drawHealth();
         drawScore();
         drawButtons();
@@ -277,7 +277,7 @@ public class GameScreen extends ScreenAdapter {
     /**
      * Draws the entities to the screen.
      */
-    private void drawEntities() {
+    private void drawEntities(float delta) {
         for (int i = 0; i < Game.getInstance().getPortals().size(); i++) {
             Portal p = Game.getInstance().getPortals().get(i);
 
@@ -337,6 +337,38 @@ public class GameScreen extends ScreenAdapter {
                 sView.draw(game.getBatch());
             }
 
+        }
+
+        for (int i = 0; i < Game.getInstance().getExplodingShips().size(); i++) {
+            Ship s = Game.getInstance().getExplodingShips().get(i);
+
+            if (s.getSpeed() == 1500) {
+                ExplodingRedShipView sView = new ExplodingRedShipView(game);
+                sView.update(s);
+                sView.draw(game.getBatch());
+            } else if (s.getSpeed() == 2000) {
+                ExplodingBlueShipView sView = new ExplodingBlueShipView(game);
+                sView.update(s);
+                sView.draw(game.getBatch());
+            } else if (s.getSpeed() == 2500) {
+                ExplodingGreenShipView sView = new ExplodingGreenShipView(game);
+                sView.update(s);
+                sView.draw(game.getBatch());
+            } else if (s.getSpeed() == 3000) {
+                ExplodingYellowShipView sView = new ExplodingYellowShipView(game);
+                sView.update(s);
+                sView.draw(game.getBatch());
+            } else {
+                ExplodingPurpleShipView sView = new ExplodingPurpleShipView(game);
+                sView.update(s);
+                sView.draw(game.getBatch());
+            }
+
+            s.reduceShield(delta);
+            if(s.getShield() == 0)
+            {
+                Game.getInstance().removeExplodingShip(s);
+            }
         }
 
         for (int i = 0; i < Game.getInstance().getPowerUps().size(); i++) {

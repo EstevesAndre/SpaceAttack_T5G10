@@ -94,11 +94,11 @@ public class SpaceAttackGame extends Game {
         this.assetManager.load("powerUps/1UP.png", Texture.class);
         this.assetManager.load("powerUps/shieldPower.png", Texture.class);
         this.assetManager.load("powerUps/bulletPower.png", Texture.class);
-/*
-        this.assetManager.load("test/block.png", Texture.class);
-        this.assetManager.load("test/touchBackground.png", Texture.class);
-        this.assetManager.load("test/touchKnob.png", Texture.class);*/
-        // load animations
+        this.assetManager.load("animations/redExplosion.png", Texture.class);
+        this.assetManager.load("animations/blueExplosion.png", Texture.class);
+        this.assetManager.load("animations/greenExplosion.png", Texture.class);
+        this.assetManager.load("animations/yellowExplosion.png", Texture.class);
+        this.assetManager.load("animations/purpleExplosion.png", Texture.class);
 
         this.assetManager.finishLoading();
     }

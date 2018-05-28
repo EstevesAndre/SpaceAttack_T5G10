@@ -44,6 +44,11 @@ public class Game {
     private List<PowerUp> powerUps;
 
     /**
+     * The exploding ships present on the game
+     */
+    private List<Ship> explodingShips;
+
+    /**
      * The current score of the game.
      */
     private double score;
@@ -70,6 +75,7 @@ public class Game {
         bullets = new ArrayList<Bullet>();
         portals = new ArrayList<Portal>();
         powerUps = new ArrayList<PowerUp>();
+        explodingShips = new ArrayList<Ship>();
         createPortals();
         score = 0;
     }
@@ -119,6 +125,13 @@ public class Game {
     public List<PowerUp> getPowerUps() {return powerUps;}
 
     /**
+     * Gets the exploding ships
+     *
+     * @return the exploding ships list.
+     */
+    public List<Ship> getExplodingShips() {return explodingShips;}
+
+    /**
      * Gets the bullets of either user's ship or enemy's ships.
      *
      * @return the bullets list.
@@ -164,6 +177,15 @@ public class Game {
     }
 
     /**
+     * Adds a new exploding ship on this instance.
+     *
+     * @param ship The new exploding ship.
+     */
+    public void addExplodingShip(Ship ship){
+        explodingShips.add(ship);
+    }
+
+    /**
      * Removes the given ship of this instance.
      *
      * @param enemyShip The Ship to be removed.
@@ -193,6 +215,18 @@ public class Game {
     public void removePowerUp(PowerUp powerUp) {
         if(powerUps.size() != 0)
             powerUps.remove(powerUp);
+    }
+
+    /**
+     * Removes the given ship of this instance.
+     *
+     * @param ship The Ship to be removed.
+     */
+    public void removeExplodingShip(Ship ship) {
+
+        if(explodingShips.size() != 0)
+            explodingShips.remove(ship);
+
     }
 
     /**

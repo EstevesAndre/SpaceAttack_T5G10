@@ -179,6 +179,9 @@ public class GameController implements ContactListener {
                         Game.getInstance().addScore(((Ship) body.getUserData()).getSpeed() - 1000);
                         ((Ship) body.getUserData()).destroy();
                         Game.getInstance().removeEnemyShip((Ship) body.getUserData());
+                        ((Ship) body.getUserData()).reduceShield(1000);
+                        ((Ship) body.getUserData()).shield(0.55f);
+                        Game.getInstance().addExplodingShip((Ship) body.getUserData());
                         generatePowerUp(body);
                     } else {
                         restart();
