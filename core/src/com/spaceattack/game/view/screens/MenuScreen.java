@@ -42,9 +42,9 @@ public abstract class MenuScreen extends ScreenAdapter {
      */
     // GameServices gameServices;
 
-    protected static final float VIEWPORT_WIDTH = 750;
+    protected static final float VIEWPORT_WIDTH = Gdx.graphics.getWidth();
 
-    protected static final float VIEWPORT_HEIGHT = VIEWPORT_WIDTH * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
+    protected static final float VIEWPORT_HEIGHT = Gdx.graphics.getHeight();
 
     protected static final float BUTTON_WIDTH = VIEWPORT_WIDTH / 2;
 
@@ -71,6 +71,25 @@ public abstract class MenuScreen extends ScreenAdapter {
         titleImg = new Image(game.getAssetManager().get("space_attack_title.png", Texture.class));
         titleImg.setSize(0.9f * VIEWPORT_WIDTH, 0.3f * VIEWPORT_HEIGHT);
         titleImg.setPosition(VIEWPORT_WIDTH / 2 - titleImg.getWidth() / 2, VIEWPORT_HEIGHT * 0.98f - titleImg.getHeight());
+    }
+
+    protected MenuScreen(final SpaceAttackGame game, float width, float height) {
+        this.game = game;
+        batch = game.getBatch();
+        //  gameServices = game.getGameServices();
+        skin = game.getSkin();
+
+        viewport = new FitViewport(width, height);
+        viewport.apply();
+
+        stage = new Stage(viewport, batch);
+
+        backgroundImg = new Image(game.getAssetManager().get("menuBackground.png", Texture.class));
+        backgroundImg.setScale(width / backgroundImg.getWidth(), height / backgroundImg.getHeight());
+
+        titleImg = new Image(game.getAssetManager().get("space_attack_title.png", Texture.class));
+        titleImg.setSize(0.9f * width, 0.3f * height);
+        titleImg.setPosition(width / 2 - titleImg.getWidth() / 2, height * 0.98f - titleImg.getHeight());
     }
 
     protected void addPlayButton(Table table, String text) {

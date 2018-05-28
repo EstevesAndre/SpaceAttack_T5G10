@@ -5,11 +5,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spaceattack.game.SpaceAttackGame;
 
 /**
@@ -34,10 +37,22 @@ public class OptionsScreen extends MenuScreen {
 
     private Label soundOnOffLabel;
 
+    protected static final float VIEWPORT_WIDTH = 750;
+
+    protected static final float VIEWPORT_HEIGHT = VIEWPORT_WIDTH * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
+
+    protected static final float BUTTON_WIDTH = VIEWPORT_WIDTH / 2;
+
+    protected static final float BUTTON_EDGE = VIEWPORT_WIDTH / 75;
+
+    protected static final float BOTTOM_EDGE = VIEWPORT_WIDTH / 75;
+
+    protected static final float DEFAULT_BUTTON_SIZE = VIEWPORT_WIDTH / 15;
+
     private static final float DEFAULT_TEXT_SIZE = VIEWPORT_WIDTH / 30;
 
     public OptionsScreen(final SpaceAttackGame game) {
-        super(game);
+        super(game, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 
         font = game.getBitMapFont();
 
@@ -57,6 +72,19 @@ public class OptionsScreen extends MenuScreen {
         addBackToMainMenuButton(table);
 
         table.padBottom(BOTTOM_EDGE);
+    }
+
+    protected void addBackToMainMenuButton(Table table) {
+        TextButton backButton = new TextButton("Main Menu", skin);
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new MainMenuScreen(game));
+            }
+        });
+
+        table.add(backButton).size(BUTTON_WIDTH, DEFAULT_BUTTON_SIZE).pad(BUTTON_EDGE).row();
     }
 
     private void drawTitle(Table table) {
