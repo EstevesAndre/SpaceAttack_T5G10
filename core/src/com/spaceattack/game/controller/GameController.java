@@ -553,7 +553,7 @@ public class GameController implements ContactListener {
         ((Ship) body.getUserData()).setRotation(angle);
         body.setTransform(body.getPosition(), angle);
 
-        if (new Vector2(((Ship) body.getUserData()).getX(), ((Ship) body.getUserData()).getY()).dst(Game.getInstance().getUserShip().getX(), Game.getInstance().getUserShip().getY()) > 30) {
+        if (new Vector2(((Ship) body.getUserData()).getX(), ((Ship) body.getUserData()).getY()).dst(Game.getInstance().getUserShip().getX(), Game.getInstance().getUserShip().getY()) > 25) {
             body.setLinearVelocity(-(float) sin(body.getAngle()) * ((Ship) (body.getUserData())).getSpeed() * delta, (float) cos(body.getAngle()) * ((Ship) (body.getUserData())).getSpeed() * delta);
         } else {
             if (((Ship) (body.getUserData())).getFireCooldown() <= 0) {
