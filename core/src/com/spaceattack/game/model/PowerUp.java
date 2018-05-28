@@ -1,5 +1,11 @@
 package com.spaceattack.game.model;
 
+/**
+ * Power Up of the games
+ * Types:   1 - Health
+ *          2 - Triple Shot
+ *          3 - Shield
+ */
 public class PowerUp extends GameObject{
 
     final public static int HEALTH_TYPE = 1;
