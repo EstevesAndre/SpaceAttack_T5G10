@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.spaceattack.game.SpaceAttackGame;
 import com.spaceattack.game.model.GameObject;
 
+/**
+ * User Ship View
+ */
 public class UserShipView extends ObjectView{
 
     /**

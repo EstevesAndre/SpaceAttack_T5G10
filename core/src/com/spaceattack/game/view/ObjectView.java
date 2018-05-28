@@ -8,6 +8,9 @@ import com.spaceattack.game.model.GameObject;
 
 import static com.spaceattack.game.view.screens.GameScreen.PIXEL_TO_METER;
 
+/**
+ * Object View
+ */
 public abstract class ObjectView {
 
     /**

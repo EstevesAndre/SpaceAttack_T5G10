@@ -1,8 +1,5 @@
 package com.spaceattack.game.view.screens;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.spaceattack.game.SpaceAttackGame;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;

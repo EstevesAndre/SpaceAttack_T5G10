@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.spaceattack.game.SpaceAttackGame;
 
+/**
+ * Enemy Ship View - BLUE Color
+ */
 public class EnemyShipViewBlue extends ObjectView{
 
     /**

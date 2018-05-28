@@ -6,9 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.spaceattack.game.SpaceAttackGame;
 
 /**
- * Created by estev on 17/05/2018.
+ * Enemy Bullet View - GREEN Color
  */
-
 public class EnemyBulletView extends ObjectView{
 
     /**
