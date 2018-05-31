@@ -246,20 +246,6 @@ public class Game {
     }
 
     /**
-     * Removes a model from this game.
-     *
-     * @param model the model to be removed
-     */
-    public void remove(Object model) {
-        if (model instanceof Bullet) {
-            bullets.remove(model);
-        }
-        else if (model instanceof  Ship) {
-            enemyShips.remove(model);
-        }
-    }
-
-    /**
      * Starts a new game
      */
     public void restart() {

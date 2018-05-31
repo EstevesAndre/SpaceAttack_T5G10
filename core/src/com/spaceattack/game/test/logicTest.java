@@ -4,7 +4,11 @@ import org.junit.Test;
 
 import com.spaceattack.game.model.Bullet;
 import com.spaceattack.game.model.Game;
+import com.spaceattack.game.model.Portal;
+import com.spaceattack.game.model.PowerUp;
 import com.spaceattack.game.model.Ship;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -181,5 +185,42 @@ public class logicTest {
         assertTrue(g.getScore() == 1000);
         g.resetScore();
         assertTrue(g.getScore() == 0);
+    }
+
+    @Test
+    public void testPortalCreate() {
+        List<Portal> l = Game.getInstance().getPortals();
+        assertTrue(l.size() == 6);
+    }
+
+    @Test
+    public void testPowerUps() {
+        Game.getInstance().restart();
+        assertTrue(Game.getInstance().getPowerUps().size() == 0);
+        PowerUp p = new PowerUp(0, 0, 0, PowerUp.SHIELD_TYPE);
+        assertEquals(PowerUp.SHIELD_TYPE, p.getType());
+        Game.getInstance().addPowerUp(p);
+        assertTrue(Game.getInstance().getPowerUps().size() == 1);
+        Game.getInstance().removePowerUp(p);
+        assertTrue(Game.getInstance().getPowerUps().size() == 0);
+    }
+
+    @Test
+    public void testExplodingShips() {
+        Game.getInstance().restart();
+        assertTrue(Game.getInstance().getExplodingShips().size() == 0);
+        Ship s = new Ship(0, 1, 2, 3, 4, 5, 6);
+        Game.getInstance().addExplodingShip(s);
+        assertTrue(Game.getInstance().getExplodingShips().size() == 1);
+        Game.getInstance().removeExplodingShip(s);
+        assertTrue(Game.getInstance().getExplodingShips().size() == 0);
+    }
+
+    @Test
+    public void testMarkingObjects() {
+        Ship s = new Ship(0, 1, 2, 3, 4, 5, 6);
+        assertFalse(s.isMarked());
+        s.destroy();
+        assertTrue(s.isMarked());
     }
 }
