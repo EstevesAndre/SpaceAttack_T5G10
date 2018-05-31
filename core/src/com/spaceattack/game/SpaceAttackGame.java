@@ -17,20 +17,40 @@ import com.spaceattack.game.view.screens.MainMenuScreen;
  */
 public class SpaceAttackGame extends Game {
 
-
+    /**
+     * Sprite batch of the game
+     */
     private SpriteBatch batch;
 
+    /**
+     * Assets manager where is loaded all the needed textures
+     */
     private AssetManager assetManager;
 
+    /**
+     * Preferences class to manage options menu
+     */
     private AppPreferences preferences;
 
+    /**
+     * Music of the game
+     */
     private Music music;
 
+    /**
+     * BitmapFont to buttons of the menus
+     */
     private BitmapFont font;
 
-    private Skin skin1;
+    /**
+     * Skin used for the menu buttons
+     */
+    private Skin skinButtons;
 
-    private Skin skin2;
+    /**
+     * Skin used for the option menu sliders and checkBoxs
+     */
+    private Skin skinSliderCheckBox;
 
     /**
      * {@inheritDoc}
@@ -42,9 +62,9 @@ public class SpaceAttackGame extends Game {
         preferences = new AppPreferences();
 
 
-        skin1 = new Skin(Gdx.files.internal("skins/skin.json"), new TextureAtlas("skins/skin.atlas"));
+        skinButtons = new Skin(Gdx.files.internal("skins/skin.json"), new TextureAtlas("skins/skin.atlas"));
 
-        skin2 = new Skin(Gdx.files.internal("skins/flat-earth-ui.json"), new TextureAtlas("skins/flat-earth-ui.atlas"));
+        skinSliderCheckBox = new Skin(Gdx.files.internal("skins/flat-earth-ui.json"), new TextureAtlas("skins/flat-earth-ui.atlas"));
 
         loadAssets();
         setMusic();
@@ -185,19 +205,19 @@ public class SpaceAttackGame extends Game {
     /**
      * Gets the Skin to menu buttons
      *
-     * @return the skin1
+     * @return the skinButtons
      */
     public Skin getSkin() {
-        return skin1;
+        return skinButtons;
     }
 
     /**
      * Gets the Skin to Sliders and Check Boxes
      *
-     * @return the skin2
+     * @return the skinSliderCheckBox
      */
-    public Skin getSkin2() {
-        return skin2;
+    public Skin getSkinSliderCheckBox() {
+        return skinSliderCheckBox;
     }
 
     /**
