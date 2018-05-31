@@ -513,6 +513,7 @@ public class GameController implements ContactListener {
      */
     public void accelerate(float delta) {
         userShip.getBody().applyForceToCenter(-(float) sin(userShip.getBody().getAngle()) * ((Ship) (userShip.getBody().getUserData())).getSpeed() * delta, (float) cos(userShip.getBody().getAngle()) * ((Ship) (userShip.getBody().getUserData())).getSpeed() * delta, true);
+        ((Ship)userShip.getBody().getUserData()).setFlying(true);
     }
 
     /**

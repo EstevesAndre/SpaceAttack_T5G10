@@ -101,7 +101,9 @@ public class SpaceAttackGame extends Game {
 
         // User Ships
         this.assetManager.load("userShip/userShip.png", Texture.class);
+        this.assetManager.load("animations/user_Ship_Burst.png", Texture.class);
         this.assetManager.load("userShip/shipShield.png", Texture.class);
+        this.assetManager.load("animations/user_Ship_Shield_Burst.png", Texture.class);
         this.assetManager.load("userShip/laserRed.png", Texture.class);
 
         // Enemy Ships
