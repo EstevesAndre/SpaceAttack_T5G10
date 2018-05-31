@@ -1,0 +1,8 @@
+com.spaceattack.game
+com.spaceattack.game.client
+com.spaceattack.game.controller
+com.spaceattack.game.desktop
+com.spaceattack.game.model
+com.spaceattack.game.test
+com.spaceattack.game.view
+com.spaceattack.game.view.screens
