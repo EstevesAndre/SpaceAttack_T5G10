@@ -208,8 +208,8 @@ public class Ship extends GameObject{
      * Sets the speed of this ship with the given parameter, speed.
      *
      * @param speed The new speed of the ship.
-     *              If is moving, speed > 0.
-     *              If is stopped, speed = 0.
+     *              If is moving, speed greater than 0.
+     *              If is stopped, speed equals to 0.
      */
     public void setSpeed(float speed) {
         this.speed = speed;

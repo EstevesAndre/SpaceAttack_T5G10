@@ -3,8 +3,6 @@ package com.spaceattack.game.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sound.sampled.Port;
-
 import static com.spaceattack.game.controller.GameController.ARENA_HEIGHT;
 import static com.spaceattack.game.controller.GameController.ARENA_WIDTH;
 

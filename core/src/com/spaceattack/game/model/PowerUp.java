@@ -23,6 +23,11 @@ public class PowerUp extends GameObject{
      * @param x The x coordinate of this portal.
      * @param y The y coordinate of this portal.
      * @param rotation The rotation of this portal.
+     * @param type Type of the Power UP:
+     *                  1 - Health
+     *                  2 - Triple Shot
+     *                  3 - Shield
+     *
      */
     public PowerUp(float x, float y, float rotation, int type)
     {

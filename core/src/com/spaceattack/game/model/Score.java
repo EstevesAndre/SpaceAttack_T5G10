@@ -16,9 +16,10 @@ public class Score implements Comparable<Score>{
     private String date;
 
     /**
-     * Constructor of a certain model with a given position and rotation.
+     * Score and Date of the current game
      *
-     * @param score
+     * @param score Score achieved
+     * @param date Date of the current game1
      */
     public Score(int score, String date){
         this.score = score;
@@ -57,6 +58,9 @@ public class Score implements Comparable<Score>{
      */
     public void setDate(String date) { this.date = date; }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int compareTo(Score s) {
         //sorts in reverse
