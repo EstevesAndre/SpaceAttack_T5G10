@@ -125,10 +125,10 @@ Options:
 ![alt text](https://github.com/EstevesAndre/SpaceAttack_T5G10/blob/master/States.png)
 
 #### Expected (if any) Design Patterns to use on your application
- * Uso de Singleton na classe Game e GameController.
- 	Apenas faz sentido a utilização de uma instância da classe Game, pois apenas existe um jogo a decorrer de cada vez. Como tal, de 	 igual forma, também apenas faz sentido uma instância do respetivo GameController, o controlador desse jogo.
+ * Use of Singleton on Game and GameController classes.
+  Makes sense, the utilization of only one instance of Game classe, so just exists one game running at a time. Consequently, makes sense, as well, one instance of the GameController.
 
- * Uso de MVC.
+ * Use of Model View Controller - MVC.
  
  #### Overall time spent developing
  * We estimate a total of 100 hours (evenly distributed between the two developers).
