@@ -130,3 +130,5 @@ Options:
 
  * Uso de MVC.
  
+ #### Overall time spent developing
+ * We estimate a total of 100 hours (evenly distributed between the two developers).
