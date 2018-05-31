@@ -126,7 +126,7 @@ Options:
 
 #### Expected (if any) Design Patterns to use on your application
  * Use of Singleton on Game and GameController classes.
-  Makes sense, the utilization of only one instance of Game classe, so just exists one game running at a time. Consequently, makes sense, as well, one instance of the GameController.
+  Makes sense the utilization of only one instance of Game classe, so just exists one game running at a time. Consequently, makes sense, as well, one instance of the GameController.
 
  * Use of Model View Controller - MVC.
  
