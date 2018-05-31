@@ -522,9 +522,6 @@ public class GameController implements ContactListener {
 
         if (((Ship) (userShip.getBody().getUserData())).getFireCooldown() <= 0) {
             Bullet b = (((Ship) (userShip.getBody().getUserData())).fire());
-            Game.getInstance().addBullet(b);
-            UserBulletBody bBody = new UserBulletBody(world, b);
-            bBody.setLinearVelocity(b.getSpeed());
 
             if (Game.getInstance().getUserShip().getTripleFire()) {
                 Bullet b1 = new Bullet(b.getX() - (float) cos(b.getRotation()) * 3, b.getY() - (float) sin(b.getRotation()) * 3, b.getRotation() - 25, b.getSpeed());
@@ -537,6 +534,11 @@ public class GameController implements ContactListener {
                 UserBulletBody bBody2 = new UserBulletBody(world, b2);
                 bBody2.setLinearVelocity(b2.getSpeed());
             }
+            b.setPosition(b.getX() - 3f*(float)sin(b.getRotation()), b.getY() + 3f*(float)cos(b.getRotation()));
+            Game.getInstance().addBullet(b);
+            UserBulletBody bBody = new UserBulletBody(world, b);
+            bBody.setLinearVelocity(b.getSpeed());
+
 
             if(sound) {
                 long id = fireSound.play();

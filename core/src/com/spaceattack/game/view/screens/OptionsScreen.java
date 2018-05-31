@@ -81,7 +81,7 @@ public class OptionsScreen extends MenuScreen {
 
         font = game.getBitMapFont();
 
-        slider_CheckBox_Skin = game.getSkin2();
+        slider_CheckBox_Skin = game.getSkinSliderCheckBox();
 
         font.getData().markupEnabled = true;
 
